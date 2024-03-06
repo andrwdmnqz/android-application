@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="left_vert_guideline">0.05</dimen>
+    <dimen name="right_vert_guideline">0.95</dimen>
+    <dimen name="top_bar_guideline">0.023</dimen>
+    <dimen name="logout_left_guideline">0.62</dimen>
+    <dimen name="logout_bottom_guideline">0.09</dimen>
+    <dimen name="middle_horizontal_guideline">0.5</dimen>
+    <dimen name="image_top_guideline">0.115</dimen>
+    <dimen name="image_bottom_guideline">0.28</dimen>
+    <dimen name="networks_top_guideline">0.60</dimen>
+    <dimen name="networks_bottom_guideline">0.70</dimen>
+    <dimen name="networks_left_guideline">0.16</dimen>
+    <dimen name="networks_right_guideline">0.84</dimen>
+    <dimen name="settings_text">30sp</dimen>
+    <dimen name="standard_text">22.5sp</dimen>
+    <dimen name="standard_small_text">17.5sp</dimen>
+    <dimen name="name_text">26sp</dimen>
+    <dimen name="contacts_button_text">20sp</dimen>
+    <dimen name="logout_margin_top">20px</dimen>
+    <dimen name="name_margin_top">40px</dimen>
+    <dimen name="career_margin_top">20px</dimen>
+    <dimen name="address_margin_top">40px</dimen>
+    <dimen name="edit_button_margin_bottom">40px</dimen>
+    <dimen name="contacts_button_margin_bottom">40px</dimen>
+</resources>
