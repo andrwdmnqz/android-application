@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="left_vert_guideline">0.05</dimen>
-    <dimen name="right_vert_guideline">0.95</dimen>
-    <dimen name="top_bar_guideline">0.023</dimen>
-    <dimen name="logout_left_guideline">0.62</dimen>
-    <dimen name="logout_bottom_guideline">0.09</dimen>
-    <dimen name="middle_horizontal_guideline">0.5</dimen>
-    <dimen name="image_top_guideline">0.115</dimen>
-    <dimen name="image_bottom_guideline">0.28</dimen>
-    <dimen name="networks_top_guideline">0.60</dimen>
-    <dimen name="networks_bottom_guideline">0.70</dimen>
-    <dimen name="networks_left_guideline">0.16</dimen>
-    <dimen name="networks_right_guideline">0.84</dimen>
     <dimen name="settings_text">24sp</dimen>
     <dimen name="standard_text">18sp</dimen>
     <dimen name="standard_small_text">14sp</dimen>
     <dimen name="name_text">26sp</dimen>
     <dimen name="contacts_button_text">20sp</dimen>
-    <dimen name="logout_margin_top">20px</dimen>
-    <dimen name="name_margin_top">40px</dimen>
-    <dimen name="career_margin_top">20px</dimen>
-    <dimen name="address_margin_top">40px</dimen>
-    <dimen name="edit_button_margin_bottom">40px</dimen>
-    <dimen name="contacts_button_margin_bottom">40px</dimen>
+
+    <dimen name="top_rectangle_height">0.5</dimen>
+    <dimen name="top_rectangle_vertical">0</dimen>
+    <dimen name="settings_horizontal">0.063</dimen>
+    <dimen name="logout_height">0.065</dimen>
+    <dimen name="logout_width">0.33</dimen>
+    <dimen name="logout_horizontal">0.93</dimen>
+    <dimen name="logout_vertical">0.025</dimen>
+    <dimen name="photo_width">0.314</dimen>
+    <dimen name="photo_height">0.165</dimen>
+    <dimen name="photo_vertical">0.12</dimen>
+    <dimen name="name_vertical">0.175</dimen>
+    <dimen name="career_vertical">0.4</dimen>
+    <dimen name="address_vertical">0.63</dimen>
+    <dimen name="networks_logo_width">0.166</dimen>
+    <dimen name="networks_logo_height">0.087</dimen>
+    <dimen name="networks_logo_ver">0.22</dimen>
+    <dimen name="facebook_logo_hor">0.19</dimen>
+    <dimen name="instagram_logo_hor">0.81</dimen>
+    <dimen name="bottom_buttons_width">0.92</dimen>
+    <dimen name="edit_profile_height">0.07</dimen>
+    <dimen name="edit_profile_vertical">0.72</dimen>
+    <dimen name="contacts_height">0.08</dimen>
+    <dimen name="contacts_vertical">0.95</dimen>
+
 </resources>

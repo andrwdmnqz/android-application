@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_constraintHorizontal_bias="3">
@@ -11,12 +10,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/rectangle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintHeight_percent="@dimen/top_rectangle_height"
+        app:layout_constraintVertical_bias="@dimen/top_rectangle_vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,11 +24,11 @@
         android:text="@string/settings"
         android:textColor="@color/white"
         android:textSize="@dimen/settings_text"
-        app:layout_constraintHorizontal_bias="0.063"
-        app:layout_constraintBottom_toBottomOf="@id/logout_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/settings_horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/logout_button" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/logout_button"
+        app:layout_constraintBottom_toBottomOf="@id/logout_button" />
 
     <Button
         android:id="@+id/logout_button"
@@ -41,14 +40,14 @@
         android:textAllCaps="false"
         android:textColor="@color/gray"
         android:textSize="@dimen/standard_small_text"
-        app:layout_constraintHeight_percent="0.065"
-        app:layout_constraintWidth_percent="0.33"
-        app:layout_constraintHorizontal_bias="0.93"
-        app:layout_constraintVertical_bias="0.025"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="@dimen/logout_width"
+        app:layout_constraintHeight_percent="@dimen/logout_height"
+        app:layout_constraintHorizontal_bias="@dimen/logout_horizontal"
+        app:layout_constraintVertical_bias="@dimen/logout_vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView
         android:id="@+id/profile_image"
@@ -56,14 +55,13 @@
         android:layout_height="0dp"
         android:contentDescription="@string/profile_image_desc"
         android:src="@mipmap/mock_icon"
-        app:layout_constraintWidth_percent="0.314"
-        app:layout_constraintHeight_percent="0.165"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintWidth_percent="@dimen/photo_width"
+        app:layout_constraintHeight_percent="@dimen/photo_height"
+        app:layout_constraintVertical_bias="@dimen/photo_vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.12" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/name"
@@ -73,11 +71,11 @@
         android:text="@string/name"
         android:textColor="@color/white"
         android:textSize="@dimen/standard_text"
-        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="@dimen/name_vertical"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_image"
-        app:layout_constraintVertical_bias="0.175" />
+        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle" />
 
     <TextView
         android:id="@+id/career"
@@ -87,11 +85,11 @@
         android:text="@string/career"
         android:textColor="@color/gray"
         android:textSize="@dimen/standard_small_text"
-        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintVertical_bias="@dimen/career_vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image"
+        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle" />
 
     <TextView
         android:id="@+id/textView"
@@ -101,11 +99,11 @@
         android:text="@string/home_address"
         android:textColor="@color/gray"
         android:textSize="@dimen/standard_small_text"
-        app:layout_constraintVertical_bias="0.63"
-        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="@dimen/address_vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image"
+        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle" />
 
     <ImageView
         android:id="@+id/facebook_logo"
@@ -113,14 +111,15 @@
         android:layout_height="0dp"
         android:contentDescription="@string/facebook_logo_desc"
         android:src="@drawable/facebook_logo"
-        app:layout_constraintWidth_percent="0.166"
-        app:layout_constraintHeight_percent="0.087"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="@dimen/networks_logo_width"
+        app:layout_constraintHeight_percent="@dimen/networks_logo_height"
+        app:layout_constraintHorizontal_bias="@dimen/facebook_logo_hor"
+        app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_rectangle"
-        app:layout_constraintHorizontal_bias="0.19"
-        app:layout_constraintVertical_bias="0.22" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
     <ImageView
         android:id="@+id/linkedin_logo"
@@ -128,13 +127,13 @@
         android:layout_height="0dp"
         android:contentDescription="@string/linkedin_logo_desc"
         android:src="@drawable/linkedin_logo"
-        app:layout_constraintWidth_percent="0.166"
-        app:layout_constraintHeight_percent="0.087"
-        app:layout_constraintVertical_bias="0.22"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="@dimen/networks_logo_width"
+        app:layout_constraintHeight_percent="@dimen/networks_logo_height"
+        app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_rectangle" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView
         android:id="@+id/instagram_logo"
@@ -142,14 +141,14 @@
         android:layout_height="0dp"
         android:contentDescription="@string/instagram_logo_desc"
         android:src="@drawable/instagram_logo"
-        app:layout_constraintWidth_percent="0.166"
-        app:layout_constraintHeight_percent="0.087"
-        app:layout_constraintVertical_bias="0.22"
-        app:layout_constraintHorizontal_bias="0.81"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="@dimen/networks_logo_width"
+        app:layout_constraintHeight_percent="@dimen/networks_logo_height"
+        app:layout_constraintHorizontal_bias="@dimen/instagram_logo_hor"
+        app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_rectangle" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
         android:id="@+id/edit_button"
@@ -160,13 +159,13 @@
         android:text="@string/edit_profile"
         android:textAllCaps="false"
         android:textSize="@dimen/standard_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.07"
-        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"
+        app:layout_constraintHeight_percent="@dimen/edit_profile_height"
+        app:layout_constraintVertical_bias="@dimen/edit_profile_vertical"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
-        app:layout_constraintVertical_bias="0.72" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
         android:id="@+id/contacts_button"
@@ -177,12 +176,12 @@
         android:text="@string/view_contacts"
         android:textColor="@color/white"
         android:textSize="@dimen/contacts_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.08"
-        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"
+        app:layout_constraintHeight_percent="@dimen/contacts_height"
+        app:layout_constraintVertical_bias="@dimen/contacts_vertical"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
-        app:layout_constraintVertical_bias="0.95" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
