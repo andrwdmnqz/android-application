@@ -8,4 +8,8 @@
     <string name="home_address">Home Address</string>
     <string name="edit_profile">Edit profile</string>
     <string name="view_contacts">VIEW MY CONTACTS</string>
+    <string name="profile_image_desc">profile_image</string>
+    <string name="facebook_logo_desc">facebook_logo</string>
+    <string name="linkedin_logo_desc">linkedin_logo</string>
+    <string name="instagram_logo_desc">instagram_logo</string>
 </resources>
