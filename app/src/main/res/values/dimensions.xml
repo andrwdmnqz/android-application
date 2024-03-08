@@ -32,6 +32,14 @@
 
     <dimen name="acquainted_vertical">0.22</dimen>
     <dimen name="fill_the_profile_vertical">0.27</dimen>
-    <dimen name="email_label_horizontal">0.075</dimen>
+    <dimen name="email_label_horizontal">0.066</dimen>
     <dimen name="email_label_vertical">0.34</dimen>
+    <dimen name="email_input_height">0.07</dimen>
+    <dimen name="email_input_width">0.93</dimen>
+    <dimen name="email_input_padding">10dp</dimen>
+    <dimen name="password_input_height">0.07</dimen>
+    <dimen name="password_input_width">0.93</dimen>
+    <dimen name="password_label_vertical">0.46</dimen>
+    <dimen name="password_input_vertical">0.52</dimen>
+    <dimen name="password_input_padding">10dp</dimen>
 </resources>

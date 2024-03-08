@@ -16,4 +16,6 @@
     <string name="fill_the_profile_text">Fill out the profile and go to the application!</string>
     <string name="email_label">E-mail</string>
     <string name="email_input_text">lucile.alvarado@gmail.com</string>
+    <string name="password_label">Password</string>
+    <string name="password_input_text">********</string>
 </resources>
