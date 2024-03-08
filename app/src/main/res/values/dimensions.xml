@@ -42,4 +42,16 @@
     <dimen name="password_label_vertical">0.46</dimen>
     <dimen name="password_input_vertical">0.52</dimen>
     <dimen name="password_input_padding">10dp</dimen>
+    <dimen name="checkbox_vertical">0.58</dimen>
+    <dimen name="checkbox_horizontal">0.04</dimen>
+    <dimen name="checkbox_height">0.07</dimen>
+    <dimen name="google_button_height">0.07</dimen>
+    <dimen name="google_button_vertical">0.72</dimen>
+    <dimen name="register_letter_spacing">0.01</dimen>
+    <dimen name="register_button_vert">0.86</dimen>
+    <dimen name="register_button_height">0.09</dimen>
+    <dimen name="register_terms_vert">0.93</dimen>
+    <dimen name="already_have_height">0.07</dimen>
+    <dimen name="already_have_vert">0.975</dimen>
+    <dimen name="sign_in_text_hor">0.82</dimen>
 </resources>

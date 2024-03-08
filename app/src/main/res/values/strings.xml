@@ -18,4 +18,11 @@
     <string name="email_input_text">lucile.alvarado@gmail.com</string>
     <string name="password_label">Password</string>
     <string name="password_input_text">********</string>
+    <string name="remember_me">Remember me</string>
+    <string name="google_text">GOOGLE</string>
+    <string name="or_text">or</string>
+    <string name="register_text">REGISTER</string>
+    <string name="register_terms_text">By clicking Register you agree to our Terms\nand Conditions</string>
+    <string name="already_have_text">Already have an account?</string>
+    <string name="sign_in_text">Sign in</string>
 </resources>

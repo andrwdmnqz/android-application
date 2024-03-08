@@ -12,8 +12,10 @@
         android:background="@drawable/rectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/acquainted_text"
@@ -60,7 +62,6 @@
         style="@style/h2_style"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="421dp"
         android:backgroundTint="@color/gray_two"
         android:paddingStart="@dimen/email_input_padding"
         android:paddingEnd="0dp"
@@ -70,7 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/email_input_height"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.38"
         app:layout_constraintWidth_percent="@dimen/email_input_width" />
 
@@ -110,14 +111,101 @@
         android:id="@+id/checkBox"
         style="@style/h3_style"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginBottom="227dp"
-        android:backgroundTint="@color/gray_one"
-        android:text="Remember me"
+        android:layout_height="0dp"
+        android:buttonTint="@color/white"
+        android:text="@string/remember_me"
         android:textColor="@color/gray_one"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/checkbox_height"
+        app:layout_constraintHorizontal_bias="@dimen/checkbox_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/checkbox_vertical" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/gray_text"
+        android:text="@string/google_text"
+        style="@style/h2_5_style"
+        app:layout_constraintHeight_percent="@dimen/google_button_height"
+        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"
+        app:layout_constraintVertical_bias="@dimen/google_button_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/or_text"
+        style="@style/h2_style"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@id/button2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/orange_borders_button"
+        android:textColor="@color/white"
+        android:text="@string/register_text"
+        android:letterSpacing="@dimen/register_letter_spacing"
+        style="@style/h2_5_style"
+        app:layout_constraintHeight_percent="@dimen/register_button_height"
+        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"
+        app:layout_constraintVertical_bias="@dimen/register_button_vert"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/register_terms_text"
+        style="@style/h4_style"
+        android:textColor="@color/white"
+        android:gravity="center"
+        app:layout_constraintVertical_bias="@dimen/register_terms_vert"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/already_have_text"
+        style="@style/h3_style"
+        android:textColor="@color/gray_two"
+        android:gravity="center"
+        app:layout_constraintVertical_bias="@dimen/already_have_vert"
+        app:layout_constraintHeight_percent="@dimen/already_have_height"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in_text"
+        style="@style/h3_style"
+        android:textColor="@color/white"
+        android:gravity="center"
+        app:layout_constraintVertical_bias="@dimen/already_have_vert"
+        app:layout_constraintHorizontal_bias="@dimen/sign_in_text_hor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
