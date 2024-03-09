@@ -25,4 +25,5 @@
     <string name="register_terms_text">By clicking Register you agree to our Terms\nand Conditions</string>
     <string name="already_have_text">Already have an account?</string>
     <string name="sign_in_text">Sign in</string>
+    <string name="google_logo_desc">google_logo</string>
 </resources>

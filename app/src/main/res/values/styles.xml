@@ -20,4 +20,8 @@
         <item name="android:textSize">@dimen/h4_text</item>
         <item name="fontFamily">@font/open_sans</item>
     </style>
+    <style name="material_button_theme" parent="Theme.MaterialComponents.Light.Bridge">
+        <item name="android:textSize">@dimen/h2_5_text</item>
+        <item name="fontFamily">@font/open_sans</item>
+    </style>
 </resources>
