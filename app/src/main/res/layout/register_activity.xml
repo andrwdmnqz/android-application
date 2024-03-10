@@ -172,14 +172,14 @@
 
         <TextView
             android:id="@+id/google_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/google_text_margin"
             android:text="@string/google_text"
             android:textColor="@android:color/black"
             android:layout_gravity="center_vertical"
             android:letterSpacing="@dimen/button_letter_spacing"
             style="@style/h2_5_style"
-            app:layout_constraintHorizontal_bias="@dimen/google_text_horizontal"
             app:layout_constraintStart_toEndOf="@id/google_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
