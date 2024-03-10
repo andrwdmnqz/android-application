@@ -46,7 +46,7 @@
     <dimen name="checkbox_horizontal">0.04</dimen>
     <dimen name="checkbox_height">0.07</dimen>
     <dimen name="google_button_height">0.07</dimen>
-    <dimen name="google_button_vertical">0.72</dimen>
+    <dimen name="google_button_vertical">0.71</dimen>
     <dimen name="google_logo_width">0.065</dimen>
     <dimen name="google_logo_height">0.5</dimen>
     <dimen name="google_logo_horizontal">0.365</dimen>
