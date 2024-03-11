@@ -8,4 +8,5 @@
     <color name="transparent_color">#00000000</color>
     <color name="orange">#FB5E06</color>
     <color name="gray_text">#242235</color>
+    <color name="error_color">#F93E3E</color>
 </resources>

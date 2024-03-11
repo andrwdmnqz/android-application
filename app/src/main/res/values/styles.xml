@@ -24,4 +24,9 @@
         <item name="android:textSize">@dimen/h2_5_text</item>
         <item name="fontFamily">@font/open_sans</item>
     </style>
+    <style name="error_text_style">
+        <item name="android:textColor">@color/error_color</item>
+        <item name="android:textSize">@dimen/h4_text</item>
+        <item name="fontFamily">@font/open_sans</item>
+    </style>
 </resources>

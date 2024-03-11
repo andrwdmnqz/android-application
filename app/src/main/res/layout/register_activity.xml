@@ -55,24 +55,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <EditText
-        android:id="@+id/editText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/reg_email_layout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:backgroundTint="@color/gray_two"
-        android:paddingStart="@dimen/email_input_padding"
-        android:paddingEnd="0dp"
-        android:inputType="textEmailAddress"
-        android:text="@string/email_input_text"
-        android:textColor="@color/white"
-        style="@style/h2_style"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/error_text_style"
         app:layout_constraintWidth_percent="@dimen/user_inputs_width"
         app:layout_constraintHeight_percent="@dimen/email_input_height"
-        app:layout_constraintVertical_bias="0.38"
+        app:layout_constraintVertical_bias="@dimen/email_input_vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/reg_email_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/min_edittext_height"
+            android:backgroundTint="@color/gray_two"
+            android:paddingStart="@dimen/email_input_padding"
+            android:paddingEnd="0dp"
+            android:inputType="textEmailAddress"
+            android:text="@string/email_input_text"
+            android:textColor="@color/white"
+            style="@style/h2_style" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView6"
@@ -88,27 +98,37 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <EditText
-        android:id="@+id/editText2"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/reg_password_layout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:paddingBottom="0dp"
-        android:backgroundTint="@color/gray_two"
-        android:paddingStart="@dimen/password_input_padding"
-        android:paddingEnd="0dp"
-        android:inputType="textPassword"
-        android:text="@string/password_input_text"
-        android:letterSpacing="@dimen/password_input_spacing"
-        android:textColor="@color/white"
-        android:textSize="@dimen/password_input_text"
-        style="@style/h2_style"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/error_text_style"
         app:layout_constraintWidth_percent="@dimen/user_inputs_width"
-        app:layout_constraintHeight_percent="@dimen/password_input_height"
+        app:layout_constraintHeight_percent="@dimen/email_input_height"
         app:layout_constraintVertical_bias="@dimen/password_input_vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/reg_password_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="0dp"
+            android:letterSpacing="@dimen/password_input_spacing"
+            android:minHeight="@dimen/min_edittext_height"
+            android:backgroundTint="@color/gray_two"
+            android:paddingStart="@dimen/email_input_padding"
+            android:paddingEnd="0dp"
+            android:inputType="textPassword"
+            android:text="@string/password_input_text"
+            android:textSize="@dimen/password_input_text"
+            android:textColor="@color/white"
+            style="@style/h2_style" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
         android:id="@+id/checkBox"
@@ -125,72 +145,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-<!--    <Button-->
-<!--        android:id="@+id/google_reg_button"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:background="@drawable/google_button"-->
-<!--        android:text="@string/google_text"-->
-<!--        android:letterSpacing="@dimen/button_letter_spacing"-->
-<!--        android:drawableStart="@drawable/google_logo"-->
-<!--        android:gravity="center|center_vertical"-->
-<!--        android:paddingEnd="100dp"-->
-<!--        android:paddingStart="100dp"-->
-<!--        style="@style/h2_5_style"-->
-<!--        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"-->
-<!--        app:layout_constraintHeight_percent="@dimen/google_button_height"-->
-<!--        app:layout_constraintVertical_bias="@dimen/google_button_vertical"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent" />-->
-
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:id="@id/google_reg_button"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:background="@drawable/google_button"-->
-<!--        android:clickable="true"-->
-<!--        android:focusable="true"-->
-<!--        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"-->
-<!--        app:layout_constraintHeight_percent="@dimen/google_button_height"-->
-<!--        app:layout_constraintVertical_bias="@dimen/google_button_vertical"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent" >-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/google_icon"-->
-<!--            android:contentDescription="@string/google_logo_desc"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:src="@drawable/google_logo"-->
-<!--            app:layout_constraintWidth_percent="@dimen/google_logo_width"-->
-<!--            app:layout_constraintHeight_percent="@dimen/google_logo_height"-->
-<!--            app:layout_constraintHorizontal_bias="@dimen/google_logo_horizontal"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/google_text"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="@dimen/google_text_margin"-->
-<!--            android:text="@string/google_text"-->
-<!--            android:textColor="@android:color/black"-->
-<!--            android:layout_gravity="center_vertical"-->
-<!--            android:letterSpacing="@dimen/button_letter_spacing"-->
-<!--            style="@style/h2_5_style"-->
-<!--            app:layout_constraintStart_toEndOf="@id/google_icon"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent" />-->
-
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <LinearLayout
         android:id="@+id/google_reg_button"
