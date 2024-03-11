@@ -5,6 +5,7 @@
     <dimen name="h2_5_text">16sp</dimen>
     <dimen name="h3_text">14sp</dimen>
     <dimen name="h4_text">12sp</dimen>
+    <dimen name="password_input_text">28sp</dimen>
 
     <dimen name="top_rectangle_height">0.5</dimen>
     <dimen name="top_rectangle_vertical">0</dimen>
@@ -40,9 +41,10 @@
     <dimen name="email_input_padding">10dp</dimen>
     <dimen name="password_input_height">0.07</dimen>
     <dimen name="password_label_vertical">0.46</dimen>
-    <dimen name="password_input_vertical">0.52</dimen>
+    <dimen name="password_input_vertical">0.5</dimen>
     <dimen name="password_input_padding">10dp</dimen>
-    <dimen name="checkbox_vertical">0.58</dimen>
+    <dimen name="password_input_spacing">0.1</dimen>
+    <dimen name="checkbox_vertical">0.56</dimen>
     <dimen name="checkbox_horizontal">0.04</dimen>
     <dimen name="checkbox_height">0.07</dimen>
     <dimen name="google_button_height">0.07</dimen>
@@ -57,5 +59,5 @@
     <dimen name="register_terms_vert">0.93</dimen>
     <dimen name="already_have_height">0.07</dimen>
     <dimen name="already_have_vert">0.975</dimen>
-    <dimen name="sign_in_text_hor">0.82</dimen>
+    <dimen name="sign_in_text_hor">0.17</dimen>
 </resources>
