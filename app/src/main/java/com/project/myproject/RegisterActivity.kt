@@ -1,26 +1,36 @@
 package com.project.myproject
 
+import android.app.ActivityOptions
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
-import android.widget.EditText
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import java.util.regex.Pattern
 
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInitialState: Bundle?) {
         super.onCreate(savedInitialState)
         setContentView(R.layout.register_activity)
 
+        val registerButton = findViewById<Button>(R.id.register_button)
+
         val regEmailLayout = findViewById<TextInputLayout>(R.id.reg_email_layout)
         val regEmailInput = findViewById<TextInputEditText>(R.id.reg_email_input)
 
         val regPasswordLayout = findViewById<TextInputLayout>(R.id.reg_password_layout)
         val regPasswordInput = findViewById<TextInputEditText>(R.id.reg_password_input)
+
+        registerButton.setOnClickListener {
+            val registerIntent = Intent(this, MainActivity::class.java)
+            val profileActivityOptions = ActivityOptions.makeCustomAnimation(this,
+                R.anim.slide_in_right,
+                R.anim.slide_out_left)
+            startActivity(registerIntent, profileActivityOptions.toBundle())
+        }
 
         regEmailInput.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -51,7 +61,7 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                val passwordRegex = Regex("^[a-zA-Z0-9@#\$%^&+=!]+\$\n")
+                val passwordRegex = Regex("^[a-zA-Z0-9@#\$%^&+=!]+\$")
                 val password = s.toString()
                 when {
                     password.isNotEmpty() && password.length < 8 -> {
@@ -66,7 +76,7 @@ class RegisterActivity : AppCompatActivity() {
                     else -> {
                         regPasswordLayout.error = null
                     }
-                 }
+                }
             }
         })
     }
