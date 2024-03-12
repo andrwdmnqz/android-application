@@ -1,21 +1,21 @@
 package com.project.myproject
 
 import android.app.ActivityOptions
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 
 class RegisterActivity : AppCompatActivity() {
-
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var settingPreference: SettingPreference
     private var email: String? = null
     private var password: String? = null
 
@@ -23,36 +23,30 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInitialState)
         setContentView(R.layout.register_activity)
 
+        val registerButton = findViewById<Button>(R.id.register_button)
+
         val regEmailLayout = findViewById<TextInputLayout>(R.id.reg_email_layout)
         val regEmailInput = findViewById<TextInputEditText>(R.id.reg_email_input)
 
         val regPasswordLayout = findViewById<TextInputLayout>(R.id.reg_password_layout)
         val regPasswordInput = findViewById<TextInputEditText>(R.id.reg_password_input)
 
-        val registerButton = findViewById<Button>(R.id.register_button)
-
-        sharedPreferences = getSharedPreferences("shared_preferences", Context.MODE_PRIVATE)
-
-        email = sharedPreferences.getString("email_key", null)
-        password = sharedPreferences.getString("password_key", null)
+        settingPreference = SettingPreference(this)
 
         registerButton.setOnClickListener {
             if (regEmailLayout.error == null && regPasswordLayout.error == null) {
 
-                val editor = sharedPreferences.edit()
+                lifecycleScope.launch {
+                    val registerIntent = Intent(this@RegisterActivity, MainActivity::class.java)
+                    registerIntent.putExtra("email", regEmailInput.text.toString())
+                    val profileActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this@RegisterActivity)
 
-                editor.putString("email_key", regEmailInput.text.toString())
-                editor.putString("password_key", regPasswordInput.text.toString())
+                    settingPreference.saveEmail(regEmailInput.text.toString())
+                    settingPreference.savePassword(regPasswordInput.text.toString())
 
-                editor.apply()
-
-                val registerIntent = Intent(this, MainActivity::class.java)
-
-                registerIntent.putExtra("email", regEmailInput.text.toString())
-
-                val profileActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this)
-                startActivity(registerIntent, profileActivityOptions.toBundle())
-                finish()
+                    startActivity(registerIntent, profileActivityOptions.toBundle())
+                    finish()
+                }
             }
         }
 
@@ -107,12 +101,18 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (email != null && password != null) {
-            val registerIntent = Intent(this, MainActivity::class.java)
+        lifecycleScope.launch {
+            val email = settingPreference.getEmail().firstOrNull()
+            val password = settingPreference.getPassword().firstOrNull()
 
-            val profileActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this)
-            startActivity(registerIntent, profileActivityOptions.toBundle())
-            finish()
+            if (!email.isNullOrBlank() && !password.isNullOrBlank()) {
+                val registerIntent = Intent(this@RegisterActivity, MainActivity::class.java)
+                registerIntent.putExtra("email", email)
+                val profileActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this@RegisterActivity)
+
+                startActivity(registerIntent, profileActivityOptions.toBundle())
+                finish()
+            }
         }
     }
 }
