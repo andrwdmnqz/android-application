@@ -1,7 +1,9 @@
 package com.project.myproject
 
 import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,11 +14,14 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class RegisterActivity : AppCompatActivity() {
+
+    private lateinit var sharedPreferences: SharedPreferences
+    private var email: String? = null
+    private var password: String? = null
+
     override fun onCreate(savedInitialState: Bundle?) {
         super.onCreate(savedInitialState)
         setContentView(R.layout.register_activity)
-
-        val registerButton = findViewById<Button>(R.id.register_button)
 
         val regEmailLayout = findViewById<TextInputLayout>(R.id.reg_email_layout)
         val regEmailInput = findViewById<TextInputEditText>(R.id.reg_email_input)
@@ -24,14 +29,30 @@ class RegisterActivity : AppCompatActivity() {
         val regPasswordLayout = findViewById<TextInputLayout>(R.id.reg_password_layout)
         val regPasswordInput = findViewById<TextInputEditText>(R.id.reg_password_input)
 
+        val registerButton = findViewById<Button>(R.id.register_button)
+
+        sharedPreferences = getSharedPreferences("shared_preferences", Context.MODE_PRIVATE)
+
+        email = sharedPreferences.getString("email_key", null)
+        password = sharedPreferences.getString("password_key", null)
+
         registerButton.setOnClickListener {
-            val registerIntent = Intent(this, MainActivity::class.java)
-
-            val profileActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this)
-
             if (regEmailLayout.error == null && regPasswordLayout.error == null) {
+
+                val editor = sharedPreferences.edit()
+
+                editor.putString("email_key", regEmailInput.text.toString())
+                editor.putString("password_key", regPasswordInput.text.toString())
+
+                editor.apply()
+
+                val registerIntent = Intent(this, MainActivity::class.java)
+
                 registerIntent.putExtra("email", regEmailInput.text.toString())
+
+                val profileActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this)
                 startActivity(registerIntent, profileActivityOptions.toBundle())
+                finish()
             }
         }
 
@@ -82,5 +103,16 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (email != null && password != null) {
+            val registerIntent = Intent(this, MainActivity::class.java)
+
+            val profileActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this)
+            startActivity(registerIntent, profileActivityOptions.toBundle())
+            finish()
+        }
     }
 }
