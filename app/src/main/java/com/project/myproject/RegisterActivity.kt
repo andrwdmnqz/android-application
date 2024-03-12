@@ -26,10 +26,13 @@ class RegisterActivity : AppCompatActivity() {
 
         registerButton.setOnClickListener {
             val registerIntent = Intent(this, MainActivity::class.java)
-            val profileActivityOptions = ActivityOptions.makeCustomAnimation(this,
-                R.anim.slide_in_right,
-                R.anim.slide_out_left)
-            startActivity(registerIntent, profileActivityOptions.toBundle())
+
+            val profileActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this)
+
+            if (regEmailLayout.error == null && regPasswordLayout.error == null) {
+                registerIntent.putExtra("email", regEmailInput.text.toString())
+                startActivity(registerIntent, profileActivityOptions.toBundle())
+            }
         }
 
         regEmailInput.addTextChangedListener(object: TextWatcher {
@@ -71,7 +74,7 @@ class RegisterActivity : AppCompatActivity() {
                         regPasswordLayout.error = "Your password must include a maximum of 16 characters."
                     }
                     password.isNotEmpty() && passwordRegex.matches(password) -> {
-                        regPasswordLayout.error = "Your should contain only letters, numbers and symbols."
+                        regPasswordLayout.error = "Your password must include only letters, numbers and symbols."
                     }
                     else -> {
                         regPasswordLayout.error = null
