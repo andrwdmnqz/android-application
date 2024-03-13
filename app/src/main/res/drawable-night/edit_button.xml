@@ -5,8 +5,8 @@
     <solid android:color="#00000000"/>
 
     <stroke
-        android:width="2dp"
-        android:color="@color/orange" />
+        android:width="@dimen/button_border_width"
+        android:color="@color/additional_text_first" />
 
     <corners android:radius="6dp" />
 </shape>

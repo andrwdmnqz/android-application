@@ -3,7 +3,6 @@
     <style name="Base.Theme.MyProject" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-
         <item name="android:windowActivityTransitions">true</item>
         <!-- Specify enter and exit transitions -->
         <item name="android:windowEnterTransition">@transition/slide_left</item>
@@ -11,9 +10,6 @@
         <!-- Specify shared element transitions -->
         <item name="android:windowSharedElementEnterTransition">@transition/change_image_transform</item>
         <item name="android:windowSharedElementExitTransition">@transition/change_image_transform</item>
-
-
     </style>
-
     <style name="Theme.MyProject" parent="Base.Theme.MyProject" />
 </resources>
