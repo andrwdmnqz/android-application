@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    lateinit var settingPreference: SettingPreference
+    private lateinit var settingPreference: SettingPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
