@@ -15,9 +15,9 @@
     <string name="instagram_logo_desc">instagram_logo</string>
     <string name="acquainted_text">Let\'s get acquainted</string>
     <string name="fill_the_profile_text">Fill out the profile and go to the application!</string>
-    <string name="email_label">E-mail</string>
+    <string name="email_hint">E-mail</string>
     <string name="email_input_text">lucile.alvarado@gmail.com</string>
-    <string name="password_label">Password</string>
+    <string name="password_hint">Password</string>
     <string name="password_input_text">********</string>
     <string name="remember_me">Remember me</string>
     <string name="google_text">GOOGLE</string>

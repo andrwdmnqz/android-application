@@ -10,6 +10,8 @@
         <!-- Specify shared element transitions -->
         <item name="android:windowSharedElementEnterTransition">@transition/change_image_transform</item>
         <item name="android:windowSharedElementExitTransition">@transition/change_image_transform</item>
+        <!-- Specify hint text color -->
+        <item name="android:textColorHint">@color/additional_text_second</item>
     </style>
     <style name="Theme.MyProject" parent="Base.Theme.MyProject" />
 </resources>

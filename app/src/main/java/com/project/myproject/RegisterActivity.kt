@@ -2,12 +2,14 @@ package com.project.myproject
 
 import android.app.ActivityOptions
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -34,7 +36,8 @@ class RegisterActivity : AppCompatActivity() {
         settingPreference = SettingPreference(this)
 
         registerButton.setOnClickListener {
-            if (regEmailLayout.error == null && regPasswordLayout.error == null) {
+            if (regEmailLayout.error == null && regPasswordLayout.error == null
+                && !regEmailInput.text.isNullOrBlank() && !regPasswordInput.text.isNullOrBlank()) {
 
                 lifecycleScope.launch {
                     val registerIntent = Intent(this@RegisterActivity, MainActivity::class.java)
@@ -79,7 +82,7 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                val passwordRegex = Regex("^[a-zA-Z0-9@#\$%^&+=!]+\$")
+                val passwordAllowedSymbolsRegex = Regex("^[a-zA-Z0-9@#\$%^&+=!]+\$")
                 val password = s.toString()
                 when {
                     password.isNotEmpty() && password.length < 8 -> {
@@ -88,7 +91,7 @@ class RegisterActivity : AppCompatActivity() {
                     password.isNotEmpty() && password.length > 16 -> {
                         regPasswordLayout.error = "Your password must include a maximum of 16 characters."
                     }
-                    password.isNotEmpty() && passwordRegex.matches(password) -> {
+                    password.isNotEmpty() && !passwordAllowedSymbolsRegex.matches(password) -> {
                         regPasswordLayout.error = "Your password must include only letters, numbers and symbols."
                     }
                     else -> {
