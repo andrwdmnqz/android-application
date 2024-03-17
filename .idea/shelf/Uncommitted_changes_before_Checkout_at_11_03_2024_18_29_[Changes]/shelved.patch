@@ -1,0 +1,133 @@
+Index: app/src/main/java/com/project/myproject/RegisterActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.project.myproject\r\n\r\nimport android.os.Bundle\r\nimport android.text.Editable\r\nimport android.text.TextWatcher\r\nimport android.util.Patterns\r\nimport android.widget.EditText\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.core.widget.addTextChangedListener\r\nimport com.google.android.material.textfield.TextInputEditText\r\nimport com.google.android.material.textfield.TextInputLayout\r\nimport java.util.regex.Pattern\r\n\r\nclass RegisterActivity : AppCompatActivity() {\r\n    override fun onCreate(savedInitialState: Bundle?) {\r\n        super.onCreate(savedInitialState)\r\n        setContentView(R.layout.register_activity)\r\n\r\n        val regEmailLayout = findViewById<TextInputLayout>(R.id.reg_email_layout)\r\n        val regEmailInput = findViewById<TextInputEditText>(R.id.reg_email_input)\r\n\r\n        val regPasswordLayout = findViewById<TextInputLayout>(R.id.reg_password_layout)\r\n        val regPasswordInput = findViewById<TextInputEditText>(R.id.reg_password_input)\r\n\r\n        regEmailInput.addTextChangedListener(object: TextWatcher {\r\n            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {\r\n                // Not used\r\n            }\r\n\r\n            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {\r\n                // Not used\r\n            }\r\n\r\n            override fun afterTextChanged(s: Editable?) {\r\n                val email = s.toString()\r\n                if (email.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {\r\n                    regEmailLayout.error = \"Incorrect E-Mail address\"\r\n                } else {\r\n                    regEmailLayout.error = null\r\n                }\r\n            }\r\n        })\r\n\r\n        regPasswordInput.addTextChangedListener(object: TextWatcher {\r\n            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {\r\n                // Not used\r\n            }\r\n\r\n            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {\r\n                // Not used\r\n            }\r\n\r\n            override fun afterTextChanged(s: Editable?) {\r\n                val passwordRegex = Regex(\"^[a-zA-Z0-9@#\\$%^&+=!]+\\$\\n\")\r\n                val password = s.toString()\r\n                when {\r\n                    password.isNotEmpty() && password.length < 8 -> {\r\n                        regPasswordLayout.error = \"Your password must include a minimum of 8 characters.\"\r\n                    }\r\n                    password.isNotEmpty() && password.length > 16 -> {\r\n                        regPasswordLayout.error = \"Your password must include a maximum of 16 characters.\"\r\n                    }\r\n                    password.isNotEmpty() && passwordRegex.matches(password) -> {\r\n                        regPasswordLayout.error = \"Your should contain only letters, numbers and symbols.\"\r\n                    }\r\n                    else -> {\r\n                        regPasswordLayout.error = null\r\n                    }\r\n                 }\r\n            }\r\n        })\r\n    }\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/project/myproject/RegisterActivity.kt b/app/src/main/java/com/project/myproject/RegisterActivity.kt
+--- a/app/src/main/java/com/project/myproject/RegisterActivity.kt	
++++ b/app/src/main/java/com/project/myproject/RegisterActivity.kt	
+@@ -1,27 +1,37 @@
+ package com.project.myproject
+ 
++import android.app.ActivityOptions
++import android.content.Intent
+ import android.os.Bundle
+ import android.text.Editable
+ import android.text.TextWatcher
+ import android.util.Patterns
+-import android.widget.EditText
++import android.widget.Button
+ import androidx.appcompat.app.AppCompatActivity
+-import androidx.core.widget.addTextChangedListener
+ import com.google.android.material.textfield.TextInputEditText
+ import com.google.android.material.textfield.TextInputLayout
+-import java.util.regex.Pattern
+ 
+ class RegisterActivity : AppCompatActivity() {
+     override fun onCreate(savedInitialState: Bundle?) {
+         super.onCreate(savedInitialState)
+         setContentView(R.layout.register_activity)
+ 
++        val registerButton = findViewById<Button>(R.id.register_button)
++
+         val regEmailLayout = findViewById<TextInputLayout>(R.id.reg_email_layout)
+         val regEmailInput = findViewById<TextInputEditText>(R.id.reg_email_input)
+ 
+         val regPasswordLayout = findViewById<TextInputLayout>(R.id.reg_password_layout)
+         val regPasswordInput = findViewById<TextInputEditText>(R.id.reg_password_input)
+ 
++        registerButton.setOnClickListener {
++            val registerIntent = Intent(this, MainActivity::class.java)
++            val profileActivityOptions = ActivityOptions.makeCustomAnimation(this,
++                R.anim.slide_in_right,
++                    R.anim.slide_out_left).toBundle()
++            startActivity(registerIntent, profileActivityOptions)
++        }
++
+         regEmailInput.addTextChangedListener(object: TextWatcher {
+             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                 // Not used
+@@ -51,7 +61,7 @@
+             }
+ 
+             override fun afterTextChanged(s: Editable?) {
+-                val passwordRegex = Regex("^[a-zA-Z0-9@#\$%^&+=!]+\$\n")
++                val passwordRegex = Regex("^[a-zA-Z0-9@#\$%^&+=!]+\$")
+                 val password = s.toString()
+                 when {
+                     password.isNotEmpty() && password.length < 8 -> {
+Index: app/build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id(\"com.android.application\")\r\n    id(\"org.jetbrains.kotlin.android\")\r\n}\r\n\r\nandroid {\r\n    namespace = \"com.project.myproject\"\r\n    compileSdk = 34\r\n\r\n    defaultConfig {\r\n        applicationId = \"com.project.myproject\"\r\n        minSdk = 24\r\n        targetSdk = 34\r\n        versionCode = 1\r\n        versionName = \"1.0\"\r\n\r\n        testInstrumentationRunner = \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            isMinifyEnabled = false\r\n            proguardFiles(getDefaultProguardFile(\"proguard-android-optimize.txt\"), \"proguard-rules.pro\")\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility = JavaVersion.VERSION_1_8\r\n        targetCompatibility = JavaVersion.VERSION_1_8\r\n    }\r\n    kotlinOptions {\r\n        jvmTarget = \"1.8\"\r\n    }\r\n}\r\n\r\ndependencies {\r\n\r\n    implementation(\"androidx.core:core-ktx:1.10.1\")\r\n    implementation(\"androidx.appcompat:appcompat:1.6.1\")\r\n    implementation(\"androidx.constraintlayout:constraintlayout:2.1.4\")\r\n    implementation(\"com.google.android.material:material:1.11.0\")\r\n    testImplementation(\"junit:junit:4.13.2\")\r\n    androidTestImplementation(\"androidx.test.ext:junit:1.1.5\")\r\n    androidTestImplementation(\"androidx.test.espresso:espresso-core:3.5.1\")\r\n}
+===================================================================
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+--- a/app/build.gradle.kts	
++++ b/app/build.gradle.kts	
+@@ -34,7 +34,7 @@
+ 
+ dependencies {
+ 
+-    implementation("androidx.core:core-ktx:1.10.1")
++    implementation("androidx.core:core-ktx:1.12.0")
+     implementation("androidx.appcompat:appcompat:1.6.1")
+     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+     implementation("com.google.android.material:material:1.11.0")
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:dataExtractionRules=\"@xml/data_extraction_rules\"\r\n        android:fullBackupContent=\"@xml/backup_rules\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/Theme.MyProject\"\r\n        tools:targetApi=\"31\">\r\n        <activity\r\n            android:name=\".RegisterActivity\"\r\n            android:exported=\"true\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	
++++ b/app/src/main/AndroidManifest.xml	
+@@ -21,6 +21,10 @@
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
++        <activity
++            android:name=".MainActivity"
++            android:exported="true" >
++        </activity>
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
+Index: .idea/deploymentTargetDropDown.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"deploymentTargetDropDown\">\r\n    <value>\r\n      <entry key=\"MainActivity\">\r\n        <State />\r\n      </entry>\r\n      <entry key=\"SecondActivity\">\r\n        <State />\r\n      </entry>\r\n      <entry key=\"app\">\r\n        <State>\r\n          <targetSelectedWithDropDown>\r\n            <Target>\r\n              <type value=\"QUICK_BOOT_TARGET\" />\r\n              <deviceKey>\r\n                <Key>\r\n                  <type value=\"VIRTUAL_DEVICE_PATH\" />\r\n                  <value value=\"C:\\Users\\Andrew\\.android\\avd\\Pixel_3a_API_34_extension_level_7_x86_64.avd\" />\r\n                </Key>\r\n              </deviceKey>\r\n            </Target>\r\n          </targetSelectedWithDropDown>\r\n          <timeTargetWasSelectedWithDropDown value=\"2024-03-05T06:27:59.254497200Z\" />\r\n        </State>\r\n      </entry>\r\n    </value>\r\n  </component>\r\n</project>
+===================================================================
+diff --git a/.idea/deploymentTargetDropDown.xml b/.idea/deploymentTargetDropDown.xml
+--- a/.idea/deploymentTargetDropDown.xml	
++++ b/.idea/deploymentTargetDropDown.xml	
+@@ -21,7 +21,7 @@
+               </deviceKey>
+             </Target>
+           </targetSelectedWithDropDown>
+-          <timeTargetWasSelectedWithDropDown value="2024-03-05T06:27:59.254497200Z" />
++          <timeTargetWasSelectedWithDropDown value="2024-03-11T13:57:25.762669200Z" />
+         </State>
+       </entry>
+     </value>
+Index: app/src/main/res/layout/register_activity.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\">\r\n\r\n    <View\r\n        android:id=\"@+id/view\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:background=\"@drawable/rectangle\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"/>\r\n\r\n    <TextView\r\n        android:id=\"@+id/acquainted_text\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/acquainted_text\"\r\n        android:textColor=\"@color/white\"\r\n        style=\"@style/h1_style\"\r\n        app:layout_constraintVertical_bias=\"@dimen/acquainted_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView3\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/fill_the_profile_text\"\r\n        android:textColor=\"@color/white\"\r\n        style=\"@style/h4_style\"\r\n        app:layout_constraintVertical_bias=\"@dimen/fill_the_profile_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"/>\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView5\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/email_label\"\r\n        android:textColor=\"@color/gray_two\"\r\n        style=\"@style/h3_style\"\r\n        app:layout_constraintHorizontal_bias=\"@dimen/email_label_horizontal\"\r\n        app:layout_constraintVertical_bias=\"@dimen/email_label_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <com.google.android.material.textfield.TextInputLayout\r\n        android:id=\"@+id/reg_email_layout\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        app:errorEnabled=\"true\"\r\n        app:errorTextAppearance=\"@style/error_text_style\"\r\n        app:layout_constraintWidth_percent=\"@dimen/user_inputs_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/email_input_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/email_input_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" >\r\n\r\n        <com.google.android.material.textfield.TextInputEditText\r\n            android:id=\"@+id/reg_email_input\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:minHeight=\"@dimen/min_edittext_height\"\r\n            android:backgroundTint=\"@color/gray_two\"\r\n            android:paddingStart=\"@dimen/email_input_padding\"\r\n            android:paddingEnd=\"0dp\"\r\n            android:inputType=\"textEmailAddress\"\r\n            android:text=\"@string/email_input_text\"\r\n            android:textColor=\"@color/white\"\r\n            style=\"@style/h2_style\" />\r\n\r\n    </com.google.android.material.textfield.TextInputLayout>\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView6\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/password_label\"\r\n        android:textColor=\"@color/gray_two\"\r\n        style=\"@style/h3_style\"\r\n        app:layout_constraintHorizontal_bias=\"@dimen/email_label_horizontal\"\r\n        app:layout_constraintVertical_bias=\"@dimen/password_label_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <com.google.android.material.textfield.TextInputLayout\r\n        android:id=\"@+id/reg_password_layout\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        app:errorEnabled=\"true\"\r\n        app:errorTextAppearance=\"@style/error_text_style\"\r\n        app:layout_constraintWidth_percent=\"@dimen/user_inputs_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/email_input_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/password_input_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" >\r\n\r\n        <com.google.android.material.textfield.TextInputEditText\r\n            android:id=\"@+id/reg_password_input\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:paddingBottom=\"0dp\"\r\n            android:letterSpacing=\"@dimen/password_input_spacing\"\r\n            android:minHeight=\"@dimen/min_edittext_height\"\r\n            android:backgroundTint=\"@color/gray_two\"\r\n            android:paddingStart=\"@dimen/email_input_padding\"\r\n            android:paddingEnd=\"0dp\"\r\n            android:inputType=\"textPassword\"\r\n            android:text=\"@string/password_input_text\"\r\n            android:textSize=\"@dimen/password_input_text\"\r\n            android:textColor=\"@color/white\"\r\n            style=\"@style/h2_style\" />\r\n\r\n    </com.google.android.material.textfield.TextInputLayout>\r\n\r\n    <CheckBox\r\n        android:id=\"@+id/checkBox\"\r\n        style=\"@style/h3_style\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"0dp\"\r\n        android:buttonTint=\"@color/white\"\r\n        android:text=\"@string/remember_me\"\r\n        android:textColor=\"@color/gray_one\"\r\n        app:layout_constraintHeight_percent=\"@dimen/checkbox_height\"\r\n        app:layout_constraintHorizontal_bias=\"@dimen/checkbox_horizontal\"\r\n        app:layout_constraintVertical_bias=\"@dimen/checkbox_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/google_reg_button\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:background=\"@drawable/google_button\"\r\n        android:gravity=\"center\"\r\n        android:orientation=\"horizontal\"\r\n        android:clickable=\"true\"\r\n        android:focusable=\"true\"\r\n        app:layout_constraintWidth_percent=\"@dimen/bottom_buttons_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/google_button_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/google_button_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\">\r\n\r\n        <ImageView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginEnd=\"@dimen/google_text_margin\"\r\n            android:adjustViewBounds=\"true\"\r\n            android:scaleType=\"fitCenter\"\r\n            android:src=\"@drawable/google_logo\"\r\n            android:contentDescription=\"@string/google_logo_desc\" />\r\n\r\n        <TextView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:gravity=\"center\"\r\n            android:text=\"@string/google_text\"\r\n            android:textColor=\"@color/black\"\r\n            android:letterSpacing=\"@dimen/button_letter_spacing\"\r\n            style=\"@style/h2_5_style\" />\r\n\r\n    </LinearLayout>\r\n\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/or_text\"\r\n        style=\"@style/h2_style\"\r\n        android:textColor=\"@color/white\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/google_reg_button\"\r\n        app:layout_constraintBottom_toTopOf=\"@id/button2\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/button2\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:background=\"@drawable/orange_borders_button\"\r\n        android:textColor=\"@color/white\"\r\n        android:text=\"@string/register_text\"\r\n        android:letterSpacing=\"@dimen/button_letter_spacing\"\r\n        style=\"@style/h2_5_style\"\r\n        app:layout_constraintWidth_percent=\"@dimen/bottom_buttons_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/register_button_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/register_button_vert\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <TextView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/register_terms_text\"\r\n        style=\"@style/h4_style\"\r\n        android:textColor=\"@color/white\"\r\n        android:gravity=\"center\"\r\n        app:layout_constraintVertical_bias=\"@dimen/register_terms_vert\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/already_have_text\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/already_have_text\"\r\n        style=\"@style/h3_style\"\r\n        android:textColor=\"@color/gray_two\"\r\n        android:gravity=\"center\"\r\n        app:layout_constraintHeight_percent=\"@dimen/already_have_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/already_have_vert\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/sign_in_text\"\r\n        style=\"@style/h3_style\"\r\n        android:textColor=\"@color/white\"\r\n        android:gravity=\"center\"\r\n        app:layout_constraintHorizontal_bias=\"@dimen/sign_in_text_hor\"\r\n        app:layout_constraintVertical_bias=\"@dimen/already_have_vert\"\r\n        app:layout_constraintStart_toEndOf=\"@+id/already_have_text\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+===================================================================
+diff --git a/app/src/main/res/layout/register_activity.xml b/app/src/main/res/layout/register_activity.xml
+--- a/app/src/main/res/layout/register_activity.xml	
++++ b/app/src/main/res/layout/register_activity.xml	
+@@ -192,10 +192,10 @@
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/google_reg_button"
+-        app:layout_constraintBottom_toTopOf="@id/button2" />
++        app:layout_constraintBottom_toTopOf="@id/register_button" />
+ 
+     <Button
+-        android:id="@+id/button2"
++        android:id="@+id/register_button"
+         android:layout_width="0dp"
+         android:layout_height="0dp"
+         android:background="@drawable/orange_borders_button"

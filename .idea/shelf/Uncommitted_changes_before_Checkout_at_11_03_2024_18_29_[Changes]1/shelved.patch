@@ -1,0 +1,30 @@
+Index: app/src/main/res/anim/slide_out_left.xml
+===================================================================
+diff --git a/app/src/main/res/anim/slide_out_left.xml b/app/src/main/res/anim/slide_out_left.xml
+new file mode 100644
+--- /dev/null	
++++ b/app/src/main/res/anim/slide_out_left.xml	
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<set xmlns:android="http://schemas.android.com/apk/res/android">
++    <translate
++        android:duration="500"
++        android:fromXDelta="0"
++        android:toXDelta="-100%p" />
++</set>
+\ No newline at end of file
+Index: app/src/main/res/anim/slide_in_right.xml
+===================================================================
+diff --git a/app/src/main/res/anim/slide_in_right.xml b/app/src/main/res/anim/slide_in_right.xml
+new file mode 100644
+--- /dev/null	
++++ b/app/src/main/res/anim/slide_in_right.xml	
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<set xmlns:android="http://schemas.android.com/apk/res/android">
++    <translate
++        android:duration="500"
++        android:fromXDelta="100%p"
++        android:toXDelta="0" />
++</set>
+\ No newline at end of file

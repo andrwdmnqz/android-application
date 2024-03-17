@@ -1,0 +1,667 @@
+Index: app/src/main/res/values/dimensions.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<resources>\r\n    <dimen name=\"h1_text\">24sp</dimen>\r\n    <dimen name=\"h2_text\">18sp</dimen>\r\n    <dimen name=\"h2_5_text\">16sp</dimen>\r\n    <dimen name=\"h3_text\">14sp</dimen>\r\n    <dimen name=\"h4_text\">12sp</dimen>\r\n    <dimen name=\"password_input_text\">28sp</dimen>\r\n\r\n    <dimen name=\"top_rectangle_height\">0.5</dimen>\r\n    <dimen name=\"top_rectangle_vertical\">0</dimen>\r\n    <dimen name=\"settings_horizontal\">0.063</dimen>\r\n    <dimen name=\"logout_height\">0.065</dimen>\r\n    <dimen name=\"logout_width\">0.33</dimen>\r\n    <dimen name=\"logout_horizontal\">0.93</dimen>\r\n    <dimen name=\"logout_vertical\">0.025</dimen>\r\n    <dimen name=\"photo_width\">0.314</dimen>\r\n    <dimen name=\"photo_height\">0.165</dimen>\r\n    <dimen name=\"photo_vertical\">0.12</dimen>\r\n    <dimen name=\"name_vertical\">0.175</dimen>\r\n    <dimen name=\"career_vertical\">0.4</dimen>\r\n    <dimen name=\"address_vertical\">0.63</dimen>\r\n    <dimen name=\"networks_logo_width\">0.166</dimen>\r\n    <dimen name=\"networks_logo_height\">0.087</dimen>\r\n    <dimen name=\"networks_logo_ver\">0.22</dimen>\r\n    <dimen name=\"facebook_logo_hor\">0.19</dimen>\r\n    <dimen name=\"instagram_logo_hor\">0.81</dimen>\r\n    <dimen name=\"bottom_buttons_width\">0.92</dimen>\r\n    <dimen name=\"edit_profile_height\">0.07</dimen>\r\n    <dimen name=\"edit_profile_vertical\">0.72</dimen>\r\n    <dimen name=\"contacts_height\">0.08</dimen>\r\n    <dimen name=\"contacts_vertical\">0.95</dimen>\r\n    <dimen name=\"button_border_width\">2dp</dimen>\r\n\r\n    <dimen name=\"acquainted_vertical\">0.22</dimen>\r\n    <dimen name=\"fill_the_profile_vertical\">0.27</dimen>\r\n    <dimen name=\"email_label_horizontal\">0.066</dimen>\r\n    <dimen name=\"email_label_vertical\">0.33</dimen>\r\n    <dimen name=\"email_input_height\">0.08</dimen>\r\n    <dimen name=\"email_input_vertical\">0.34</dimen>\r\n    <dimen name=\"min_edittext_height\">48dp</dimen>\r\n    <dimen name=\"user_inputs_width\">0.93</dimen>\r\n    <dimen name=\"email_input_padding\">10dp</dimen>\r\n    <dimen name=\"password_input_height\">0.07</dimen>\r\n    <dimen name=\"password_label_vertical\">0.46</dimen>\r\n    <dimen name=\"password_input_vertical\">0.47</dimen>\r\n    <dimen name=\"password_input_padding\">10dp</dimen>\r\n    <dimen name=\"password_input_spacing\">0.1</dimen>\r\n    <dimen name=\"checkbox_vertical\">0.58</dimen>\r\n    <dimen name=\"checkbox_horizontal\">0.04</dimen>\r\n    <dimen name=\"checkbox_height\">0.07</dimen>\r\n    <dimen name=\"google_button_height\">0.07</dimen>\r\n    <dimen name=\"google_button_vertical\">0.71</dimen>\r\n    <dimen name=\"google_logo_width\">0.065</dimen>\r\n    <dimen name=\"google_logo_height\">0.5</dimen>\r\n    <dimen name=\"google_logo_horizontal\">0.365</dimen>\r\n    <dimen name=\"google_text_margin\">15dp</dimen>\r\n    <dimen name=\"button_letter_spacing\">0.15</dimen>\r\n    <dimen name=\"register_button_vert\">0.86</dimen>\r\n    <dimen name=\"register_button_height\">0.09</dimen>\r\n    <dimen name=\"register_terms_vert\">0.93</dimen>\r\n    <dimen name=\"already_have_height\">0.07</dimen>\r\n    <dimen name=\"already_have_vert\">0.975</dimen>\r\n    <dimen name=\"sign_in_text_hor\">0.17</dimen>\r\n</resources>
+===================================================================
+diff --git a/app/src/main/res/values/dimensions.xml b/app/src/main/res/values/dimensions.xml
+--- a/app/src/main/res/values/dimensions.xml	
++++ b/app/src/main/res/values/dimensions.xml	
+@@ -62,4 +62,10 @@
+     <dimen name="already_have_height">0.07</dimen>
+     <dimen name="already_have_vert">0.975</dimen>
+     <dimen name="sign_in_text_hor">0.17</dimen>
++
++    <dimen name="contacts_tool_bar_height">0.17</dimen>
++    <dimen name="contacts_label_vertical">0.016</dimen>
++    <dimen name="contacts_tool_bar_start">0.06</dimen>
++    <dimen name="contacts_tool_bar_end">0.94</dimen>
++    <dimen name="add_contacts_label_vertical">0.74</dimen>
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">My Project</string>\r\n    <string name=\"edit_button_text\">Edit profile</string>\r\n    <string name=\"settings\">Settings</string>\r\n    <string name=\"log_out\">Log out</string>\r\n    <string name=\"name\">Username</string>\r\n    <string name=\"name_placeholder\">%s</string>\r\n    <string name=\"career\">Career</string>\r\n    <string name=\"home_address\">Home Address</string>\r\n    <string name=\"edit_profile\">Edit profile</string>\r\n    <string name=\"view_contacts\">VIEW MY CONTACTS</string>\r\n    <string name=\"profile_image_desc\">profile_image</string>\r\n    <string name=\"facebook_logo_desc\">facebook_logo</string>\r\n    <string name=\"linkedin_logo_desc\">linkedin_logo</string>\r\n    <string name=\"instagram_logo_desc\">instagram_logo</string>\r\n    <string name=\"acquainted_text\">Let\\'s get acquainted</string>\r\n    <string name=\"fill_the_profile_text\">Fill out the profile and go to the application!</string>\r\n    <string name=\"email_hint\">E-mail</string>\r\n    <string name=\"email_input_text\">lucile.alvarado@gmail.com</string>\r\n    <string name=\"password_hint\">Password</string>\r\n    <string name=\"password_input_text\">********</string>\r\n    <string name=\"remember_me\">Remember me</string>\r\n    <string name=\"google_text\">GOOGLE</string>\r\n    <string name=\"or_text\">or</string>\r\n    <string name=\"register_text\">REGISTER</string>\r\n    <string name=\"register_terms_text\">By clicking Register you agree to our Terms\\nand Conditions</string>\r\n    <string name=\"already_have_text\">Already have an account?</string>\r\n    <string name=\"sign_in_text\">Sign in</string>\r\n    <string name=\"google_logo_desc\">google_logo</string>\r\n</resources>
+===================================================================
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+--- a/app/src/main/res/values/strings.xml	
++++ b/app/src/main/res/values/strings.xml	
+@@ -27,4 +27,9 @@
+     <string name="already_have_text">Already have an account?</string>
+     <string name="sign_in_text">Sign in</string>
+     <string name="google_logo_desc">google_logo</string>
++
++    <string name="back_button_desc">back_button</string>
++    <string name="search_button_desc">search_button</string>
++    <string name="contacts_label">Contacts</string>
++    <string name="add_contacts_label">Add contacts</string>
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"@color/default_background\" >\r\n\r\n    <View\r\n        android:id=\"@+id/top_rectangle\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:background=\"@drawable/rectangle\"\r\n        app:layout_constraintHeight_percent=\"@dimen/top_rectangle_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/top_rectangle_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/settings\"\r\n        android:textColor=\"@color/default_text_color\"\r\n        style=\"@style/h1_style\"\r\n        app:layout_constraintHorizontal_bias=\"@dimen/settings_horizontal\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"@id/logout_button\"\r\n        app:layout_constraintBottom_toBottomOf=\"@id/logout_button\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/logout_button\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:background=\"@drawable/logout_button\"\r\n        android:text=\"@string/log_out\"\r\n        android:textAllCaps=\"false\"\r\n        android:textColor=\"@color/additional_first\"\r\n        style=\"@style/h3_style\"\r\n        app:layout_constraintWidth_percent=\"@dimen/logout_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/logout_height\"\r\n        app:layout_constraintHorizontal_bias=\"@dimen/logout_horizontal\"\r\n        app:layout_constraintVertical_bias=\"@dimen/logout_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <ImageView\r\n        android:id=\"@+id/profile_image\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:contentDescription=\"@string/profile_image_desc\"\r\n        android:src=\"@mipmap/mock_icon\"\r\n        app:layout_constraintWidth_percent=\"@dimen/photo_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/photo_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/photo_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/name\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/name\"\r\n        android:textColor=\"@color/default_text_color\"\r\n        style=\"@style/h2_style\"\r\n        app:layout_constraintVertical_bias=\"@dimen/name_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@id/profile_image\"\r\n        app:layout_constraintBottom_toBottomOf=\"@+id/top_rectangle\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/career\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/career\"\r\n        android:textColor=\"@color/additional_first\"\r\n        style=\"@style/h3_style\"\r\n        app:layout_constraintVertical_bias=\"@dimen/career_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/profile_image\"\r\n        app:layout_constraintBottom_toBottomOf=\"@+id/top_rectangle\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/home_address\"\r\n        android:textColor=\"@color/additional_first\"\r\n        style=\"@style/h3_style\"\r\n        app:layout_constraintVertical_bias=\"@dimen/address_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/profile_image\"\r\n        app:layout_constraintBottom_toBottomOf=\"@+id/top_rectangle\" />\r\n\r\n    <ImageView\r\n        android:id=\"@+id/facebook_logo\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:contentDescription=\"@string/facebook_logo_desc\"\r\n        android:src=\"@drawable/facebook_logo\"\r\n        app:layout_constraintWidth_percent=\"@dimen/networks_logo_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/networks_logo_height\"\r\n        app:layout_constraintHorizontal_bias=\"@dimen/facebook_logo_hor\"\r\n        app:layout_constraintVertical_bias=\"@dimen/networks_logo_ver\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@id/top_rectangle\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <ImageView\r\n        android:id=\"@+id/linkedin_logo\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:contentDescription=\"@string/linkedin_logo_desc\"\r\n        android:src=\"@drawable/linkedin_logo\"\r\n        app:layout_constraintWidth_percent=\"@dimen/networks_logo_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/networks_logo_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/networks_logo_ver\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/top_rectangle\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <ImageView\r\n        android:id=\"@+id/instagram_logo\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:contentDescription=\"@string/instagram_logo_desc\"\r\n        android:src=\"@drawable/instagram_logo\"\r\n        app:layout_constraintWidth_percent=\"@dimen/networks_logo_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/networks_logo_height\"\r\n        app:layout_constraintHorizontal_bias=\"@dimen/instagram_logo_hor\"\r\n        app:layout_constraintVertical_bias=\"@dimen/networks_logo_ver\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/top_rectangle\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/edit_button\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:background=\"@drawable/edit_button\"\r\n        android:text=\"@string/edit_profile\"\r\n        android:textAllCaps=\"false\"\r\n        android:textColor=\"@color/additional_text_first\"\r\n        style=\"@style/h2_style\"\r\n        app:layout_constraintWidth_percent=\"@dimen/bottom_buttons_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/edit_profile_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/edit_profile_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/top_rectangle\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/contacts_button\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:background=\"@drawable/view_contacts_button\"\r\n        android:text=\"@string/view_contacts\"\r\n        android:textColor=\"@color/default_text_color\"\r\n        android:letterSpacing=\"@dimen/button_letter_spacing\"\r\n        style=\"@style/h2_5_style\"\r\n        app:layout_constraintWidth_percent=\"@dimen/bottom_buttons_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/contacts_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/contacts_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/top_rectangle\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>\r\n
+===================================================================
+diff --git a/app/src/main/res/layout/activity_main.xml b/app/src/main/res/layout/activity_main.xml
+--- a/app/src/main/res/layout/activity_main.xml	
++++ b/app/src/main/res/layout/activity_main.xml	
+@@ -3,49 +3,49 @@
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:background="@color/default_background" >
++    android:background="@color/default_background">
+ 
+     <View
+         android:id="@+id/top_rectangle"
+         android:layout_width="0dp"
+         android:layout_height="0dp"
+         android:background="@drawable/rectangle"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/top_rectangle_height"
+-        app:layout_constraintVertical_bias="@dimen/top_rectangle_vertical"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/top_rectangle_vertical" />
+ 
+     <TextView
++        style="@style/h1_style"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/settings"
+         android:textColor="@color/default_text_color"
+-        style="@style/h1_style"
++        app:layout_constraintBottom_toBottomOf="@id/logout_button"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="@dimen/settings_horizontal"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintTop_toTopOf="@id/logout_button"
+-        app:layout_constraintBottom_toBottomOf="@id/logout_button" />
++        app:layout_constraintTop_toTopOf="@id/logout_button" />
+ 
+     <Button
+         android:id="@+id/logout_button"
++        style="@style/h3_style"
+         android:layout_width="0dp"
+         android:layout_height="0dp"
+         android:background="@drawable/logout_button"
+         android:text="@string/log_out"
+         android:textAllCaps="false"
+         android:textColor="@color/additional_first"
+-        style="@style/h3_style"
+-        app:layout_constraintWidth_percent="@dimen/logout_width"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/logout_height"
+         app:layout_constraintHorizontal_bias="@dimen/logout_horizontal"
+-        app:layout_constraintVertical_bias="@dimen/logout_vertical"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/logout_vertical"
++        app:layout_constraintWidth_percent="@dimen/logout_width" />
+ 
+     <ImageView
+         android:id="@+id/profile_image"
+@@ -53,52 +53,52 @@
+         android:layout_height="0dp"
+         android:contentDescription="@string/profile_image_desc"
+         android:src="@mipmap/mock_icon"
+-        app:layout_constraintWidth_percent="@dimen/photo_width"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/photo_height"
+-        app:layout_constraintVertical_bias="@dimen/photo_vertical"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/photo_vertical"
++        app:layout_constraintWidth_percent="@dimen/photo_width" />
+ 
+     <TextView
+         android:id="@+id/name"
++        style="@style/h2_style"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/name"
+         android:textColor="@color/default_text_color"
+-        style="@style/h2_style"
+-        app:layout_constraintVertical_bias="@dimen/name_vertical"
++        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toBottomOf="@id/profile_image"
+-        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle" />
++        app:layout_constraintVertical_bias="@dimen/name_vertical" />
+ 
+     <TextView
+         android:id="@+id/career"
++        style="@style/h3_style"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/career"
+         android:textColor="@color/additional_first"
+-        style="@style/h3_style"
+-        app:layout_constraintVertical_bias="@dimen/career_vertical"
++        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/profile_image"
+-        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle" />
++        app:layout_constraintVertical_bias="@dimen/career_vertical" />
+ 
+     <TextView
+         android:id="@+id/textView"
++        style="@style/h3_style"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/home_address"
+         android:textColor="@color/additional_first"
+-        style="@style/h3_style"
+-        app:layout_constraintVertical_bias="@dimen/address_vertical"
+-        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle"
+         app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/profile_image"
+-        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle" />
++        app:layout_constraintVertical_bias="@dimen/address_vertical" />
+ 
+     <ImageView
+         android:id="@+id/facebook_logo"
+@@ -106,14 +106,14 @@
+         android:layout_height="0dp"
+         android:contentDescription="@string/facebook_logo_desc"
+         android:src="@drawable/facebook_logo"
+-        app:layout_constraintWidth_percent="@dimen/networks_logo_width"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/networks_logo_height"
+         app:layout_constraintHorizontal_bias="@dimen/facebook_logo_hor"
+-        app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toBottomOf="@id/top_rectangle"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
++        app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
+ 
+     <ImageView
+         android:id="@+id/linkedin_logo"
+@@ -121,13 +121,13 @@
+         android:layout_height="0dp"
+         android:contentDescription="@string/linkedin_logo_desc"
+         android:src="@drawable/linkedin_logo"
+-        app:layout_constraintWidth_percent="@dimen/networks_logo_width"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/networks_logo_height"
+-        app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
++        app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
+ 
+     <ImageView
+         android:id="@+id/instagram_logo"
+@@ -135,47 +135,47 @@
+         android:layout_height="0dp"
+         android:contentDescription="@string/instagram_logo_desc"
+         android:src="@drawable/instagram_logo"
+-        app:layout_constraintWidth_percent="@dimen/networks_logo_width"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/networks_logo_height"
+         app:layout_constraintHorizontal_bias="@dimen/instagram_logo_hor"
+-        app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
++        app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
+ 
+     <Button
+         android:id="@+id/edit_button"
++        style="@style/h2_style"
+         android:layout_width="0dp"
+         android:layout_height="0dp"
+         android:background="@drawable/edit_button"
+         android:text="@string/edit_profile"
+         android:textAllCaps="false"
+         android:textColor="@color/additional_text_first"
+-        style="@style/h2_style"
+-        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/edit_profile_height"
+-        app:layout_constraintVertical_bias="@dimen/edit_profile_vertical"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/edit_profile_vertical"
++        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
+ 
+     <Button
+         android:id="@+id/contacts_button"
++        style="@style/h2_5_style"
+         android:layout_width="0dp"
+         android:layout_height="0dp"
+         android:background="@drawable/view_contacts_button"
++        android:letterSpacing="@dimen/button_letter_spacing"
+         android:text="@string/view_contacts"
+         android:textColor="@color/default_text_color"
+-        android:letterSpacing="@dimen/button_letter_spacing"
+-        style="@style/h2_5_style"
+-        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/contacts_height"
+-        app:layout_constraintVertical_bias="@dimen/contacts_vertical"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/contacts_vertical"
++        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+Index: app/src/main/res/values/themes.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources xmlns:tools=\"http://schemas.android.com/tools\">\r\n    <!-- Base application theme. -->\r\n    <style name=\"Base.Theme.MyProject\" parent=\"Theme.AppCompat.Light.NoActionBar\">\r\n        <!-- Customize your light theme here. -->\r\n        <!-- <item name=\"colorPrimary\">@color/my_light_primary</item> -->\r\n        <item name=\"android:windowActivityTransitions\">true</item>\r\n        <!-- Specify enter and exit transitions -->\r\n        <item name=\"android:windowEnterTransition\">@transition/slide_left</item>\r\n        <item name=\"android:windowExitTransition\">@transition/slide_right</item>\r\n        <!-- Specify shared element transitions -->\r\n        <item name=\"android:windowSharedElementEnterTransition\">@transition/change_image_transform</item>\r\n        <item name=\"android:windowSharedElementExitTransition\">@transition/change_image_transform</item>\r\n        <!-- Specify hint text color -->\r\n        <item name=\"android:textColorHint\">@color/additional_text_second</item>\r\n    </style>\r\n    <style name=\"Theme.MyProject\" parent=\"Base.Theme.MyProject\" />\r\n</resources>
+===================================================================
+diff --git a/app/src/main/res/values/themes.xml b/app/src/main/res/values/themes.xml
+--- a/app/src/main/res/values/themes.xml	
++++ b/app/src/main/res/values/themes.xml	
+@@ -13,5 +13,6 @@
+         <!-- Specify hint text color -->
+         <item name="android:textColorHint">@color/additional_text_second</item>
+     </style>
++
+     <style name="Theme.MyProject" parent="Base.Theme.MyProject" />
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/layout/register_activity.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\">\r\n\r\n    <View\r\n        android:id=\"@+id/view\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:background=\"@drawable/rectangle\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"/>\r\n\r\n    <TextView\r\n        android:id=\"@+id/acquainted_text\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/acquainted_text\"\r\n        android:textColor=\"@color/default_text_color\"\r\n        style=\"@style/h1_style\"\r\n        app:layout_constraintVertical_bias=\"@dimen/acquainted_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView3\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/fill_the_profile_text\"\r\n        android:textColor=\"@color/default_text_color\"\r\n        style=\"@style/h4_style\"\r\n        app:layout_constraintVertical_bias=\"@dimen/fill_the_profile_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"/>\r\n\r\n    <com.google.android.material.textfield.TextInputLayout\r\n        android:id=\"@+id/reg_email_layout\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:textColorHint=\"@color/additional_text_second\"\r\n        app:boxBackgroundColor=\"@color/additional_first\"\r\n        app:cursorColor=\"@color/default_text_color\"\r\n        app:hintTextColor=\"@color/additional_third\"\r\n        app:errorEnabled=\"true\"\r\n        app:errorTextAppearance=\"@style/error_text_style\"\r\n        app:layout_constraintWidth_percent=\"@dimen/user_inputs_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/email_input_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/email_input_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" >\r\n\r\n        <com.google.android.material.textfield.TextInputEditText\r\n            android:id=\"@+id/reg_email_input\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:minHeight=\"@dimen/min_edittext_height\"\r\n            android:paddingStart=\"@dimen/email_input_padding\"\r\n            android:paddingEnd=\"0dp\"\r\n            android:inputType=\"textEmailAddress\"\r\n            android:hint=\"@string/email_hint\"\r\n            android:textColor=\"@color/default_text_color\"\r\n            app:backgroundTint=\"@color/additional_text_second\"\r\n            style=\"@style/h2_style\" />\r\n\r\n    </com.google.android.material.textfield.TextInputLayout>\r\n\r\n    <com.google.android.material.textfield.TextInputLayout\r\n        android:id=\"@+id/reg_password_layout\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:textColorHint=\"@color/additional_text_second\"\r\n        app:cursorColor=\"@color/default_text_color\"\r\n        app:hintTextColor=\"@color/additional_third\"\r\n        app:errorEnabled=\"true\"\r\n        app:errorTextAppearance=\"@style/error_text_style\"\r\n        app:layout_constraintWidth_percent=\"@dimen/user_inputs_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/email_input_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/password_input_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" >\r\n\r\n        <com.google.android.material.textfield.TextInputEditText\r\n            android:id=\"@+id/reg_password_input\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:minHeight=\"@dimen/min_edittext_height\"\r\n            android:paddingStart=\"@dimen/email_input_padding\"\r\n            android:paddingEnd=\"0dp\"\r\n            android:inputType=\"textPassword\"\r\n            android:hint=\"@string/password_hint\"\r\n            android:textColor=\"@color/default_text_color\"\r\n            app:backgroundTint=\"@color/additional_text_second\"\r\n            style=\"@style/h2_style\" />\r\n\r\n    </com.google.android.material.textfield.TextInputLayout>\r\n\r\n    <CheckBox\r\n        android:id=\"@+id/checkBox\"\r\n        style=\"@style/h3_style\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"0dp\"\r\n        android:buttonTint=\"@color/default_text_color\"\r\n        android:text=\"@string/remember_me\"\r\n        android:textColor=\"@color/additional_text_third\"\r\n        app:layout_constraintHeight_percent=\"@dimen/checkbox_height\"\r\n        app:layout_constraintHorizontal_bias=\"@dimen/checkbox_horizontal\"\r\n        app:layout_constraintVertical_bias=\"@dimen/checkbox_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/google_reg_button\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:background=\"@drawable/google_button\"\r\n        android:gravity=\"center\"\r\n        android:orientation=\"horizontal\"\r\n        android:clickable=\"true\"\r\n        android:focusable=\"true\"\r\n        app:layout_constraintWidth_percent=\"@dimen/bottom_buttons_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/google_button_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/google_button_vertical\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\">\r\n\r\n        <ImageView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginEnd=\"@dimen/google_text_margin\"\r\n            android:adjustViewBounds=\"true\"\r\n            android:scaleType=\"fitCenter\"\r\n            android:src=\"@drawable/google_logo\"\r\n            android:contentDescription=\"@string/google_logo_desc\" />\r\n\r\n        <TextView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:gravity=\"center\"\r\n            android:text=\"@string/google_text\"\r\n            android:textColor=\"@color/additional_text_fourth\"\r\n            android:letterSpacing=\"@dimen/button_letter_spacing\"\r\n            style=\"@style/h2_5_style\" />\r\n\r\n    </LinearLayout>\r\n\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/or_text\"\r\n        style=\"@style/h2_style\"\r\n        android:textColor=\"@color/default_text_color\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/google_reg_button\"\r\n        app:layout_constraintBottom_toTopOf=\"@id/register_button\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/register_button\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:background=\"@drawable/register_button\"\r\n        android:textColor=\"@color/default_text_color\"\r\n        android:text=\"@string/register_text\"\r\n        android:letterSpacing=\"@dimen/button_letter_spacing\"\r\n        style=\"@style/h2_5_style\"\r\n        app:layout_constraintWidth_percent=\"@dimen/bottom_buttons_width\"\r\n        app:layout_constraintHeight_percent=\"@dimen/register_button_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/register_button_vert\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <TextView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/register_terms_text\"\r\n        style=\"@style/h4_style\"\r\n        android:textColor=\"@color/default_text_color\"\r\n        android:gravity=\"center\"\r\n        app:layout_constraintVertical_bias=\"@dimen/register_terms_vert\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/already_have_text\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/already_have_text\"\r\n        style=\"@style/h3_style\"\r\n        android:textColor=\"@color/additional_text_fifth\"\r\n        android:gravity=\"center\"\r\n        app:layout_constraintHeight_percent=\"@dimen/already_have_height\"\r\n        app:layout_constraintVertical_bias=\"@dimen/already_have_vert\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"@string/sign_in_text\"\r\n        style=\"@style/h3_style\"\r\n        android:textColor=\"@color/default_text_color\"\r\n        android:gravity=\"center\"\r\n        app:layout_constraintHorizontal_bias=\"@dimen/sign_in_text_hor\"\r\n        app:layout_constraintVertical_bias=\"@dimen/already_have_vert\"\r\n        app:layout_constraintStart_toEndOf=\"@+id/already_have_text\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+===================================================================
+diff --git a/app/src/main/res/layout/register_activity.xml b/app/src/main/res/layout/register_activity.xml
+--- a/app/src/main/res/layout/register_activity.xml	
++++ b/app/src/main/res/layout/register_activity.xml	
+@@ -10,36 +10,36 @@
+         android:layout_width="0dp"
+         android:layout_height="0dp"
+         android:background="@drawable/rectangle"
+-        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent"/>
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent" />
+ 
+     <TextView
+         android:id="@+id/acquainted_text"
++        style="@style/h1_style"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/acquainted_text"
+         android:textColor="@color/default_text_color"
+-        style="@style/h1_style"
+-        app:layout_constraintVertical_bias="@dimen/acquainted_vertical"
+-        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/acquainted_vertical" />
+ 
+     <TextView
+         android:id="@+id/textView3"
++        style="@style/h4_style"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/fill_the_profile_text"
+         android:textColor="@color/default_text_color"
+-        style="@style/h4_style"
+-        app:layout_constraintVertical_bias="@dimen/fill_the_profile_vertical"
+-        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent"/>
++        app:layout_constraintVertical_bias="@dimen/fill_the_profile_vertical" />
+ 
+     <com.google.android.material.textfield.TextInputLayout
+         android:id="@+id/reg_email_layout"
+@@ -48,29 +48,29 @@
+         android:textColorHint="@color/additional_text_second"
+         app:boxBackgroundColor="@color/additional_first"
+         app:cursorColor="@color/default_text_color"
+-        app:hintTextColor="@color/additional_third"
+         app:errorEnabled="true"
+         app:errorTextAppearance="@style/error_text_style"
+-        app:layout_constraintWidth_percent="@dimen/user_inputs_width"
++        app:hintTextColor="@color/additional_third"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/email_input_height"
+-        app:layout_constraintVertical_bias="@dimen/email_input_vertical"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent" >
++        app:layout_constraintVertical_bias="@dimen/email_input_vertical"
++        app:layout_constraintWidth_percent="@dimen/user_inputs_width">
+ 
+         <com.google.android.material.textfield.TextInputEditText
+             android:id="@+id/reg_email_input"
++            style="@style/h2_style"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
++            android:hint="@string/email_hint"
++            android:inputType="textEmailAddress"
+             android:minHeight="@dimen/min_edittext_height"
+             android:paddingStart="@dimen/email_input_padding"
+             android:paddingEnd="0dp"
+-            android:inputType="textEmailAddress"
+-            android:hint="@string/email_hint"
+             android:textColor="@color/default_text_color"
+-            app:backgroundTint="@color/additional_text_second"
+-            style="@style/h2_style" />
++            app:backgroundTint="@color/additional_text_second" />
+ 
+     </com.google.android.material.textfield.TextInputLayout>
+ 
+@@ -80,29 +80,29 @@
+         android:layout_height="wrap_content"
+         android:textColorHint="@color/additional_text_second"
+         app:cursorColor="@color/default_text_color"
+-        app:hintTextColor="@color/additional_third"
+         app:errorEnabled="true"
+         app:errorTextAppearance="@style/error_text_style"
+-        app:layout_constraintWidth_percent="@dimen/user_inputs_width"
++        app:hintTextColor="@color/additional_third"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/email_input_height"
+-        app:layout_constraintVertical_bias="@dimen/password_input_vertical"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent" >
++        app:layout_constraintVertical_bias="@dimen/password_input_vertical"
++        app:layout_constraintWidth_percent="@dimen/user_inputs_width">
+ 
+         <com.google.android.material.textfield.TextInputEditText
+             android:id="@+id/reg_password_input"
++            style="@style/h2_style"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
++            android:hint="@string/password_hint"
++            android:inputType="textPassword"
+             android:minHeight="@dimen/min_edittext_height"
+             android:paddingStart="@dimen/email_input_padding"
+             android:paddingEnd="0dp"
+-            android:inputType="textPassword"
+-            android:hint="@string/password_hint"
+             android:textColor="@color/default_text_color"
+-            app:backgroundTint="@color/additional_text_second"
+-            style="@style/h2_style" />
++            app:backgroundTint="@color/additional_text_second" />
+ 
+     </com.google.android.material.textfield.TextInputLayout>
+ 
+@@ -114,119 +114,119 @@
+         android:buttonTint="@color/default_text_color"
+         android:text="@string/remember_me"
+         android:textColor="@color/additional_text_third"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/checkbox_height"
+         app:layout_constraintHorizontal_bias="@dimen/checkbox_horizontal"
+-        app:layout_constraintVertical_bias="@dimen/checkbox_vertical"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/checkbox_vertical" />
+ 
+     <LinearLayout
+         android:id="@+id/google_reg_button"
+         android:layout_width="0dp"
+         android:layout_height="0dp"
+         android:background="@drawable/google_button"
+-        android:gravity="center"
+-        android:orientation="horizontal"
+         android:clickable="true"
+         android:focusable="true"
+-        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"
++        android:gravity="center"
++        android:orientation="horizontal"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/google_button_height"
+-        app:layout_constraintVertical_bias="@dimen/google_button_vertical"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent">
++        app:layout_constraintVertical_bias="@dimen/google_button_vertical"
++        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width">
+ 
+         <ImageView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginEnd="@dimen/google_text_margin"
+             android:adjustViewBounds="true"
++            android:contentDescription="@string/google_logo_desc"
+             android:scaleType="fitCenter"
+-            android:src="@drawable/google_logo"
+-            android:contentDescription="@string/google_logo_desc" />
++            android:src="@drawable/google_logo" />
+ 
+         <TextView
++            style="@style/h2_5_style"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:gravity="center"
+-            android:text="@string/google_text"
+-            android:textColor="@color/additional_text_fourth"
+             android:letterSpacing="@dimen/button_letter_spacing"
+-            style="@style/h2_5_style" />
++            android:text="@string/google_text"
++            android:textColor="@color/additional_text_fourth" />
+ 
+     </LinearLayout>
+ 
+     <TextView
++        style="@style/h2_style"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/or_text"
+-        style="@style/h2_style"
+         android:textColor="@color/default_text_color"
+-        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintBottom_toTopOf="@id/register_button"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/google_reg_button"
+-        app:layout_constraintBottom_toTopOf="@id/register_button" />
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/google_reg_button" />
+ 
+     <Button
+         android:id="@+id/register_button"
++        style="@style/h2_5_style"
+         android:layout_width="0dp"
+         android:layout_height="0dp"
+         android:background="@drawable/register_button"
+-        android:textColor="@color/default_text_color"
+-        android:text="@string/register_text"
+         android:letterSpacing="@dimen/button_letter_spacing"
+-        style="@style/h2_5_style"
+-        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"
++        android:text="@string/register_text"
++        android:textColor="@color/default_text_color"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/register_button_height"
+-        app:layout_constraintVertical_bias="@dimen/register_button_vert"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/register_button_vert"
++        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
+ 
+     <TextView
++        style="@style/h4_style"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
++        android:gravity="center"
+         android:text="@string/register_terms_text"
+-        style="@style/h4_style"
+         android:textColor="@color/default_text_color"
+-        android:gravity="center"
+-        app:layout_constraintVertical_bias="@dimen/register_terms_vert"
+-        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/register_terms_vert" />
+ 
+     <TextView
+         android:id="@+id/already_have_text"
++        style="@style/h3_style"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
++        android:gravity="center"
+         android:text="@string/already_have_text"
+-        style="@style/h3_style"
+         android:textColor="@color/additional_text_fifth"
+-        android:gravity="center"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHeight_percent="@dimen/already_have_height"
+-        app:layout_constraintVertical_bias="@dimen/already_have_vert"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/already_have_vert" />
+ 
+     <TextView
++        style="@style/h3_style"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
++        android:gravity="center"
+         android:text="@string/sign_in_text"
+-        style="@style/h3_style"
+         android:textColor="@color/default_text_color"
+-        android:gravity="center"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="@dimen/sign_in_text_hor"
+-        app:layout_constraintVertical_bias="@dimen/already_have_vert"
+         app:layout_constraintStart_toEndOf="@+id/already_have_text"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintVertical_bias="@dimen/already_have_vert" />
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:dataExtractionRules=\"@xml/data_extraction_rules\"\r\n        android:fullBackupContent=\"@xml/backup_rules\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/Theme.MyProject\"\r\n        tools:targetApi=\"31\">\r\n        <activity\r\n            android:name=\".RegisterActivity\"\r\n            android:exported=\"true\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity android:name=\".MainActivity\">\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	
++++ b/app/src/main/AndroidManifest.xml	
+@@ -13,7 +13,7 @@
+         android:theme="@style/Theme.MyProject"
+         tools:targetApi="31">
+         <activity
+-            android:name=".RegisterActivity"
++            android:name=".MyContacts"
+             android:exported="true">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+@@ -21,8 +21,11 @@
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
+-        <activity android:name=".MainActivity">
++        <activity
++            android:name=".RegisterActivity"
++            android:exported="false">
+         </activity>
++        <activity android:name=".MainActivity" />
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
+Index: app/src/main/res/values-uk/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">My Project</string>\r\n    <string name=\"edit_button_text\">Редагувати профіль</string>\r\n    <string name=\"settings\">Параметри</string>\r\n    <string name=\"log_out\">Вийти</string>\r\n    <string name=\"name\">Ім\\'я</string>\r\n    <string name=\"name_placeholder\">%s</string>\r\n    <string name=\"career\">Кар\\'єра</string>\r\n    <string name=\"home_address\">Адреса</string>\r\n    <string name=\"edit_profile\">Редагувати профіль</string>\r\n    <string name=\"view_contacts\">ПЕРЕГЛЯНУТИ КОНТАКТИ</string>\r\n    <string name=\"profile_image_desc\">profile_image</string>\r\n    <string name=\"facebook_logo_desc\">facebook_logo</string>\r\n    <string name=\"linkedin_logo_desc\">linkedin_logo</string>\r\n    <string name=\"instagram_logo_desc\">instagram_logo</string>\r\n    <string name=\"acquainted_text\">Давайте познайомимося</string>\r\n    <string name=\"fill_the_profile_text\">Заповність профіль та переходьте до застосунку!</string>\r\n    <string name=\"email_hint\">Електронна пошта</string>\r\n    <string name=\"email_input_text\">lucile.alvarado@gmail.com</string>\r\n    <string name=\"password_hint\">Пароль</string>\r\n    <string name=\"password_input_text\">********</string>\r\n    <string name=\"remember_me\">Запам\\'ятати мене</string>\r\n    <string name=\"google_text\">GOOGLE</string>\r\n    <string name=\"or_text\">або</string>\r\n    <string name=\"register_text\">ЗАРЕЄСТРУВАТИСЯ</string>\r\n    <string name=\"register_terms_text\">Натискаючи \"Зареєструватися\" ви погоджуєтеся з нашими\\nумовами та положеннями</string>\r\n    <string name=\"already_have_text\">Вже є аккаунт?</string>\r\n    <string name=\"sign_in_text\">Вхід</string>\r\n    <string name=\"google_logo_desc\">google_logo</string>\r\n</resources>
+===================================================================
+diff --git a/app/src/main/res/values-uk/strings.xml b/app/src/main/res/values-uk/strings.xml
+--- a/app/src/main/res/values-uk/strings.xml	
++++ b/app/src/main/res/values-uk/strings.xml	
+@@ -27,4 +27,9 @@
+     <string name="already_have_text">Вже є аккаунт?</string>
+     <string name="sign_in_text">Вхід</string>
+     <string name="google_logo_desc">google_logo</string>
++
++    <string name="back_button_desc">back_button</string>
++    <string name="search_button_desc">search_button</string>
++    <string name="contacts_label">Контакти</string>
++    <string name="add_contacts_label">Додати контакти</string>
+ </resources>
+\ No newline at end of file
+Index: app/build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id(\"com.android.application\")\r\n    id(\"org.jetbrains.kotlin.android\")\r\n}\r\n\r\nandroid {\r\n    namespace = \"com.project.myproject\"\r\n    compileSdk = 34\r\n\r\n    defaultConfig {\r\n        applicationId = \"com.project.myproject\"\r\n        minSdk = 24\r\n        targetSdk = 34\r\n        versionCode = 1\r\n        versionName = \"1.0\"\r\n\r\n        testInstrumentationRunner = \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            isMinifyEnabled = false\r\n            proguardFiles(getDefaultProguardFile(\"proguard-android-optimize.txt\"), \"proguard-rules.pro\")\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility = JavaVersion.VERSION_1_8\r\n        targetCompatibility = JavaVersion.VERSION_1_8\r\n    }\r\n    kotlinOptions {\r\n        jvmTarget = \"1.8\"\r\n    }\r\n}\r\n\r\ndependencies {\r\n\r\n    implementation(\"androidx.datastore:datastore-preferences:1.0.0\")\r\n    implementation(\"androidx.core:core-ktx:1.12.0\")\r\n    implementation(\"androidx.appcompat:appcompat:1.6.1\")\r\n    implementation(\"androidx.constraintlayout:constraintlayout:2.1.4\")\r\n    implementation(\"com.google.android.material:material:1.11.0\")\r\n    testImplementation(\"junit:junit:4.13.2\")\r\n    androidTestImplementation(\"androidx.test.ext:junit:1.1.5\")\r\n    androidTestImplementation(\"androidx.test.espresso:espresso-core:3.5.1\")\r\n}
+===================================================================
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+--- a/app/build.gradle.kts	
++++ b/app/build.gradle.kts	
+@@ -30,6 +30,9 @@
+     kotlinOptions {
+         jvmTarget = "1.8"
+     }
++    buildFeatures {
++        viewBinding = true
++    }
+ }
+ 
+ dependencies {
+@@ -39,6 +42,8 @@
+     implementation("androidx.appcompat:appcompat:1.6.1")
+     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+     implementation("com.google.android.material:material:1.11.0")
++    implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
++    implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
+     testImplementation("junit:junit:4.13.2")
+     androidTestImplementation("androidx.test.ext:junit:1.1.5")
+     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

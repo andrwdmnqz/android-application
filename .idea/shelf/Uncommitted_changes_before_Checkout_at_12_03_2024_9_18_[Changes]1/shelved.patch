@@ -1,0 +1,64 @@
+Index: app/src/main/res/values/themes.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources xmlns:tools=\"http://schemas.android.com/tools\">\r\n    <!-- Base application theme. -->\r\n    <style name=\"Base.Theme.MyProject\" parent=\"Theme.AppCompat.Light.NoActionBar\">\r\n        <!-- Customize your light theme here. -->\r\n        <!-- <item name=\"colorPrimary\">@color/my_light_primary</item> -->\r\n    </style>\r\n\r\n    <style name=\"Theme.MyProject\" parent=\"Base.Theme.MyProject\" />\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/themes.xml b/app/src/main/res/values/themes.xml
+--- a/app/src/main/res/values/themes.xml	
++++ b/app/src/main/res/values/themes.xml	
+@@ -3,6 +3,13 @@
+     <style name="Base.Theme.MyProject" parent="Theme.AppCompat.Light.NoActionBar">
+         <!-- Customize your light theme here. -->
+         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
++        <item name="android:windowActivityTransitions">true</item>
++
++        <item name="android:windowEnterTransition">@transition/slide_right</item>
++        <item name="android:windowExitTransition">@transition/slide_left</item>
++
++        <item name="android:windowSharedElementEnterTransition">@transition/change_image_transform</item>
++        <item name="android:windowSharedElementExitTransition">@transition/change_image_transform</item>
+     </style>
+ 
+     <style name="Theme.MyProject" parent="Base.Theme.MyProject" />
+Index: app/src/main/java/com/project/myproject/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.project.myproject\r\n\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport android.os.Bundle\r\n\r\nclass MainActivity : AppCompatActivity() {\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        setContentView(R.layout.activity_main)\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/project/myproject/MainActivity.kt b/app/src/main/java/com/project/myproject/MainActivity.kt
+--- a/app/src/main/java/com/project/myproject/MainActivity.kt	
++++ b/app/src/main/java/com/project/myproject/MainActivity.kt	
+@@ -2,10 +2,28 @@
+ 
+ import androidx.appcompat.app.AppCompatActivity
+ import android.os.Bundle
++import android.widget.TextView
+ 
+ class MainActivity : AppCompatActivity() {
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+         setContentView(R.layout.activity_main)
++
++        val nameField = findViewById<TextView>(R.id.name)
++
++        val extras = intent.extras
++        if (extras != null) {
++            var name = extras.getString("email")
++            val splittedName: List<String>
++            if (name != null) {
++                name = name.substring(0, name.indexOf('@'))
++
++                splittedName = name.split('.')
++                    .map { it.replaceFirstChar { char -> char.uppercaseChar() } }
++
++                val nameText = getString(R.string.name_placeholder, "${splittedName[0]} ${splittedName[1]}")
++                nameField.text = nameText
++            }
++        }
+     }
+ }
+\ No newline at end of file
