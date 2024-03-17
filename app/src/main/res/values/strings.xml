@@ -24,6 +24,9 @@
     <string name="already_have_text">Already have an account?</string>
     <string name="sign_in_text">Sign in</string>
     <string name="google_logo_desc">google_logo</string>
+    <string name="back_button_desc">back</string>
+    <string name="contacts_label">Contacts</string>
+    <string name="add_contacts_label">Add contacts</string>
 
     <string name="error_email_required">E-mail is required.</string>
     <string name="error_password_required">Password is required.</string>
