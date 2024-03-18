@@ -18,6 +18,7 @@
     <color name="transparent_color">#00000000</color>
     <color name="white">#FAFAFA</color>
     <dimen name="acquainted_vertical">0.22</dimen>
+    <dimen name="add_contacts_label_vertical">0.74</dimen>
     <dimen name="address_vertical">0.63</dimen>
     <dimen name="already_have_height">0.07</dimen>
     <dimen name="already_have_vert">0.975</dimen>
@@ -29,7 +30,10 @@
     <dimen name="checkbox_horizontal">0.04</dimen>
     <dimen name="checkbox_vertical">0.58</dimen>
     <dimen name="contacts_height">0.08</dimen>
-    <dimen name="contacts_tool_bar_height">0.17</dimen>
+    <dimen name="contacts_label_vertical">0.016</dimen>
+    <dimen name="contacts_tool_bar_end">0.94</dimen>
+    <dimen name="contacts_tool_bar_height">0.18</dimen>
+    <dimen name="contacts_tool_bar_start">0.06</dimen>
     <dimen name="contacts_vertical">0.95</dimen>
     <dimen name="edit_profile_height">0.07</dimen>
     <dimen name="edit_profile_vertical">0.72</dimen>
@@ -79,10 +83,12 @@
     <dimen name="top_rectangle_vertical">0</dimen>
     <dimen name="user_inputs_width">0.93</dimen>
     <string name="acquainted_text">Let\'s get acquainted</string>
+    <string name="add_contacts_label">Add contacts</string>
     <string name="already_have_text">Already have an account?</string>
     <string name="app_name">My Project</string>
-    <string name="back_button_desc">back_button</string>
+    <string name="back_button_desc">back</string>
     <string name="career">Career</string>
+    <string name="contacts_label">Contacts</string>
     <string name="edit_button_text">Edit profile</string>
     <string name="edit_profile">Edit profile</string>
     <string name="email_hint">E-mail</string>

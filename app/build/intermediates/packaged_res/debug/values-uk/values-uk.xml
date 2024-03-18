@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="acquainted_text">Давайте познайомимося</string>
+    <string name="add_contacts_label">Додати контакти</string>
     <string name="already_have_text">Вже є аккаунт?</string>
     <string name="app_name">My Project</string>
-    <string name="back_button_desc">back_button</string>
+    <string name="back_button_desc">back</string>
     <string name="career">Кар\'єра</string>
+    <string name="contacts_label">Контакти</string>
     <string name="edit_button_text">Редагувати профіль</string>
     <string name="edit_profile">Редагувати профіль</string>
     <string name="email_hint">Електронна пошта</string>

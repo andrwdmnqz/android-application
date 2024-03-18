@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.project.myproject.app-mergeDebugResources-47:/values-night-v8/values-night-v8.xml",
+            "outputFile": "com.project.myproject.app-mergeDebugResources-32:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Andrew\\AndroidStudioProjects\\MyProject\\app\\src\\main\\res\\values-night\\colors.xml",
@@ -25,10 +25,10 @@
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
-                        "startOffsets": "100",
+                        "startOffsets": "102",
                         "endLines": "14",
                         "endColumns": "12",
-                        "endOffsets": "981"
+                        "endOffsets": "995"
                     },
                     "to": {
                         "startLines": "19",
