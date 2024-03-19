@@ -3,14 +3,15 @@ package com.project.myproject
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.project.myproject.adapters.UserAdapter
 import com.project.myproject.decorators.UserItemDecorator
+import com.project.myproject.extensions.loadImageByGlide
 import com.project.myproject.viewmodels.UserViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class MyContacts : AppCompatActivity() {
@@ -28,7 +29,7 @@ class MyContacts : AppCompatActivity() {
         contactsRV.layoutManager = LinearLayoutManager(this)
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        userViewModel.init(15)
+        userViewModel.init()
 
         lifecycleScope.launch {
             userViewModel.users.collect { users ->

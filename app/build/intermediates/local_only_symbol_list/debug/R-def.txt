@@ -133,6 +133,7 @@ id textView3
 id toolbar_back
 id toolbar_search
 id top_rectangle
+id user_photo
 id view
 layout activity_main
 layout contact_item

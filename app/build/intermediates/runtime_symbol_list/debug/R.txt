@@ -3685,6 +3685,7 @@ int id uniform 0x7f0901f7
 int id unlabeled 0x7f0901f8
 int id up 0x7f0901f9
 int id useLogo 0x7f0901fa
+int id user_photo 0x7f09020e
 int id vertical_only 0x7f0901fb
 int id view 0x7f0901fc
 int id view_offset_helper 0x7f0901fd

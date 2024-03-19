@@ -3686,6 +3686,7 @@ id uniform
 id unlabeled
 id up
 id useLogo
+id user_photo
 id vertical_only
 id view
 id view_offset_helper
