@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.project.myproject.adapters.UserAdapter
 import com.project.myproject.decorators.UserItemDecorator
 import com.project.myproject.viewmodels.UserViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class MyContacts : AppCompatActivity() {
     private lateinit var userViewModel: UserViewModel
@@ -26,9 +29,12 @@ class MyContacts : AppCompatActivity() {
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         userViewModel.init(15)
-        userViewModel.users.observe(this) { users ->
-            adapter.contactsList = users
-            adapter.notifyDataSetChanged()
+
+        lifecycleScope.launch {
+            userViewModel.users.collect { users ->
+                adapter.contactsList = users
+                adapter.notifyDataSetChanged()
+            }
         }
     }
 }
