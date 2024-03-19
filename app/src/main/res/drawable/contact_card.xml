@@ -8,5 +8,5 @@
         android:width="@dimen/button_border_width"
         android:color="@color/additional_first" />
 
-    <corners android:radius="6dp" />
+    <corners android:radius="10dp" />
 </shape>
