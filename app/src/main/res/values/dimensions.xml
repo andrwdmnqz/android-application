@@ -68,4 +68,13 @@
     <dimen name="contacts_tool_bar_start">0.06</dimen>
     <dimen name="contacts_tool_bar_end">0.94</dimen>
     <dimen name="add_contacts_label_vertical">0.74</dimen>
+    <dimen name="contacts_item_margin">16dp</dimen>
+    <dimen name="photo_icon_height">0.74</dimen>
+    <dimen name="photo_icon_width">0.15</dimen>
+    <dimen name="photo_icon_horizontal">0.04</dimen>
+    <dimen name="contact_name_horizontal">0.31</dimen>
+    <dimen name="contact_name_vertical">0.33</dimen>
+    <dimen name="delete_icon_horizontal">0.96</dimen>
+    <dimen name="delete_icon_margin_vertical">26dp</dimen>
+
 </resources>

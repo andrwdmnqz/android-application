@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.project.myproject.adapters.UserAdapter
+import com.project.myproject.databinding.MyContactsActivityBinding
 import com.project.myproject.decorators.UserItemDecorator
 import com.project.myproject.extensions.loadImageByGlide
 import com.project.myproject.viewmodels.UserViewModel
@@ -16,19 +17,22 @@ import kotlinx.coroutines.launch
 
 class MyContacts : AppCompatActivity() {
     private lateinit var userViewModel: UserViewModel
+    private lateinit var viewBinding: MyContactsActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.my_contacts_activity)
+        viewBinding = MyContactsActivityBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
 
-        val contactsRV = findViewById<View>(R.id.rv_contacts) as RecyclerView
+        val contactsRV = viewBinding.rvContacts
         val adapter = UserAdapter(ArrayList())
+        val itemMarginSize = resources.getDimensionPixelSize(R.dimen.contacts_item_margin)
 
         contactsRV.adapter = adapter
-        contactsRV.addItemDecoration(UserItemDecorator(20))
+        contactsRV.addItemDecoration(UserItemDecorator(itemMarginSize))
         contactsRV.layoutManager = LinearLayoutManager(this)
 
-        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
         userViewModel.init()
 
         lifecycleScope.launch {
