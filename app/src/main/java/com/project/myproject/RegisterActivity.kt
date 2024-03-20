@@ -18,27 +18,30 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var settingPreference: SettingPreference
     private lateinit var viewBinding: RegisterActivityBinding
 
+    private lateinit var regEmailInput: TextInputEditText
+    private lateinit var regPasswordInput: TextInputEditText
+
     override fun onCreate(savedInitialState: Bundle?) {
         super.onCreate(savedInitialState)
         viewBinding = RegisterActivityBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
         val regEmailLayout = viewBinding.regEmailLayout
-        val regEmailInput = viewBinding.regEmailInput
-
         val regPasswordLayout = viewBinding.regPasswordLayout
-        val regPasswordInput = viewBinding.regPasswordInput
+
+        regEmailInput = viewBinding.regEmailInput
+        regPasswordInput = viewBinding.regPasswordInput
 
         settingPreference = SettingPreference(this)
 
-        initializeRegisterButton(regEmailLayout, regPasswordLayout, regEmailInput, regPasswordInput)
+        initializeRegisterButton(regEmailLayout, regPasswordLayout)
 
-        emailValidation(regEmailInput, regEmailLayout)
+        emailValidation(regEmailLayout)
 
-        passwordValidation(regPasswordInput, regPasswordLayout)
+        passwordValidation(regPasswordLayout)
     }
 
-    private fun passwordValidation(regPasswordInput: TextInputEditText, regPasswordLayout: TextInputLayout) {
+    private fun passwordValidation(regPasswordLayout: TextInputLayout) {
         regPasswordInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
@@ -75,7 +78,7 @@ class RegisterActivity : AppCompatActivity() {
         })
     }
 
-    private fun emailValidation(regEmailInput: TextInputEditText, regEmailLayout: TextInputLayout) {
+    private fun emailValidation(regEmailLayout: TextInputLayout) {
         regEmailInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
@@ -97,8 +100,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun initializeRegisterButton(regEmailLayout: TextInputLayout,
-        regPasswordLayout: TextInputLayout, regEmailInput: TextInputEditText,
-                                         regPasswordInput: TextInputEditText) {
+        regPasswordLayout: TextInputLayout) {
 
         val registerButton = viewBinding.registerButton
         val rememberMeCheckbox = viewBinding.rememberMe
@@ -141,5 +143,19 @@ class RegisterActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+
+        outState.putString(Constants.EMAIL_KEY, regEmailInput.text.toString())
+        outState.putString(Constants.PASSWORD_KEY, regPasswordInput.text.toString())
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        regEmailInput.setText(savedInstanceState.getString(Constants.EMAIL_KEY))
+        regPasswordInput.setText(savedInstanceState.getString(Constants.PASSWORD_KEY))
     }
 }
