@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">My Project</string>
     <string name="edit_button_text">Редагувати профіль</string>
-    <string name="settings">Параметри</string>
-    <string name="log_out">Вийти</string>
-    <string name="name">Ім\'я</string>
+    <string name="settings_text">Параметри</string>
+    <string name="log_out_text">Вийти</string>
     <string name="name_placeholder">%s</string>
     <string name="career">Кар\'єра</string>
     <string name="home_address">Адреса</string>
@@ -16,9 +15,7 @@
     <string name="acquainted_text">Давайте познайомимося</string>
     <string name="fill_the_profile_text">Заповність профіль та переходьте до застосунку!</string>
     <string name="email_hint">Електронна пошта</string>
-    <string name="email_input_text">lucile.alvarado@gmail.com</string>
     <string name="password_hint">Пароль</string>
-    <string name="password_input_text">********</string>
     <string name="remember_me">Запам\'ятати мене</string>
     <string name="google_text">GOOGLE</string>
     <string name="or_text">або</string>
