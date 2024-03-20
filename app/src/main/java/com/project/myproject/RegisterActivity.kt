@@ -124,6 +124,14 @@ class RegisterActivity : AppCompatActivity() {
                     finish()
                 }
             }
+
+            if (regEmailInput.text.isNullOrBlank()) {
+                regEmailLayout.error = "E-mail is required."
+            }
+
+            if (regPasswordInput.text.isNullOrBlank()) {
+                regPasswordLayout.error = "Password is required."
+            }
         }
     }
 
