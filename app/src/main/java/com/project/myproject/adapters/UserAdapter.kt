@@ -1,5 +1,6 @@
 package com.project.myproject.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.project.myproject.R
 import com.project.myproject.extensions.loadImageByGlide
 import com.project.myproject.models.User
@@ -54,13 +56,23 @@ class UserAdapter(var contactsList: ArrayList<User>) :
     }
 
     fun deleteItem(index: Int, holder: ViewHolder) {
+        val user = contactsList[index]
+
         contactsList.removeAt(index)
         notifyDataSetChanged()
-        // TODO export string
-        showToast("contact has been removed", holder)
+
+        val snackbar = Snackbar.make(holder.itemView,
+            "contact has been removed", Snackbar.LENGTH_SHORT)
+
+        snackbar.setAction("Undo") {
+            contactsList.add(index, user)
+            notifyDataSetChanged()
+            showToast("contact has been returned", holder)
+        }
+        snackbar.show()
     }
 
-    private fun showToast(message: String, holder: ViewHolder) {
+    private fun showToast(message: String, holder: UserAdapter.ViewHolder) {
         val context = holder.itemView.context.applicationContext
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
