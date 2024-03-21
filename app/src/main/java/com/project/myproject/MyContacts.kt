@@ -6,9 +6,11 @@ import android.view.View
 import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.project.myproject.adapters.UserAdapter
+import com.project.myproject.callbacks.SwipeToDeleteCallback
 import com.project.myproject.databinding.MyContactsActivityBinding
 import com.project.myproject.decorators.UserItemDecorator
 import com.project.myproject.extensions.loadImageByGlide
@@ -31,6 +33,9 @@ class MyContacts : AppCompatActivity() {
         contactsRV.adapter = adapter
         contactsRV.addItemDecoration(UserItemDecorator(itemMarginSize))
         contactsRV.layoutManager = LinearLayoutManager(this)
+
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter))
+        itemTouchHelper.attachToRecyclerView(contactsRV)
 
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
         userViewModel.init()
