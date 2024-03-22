@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.map
 class SettingPreference(private val context: Context) {
 
     companion object {
-        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-        private val EMAIL_KEY = stringPreferencesKey("EMAIL_KEY")
-        private val PASSWORD_KEY = stringPreferencesKey("PASSWORD_KEY")
+        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Constants.DATA_STORE_NAME)
+        private val EMAIL_KEY = stringPreferencesKey(Constants.EMAIL_KEY)
+        private val PASSWORD_KEY = stringPreferencesKey(Constants.PASSWORD_KEY)
     }
 
     fun getEmail(): Flow<String> {

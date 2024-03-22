@@ -32,27 +32,26 @@ class MainActivity : AppCompatActivity() {
         if (extras != null) {
             var name = extras.getString(Constants.EMAIL_KEY)
             if (name != null) {
-                name = name.substringBefore(Constants.CUT_CHAR)
+                name = name.substringBefore('@')
 
-                val splittedName = name.split(Constants.SPLIT_CHAR)
+                val splittedName = name.split('.')
                     .map { it.replaceFirstChar { char -> char.uppercaseChar() } }
 
-                if (splittedName.size >= 2) {
-                    val nameText = getString(
-                        R.string.name_placeholder,
-                        "${splittedName[0]} ${splittedName[1]}"
-                    )
-                    nameField.text = nameText
+                var nameText: String
+
+                if (splittedName.size > 1) {
+                    nameText = "${splittedName[0]} ${splittedName[1]}"
                 } else {
-                    val nameText = getString(R.string.name_placeholder, splittedName[0])
-                    nameField.text = nameText
+                    nameText = getString(R.string.name_placeholder, splittedName[0])
                 }
+                nameField.text = nameText
             }
         }
     }
 
     private fun initializeLogoutButton() {
         val logoutButton = viewBinding.logoutButton
+
         logoutButton.setOnClickListener {
             lifecycleScope.launch {
                 settingPreference.clearData()

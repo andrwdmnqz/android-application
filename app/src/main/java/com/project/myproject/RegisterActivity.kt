@@ -14,7 +14,10 @@ import com.project.myproject.databinding.RegisterActivityBinding
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
+private const val PASSWORD_REGEX = "^[a-zA-Z0-9@#\$%^&+=!]+\$"
+
 class RegisterActivity : AppCompatActivity() {
+
     private lateinit var settingPreference: SettingPreference
     private lateinit var viewBinding: RegisterActivityBinding
 
@@ -52,7 +55,7 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                val passwordAllowedSymbolsRegex = Regex(Constants.PASSWORD_REGEX)
+                val passwordAllowedSymbolsRegex = Regex(PASSWORD_REGEX)
                 val password = s.toString()
                 when {
                     password.isNotEmpty() && password.length < 8 -> {
@@ -90,6 +93,7 @@ class RegisterActivity : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {
                 val email = s.toString()
+
                 if (email.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     regEmailLayout.error = "Incorrect E-Mail address"
                 } else {

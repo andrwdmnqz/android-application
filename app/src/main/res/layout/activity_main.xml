@@ -87,7 +87,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/top_rectangle" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/home_address"
