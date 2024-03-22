@@ -59,17 +59,24 @@ class UserAdapter(var contactsList: ArrayList<User>) :
         val user = contactsList[index]
 
         contactsList.removeAt(index)
-        notifyDataSetChanged()
+        notifyItemRemoved(index)
 
         val snackbar = Snackbar.make(holder.itemView,
             "contact has been removed", Snackbar.LENGTH_SHORT)
 
         snackbar.setAction("Undo") {
             contactsList.add(index, user)
-            notifyDataSetChanged()
+            notifyItemInserted(index)
             showToast("contact has been returned", holder)
         }
         snackbar.show()
+    }
+
+    fun addItem(name: String, career: String) {
+        val user = User("https://i.pinimg.com/564x/61/f7/5e/61f75ea9a680def2ed1c6929fe75aeee.jpg", name, career)
+
+        contactsList.add(0, user)
+        notifyItemInserted(0)
     }
 
     private fun showToast(message: String, holder: UserAdapter.ViewHolder) {

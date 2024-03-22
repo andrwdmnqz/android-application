@@ -13,7 +13,9 @@ import com.project.myproject.adapters.UserAdapter
 import com.project.myproject.callbacks.SwipeToDeleteCallback
 import com.project.myproject.databinding.MyContactsActivityBinding
 import com.project.myproject.decorators.UserItemDecorator
+import com.project.myproject.dialogs.AddContactDialogFragment
 import com.project.myproject.extensions.loadImageByGlide
+import com.project.myproject.models.User
 import com.project.myproject.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
 
@@ -26,8 +28,25 @@ class MyContacts : AppCompatActivity() {
         viewBinding = MyContactsActivityBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        val contactsRV = viewBinding.rvContacts
         val adapter = UserAdapter(ArrayList())
+
+        setupAddContacts(adapter)
+
+        setupRecyclerView(adapter)
+    }
+
+    private fun setupAddContacts(adapter: UserAdapter) {
+        val addContactsView = viewBinding.addContactsLabel
+
+        addContactsView.setOnClickListener {
+            AddContactDialogFragment(adapter).show(
+                supportFragmentManager, AddContactDialogFragment.TAG
+            )
+        }
+    }
+
+    private fun setupRecyclerView(adapter: UserAdapter) {
+        val contactsRV = viewBinding.rvContacts
         val itemMarginSize = resources.getDimensionPixelSize(R.dimen.contacts_item_margin)
 
         contactsRV.adapter = adapter
