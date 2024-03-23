@@ -4,30 +4,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/contact_name"
-        style="@style/h2_style"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/contact_name_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/name_hint"
-        android:minHeight="@dimen/min_edittext_height"
-        app:layout_constraintBottom_toTopOf="@+id/contact_career"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColorHint="@color/additional_text_second"
+        app:boxBackgroundColor="@color/additional_first"
+        app:cursorColor="@color/default_text_color"
+        app:hintTextColor="@color/additional_third"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/error_text_style"
+        app:layout_constraintWidth_percent="@dimen/user_inputs_width"
+        app:layout_constraintHeight_percent="@dimen/email_input_height"
+        app:layout_constraintVertical_bias="@dimen/email_input_vertical"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="@dimen/user_inputs_width" />
+        app:layout_constraintBottom_toBottomOf="parent" >
 
-    <EditText
-        android:id="@+id/contact_career"
-        style="@style/h2_style"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/contact_name_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/min_edittext_height"
+            android:paddingStart="@dimen/email_input_padding"
+            android:paddingEnd="0dp"
+            android:inputType="textEmailAddress"
+            android:hint="@string/name_hint"
+            android:textColor="@color/default_text_color"
+            app:backgroundTint="@color/additional_text_second"
+            style="@style/h2_style" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/contact_career_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/career_hint"
-        android:minHeight="@dimen/min_edittext_height"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColorHint="@color/additional_text_second"
+        app:boxBackgroundColor="@color/additional_first"
+        app:cursorColor="@color/default_text_color"
+        app:hintTextColor="@color/additional_third"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/error_text_style"
+        app:layout_constraintWidth_percent="@dimen/user_inputs_width"
+        app:layout_constraintHeight_percent="@dimen/email_input_height"
+        app:layout_constraintVertical_bias="@dimen/email_input_vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contact_name"
-        app:layout_constraintWidth_percent="@dimen/user_inputs_width" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contact_name_layout"
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/contact_career_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/min_edittext_height"
+            android:paddingStart="@dimen/email_input_padding"
+            android:paddingEnd="0dp"
+            android:inputType="textEmailAddress"
+            android:hint="@string/career_hint"
+            android:textColor="@color/default_text_color"
+            app:backgroundTint="@color/additional_text_second"
+            style="@style/h2_style" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

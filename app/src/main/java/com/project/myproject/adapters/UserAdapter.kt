@@ -15,6 +15,9 @@ import com.project.myproject.models.User
 
 class UserAdapter(var contactsList: ArrayList<User>) :
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+
+    var recyclerView: RecyclerView? = null
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val contactNameView = itemView.findViewById<TextView>(R.id.contact_name)
         val contactCareerView = itemView.findViewById<TextView>(R.id.contact_career)
@@ -67,6 +70,7 @@ class UserAdapter(var contactsList: ArrayList<User>) :
         snackbar.setAction("Undo") {
             contactsList.add(index, user)
             notifyItemInserted(index)
+            recyclerView?.scrollToPosition(0)
             showToast("contact has been returned", holder)
         }
         snackbar.show()
@@ -77,6 +81,7 @@ class UserAdapter(var contactsList: ArrayList<User>) :
 
         contactsList.add(0, user)
         notifyItemInserted(0)
+        recyclerView?.scrollToPosition(0)
     }
 
     private fun showToast(message: String, holder: UserAdapter.ViewHolder) {

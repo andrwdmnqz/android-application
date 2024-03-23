@@ -56,6 +56,8 @@ class MyContacts : AppCompatActivity() {
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter))
         itemTouchHelper.attachToRecyclerView(contactsRV)
 
+        adapter.recyclerView = contactsRV
+
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
         userViewModel.init()
 
