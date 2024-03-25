@@ -2,20 +2,15 @@ package com.project.myproject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.project.myproject.adapters.UserAdapter
 import com.project.myproject.callbacks.SwipeToDeleteCallback
 import com.project.myproject.databinding.MyContactsActivityBinding
 import com.project.myproject.decorators.UserItemDecorator
 import com.project.myproject.dialogs.AddContactDialogFragment
-import com.project.myproject.extensions.loadImageByGlide
-import com.project.myproject.models.User
 import com.project.myproject.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
 

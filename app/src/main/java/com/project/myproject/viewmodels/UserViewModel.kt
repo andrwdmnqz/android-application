@@ -14,7 +14,7 @@ class UserViewModel() : ViewModel() {
         generateList()
     }
 
-    fun generateList() {
+    private fun generateList() {
         val userList = arrayListOf(
             User("https://i.pinimg.com/564x/4b/cc/54/4bcc54ebe6d0e6700e3df3047c1129c8.jpg", "User 1", "Career 1"),
             User("https://i.pinimg.com/564x/5e/96/4b/5e964b4d1a6a514bf141c694f5037537.jpg", "User 2", "Career 2"),
