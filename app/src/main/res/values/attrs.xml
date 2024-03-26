@@ -1,5 +1,6 @@
 <resources>
     <declare-styleable name="CustomGoogleButton">
+        <attr name="android:fontFamily" />
         <attr name="buttonText" format="string" />
         <attr name="buttonTextSize" format="dimension" />
         <attr name="buttonLetterSpacing" format="float" />
