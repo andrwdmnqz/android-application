@@ -174,7 +174,7 @@
         app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"
         custom:buttonDrawable="@drawable/google_logo"
         custom:buttonText="@string/google_text"
-        android:gravity="center"
+        android:fontFamily="@font/open_sans"
         custom:buttonTextColor="@color/additional_text_first"
         custom:buttonTextSize="@dimen/h2_5_text" />
 
