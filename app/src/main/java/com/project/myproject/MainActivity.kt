@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 val splittedName = name.split('.')
                     .map { it.replaceFirstChar { char -> char.uppercaseChar() } }
 
-                var nameText: String
+                val nameText: String
 
                 if (splittedName.size > 1) {
                     nameText = "${splittedName[0]} ${splittedName[1]}"
@@ -50,9 +50,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeLogoutButton() {
-        val logoutButton = viewBinding.logoutButton
 
-        logoutButton.setOnClickListener {
+        viewBinding.logoutButton.setOnClickListener {
             lifecycleScope.launch {
                 settingPreference.clearData()
 

@@ -24,4 +24,11 @@
     <string name="already_have_text">Already have an account?</string>
     <string name="sign_in_text">Sign in</string>
     <string name="google_logo_desc">google_logo</string>
+
+    <string name="error_email_required">E-mail is required.</string>
+    <string name="error_password_required">Password is required.</string>
+    <string name="error_password_min_length">Your password must include a minimum of 8 characters.</string>
+    <string name="error_password_max_length">Your password must include a maximum of 16 characters.</string>
+    <string name="error_password_symbols">Your password must include only letters, numbers, and symbols.</string>
+    <string name="error_invalid_email">Incorrect E-mail address.</string>
 </resources>

@@ -24,4 +24,11 @@
     <string name="already_have_text">Вже є аккаунт?</string>
     <string name="sign_in_text">Вхід</string>
     <string name="google_logo_desc">google_logo</string>
+
+    <string name="error_email_required">Електронна пошта обов\'язкова.</string>
+    <string name="error_password_required">Пароль обов\'язковий.</string>
+    <string name="error_password_min_length">Ваш пароль має включати мінімум 8 символів.</string>
+    <string name="error_password_max_length">Ваш пароль має включати максимум 16 символів.</string>
+    <string name="error_password_symbols">Ваш пароль має включати тільки букви, цифри та символи.</string>
+    <string name="error_invalid_email">Некоректна електронна адреса.</string>
 </resources>

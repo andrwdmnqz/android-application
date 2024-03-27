@@ -59,18 +59,15 @@ class RegisterActivity : AppCompatActivity() {
                 val password = s.toString()
                 when {
                     password.isNotEmpty() && password.length < 8 -> {
-                        regPasswordLayout.error =
-                            "Your password must include a minimum of 8 characters."
+                        regPasswordLayout.error = getString(R.string.error_password_min_length)
                     }
 
                     password.isNotEmpty() && password.length > 16 -> {
-                        regPasswordLayout.error =
-                            "Your password must include a maximum of 16 characters."
+                        regPasswordLayout.error = getString(R.string.error_password_max_length)
                     }
 
                     password.isNotEmpty() && !passwordAllowedSymbolsRegex.matches(password) -> {
-                        regPasswordLayout.error =
-                            "Your password must include only letters, numbers and symbols."
+                        regPasswordLayout.error = getString(R.string.error_password_symbols)
                     }
 
                     else -> {
@@ -95,7 +92,7 @@ class RegisterActivity : AppCompatActivity() {
                 val email = s.toString()
 
                 if (email.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    regEmailLayout.error = "Incorrect E-Mail address"
+                    regEmailLayout.error = getString(R.string.error_invalid_email)
                 } else {
                     regEmailLayout.error = null
                 }
@@ -130,11 +127,11 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             if (regEmailInput.text.isNullOrBlank()) {
-                regEmailLayout.error = "E-mail is required."
+                regEmailLayout.error = getString(R.string.error_email_required)
             }
 
             if (regPasswordInput.text.isNullOrBlank()) {
-                regPasswordLayout.error = "Password is required."
+                regPasswordLayout.error = getString(R.string.error_password_required)
             }
         }
     }
