@@ -1,6 +1,5 @@
 package com.project.myproject.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.project.myproject.Constants
 import com.project.myproject.R
 import com.project.myproject.extensions.loadImageByGlide
 import com.project.myproject.models.User
@@ -36,8 +36,7 @@ class UserAdapter(var contactsList: ArrayList<User>) :
     override fun onBindViewHolder(holder: UserAdapter.ViewHolder, position: Int) {
 
         val screenHeight = holder.itemView.context.resources.displayMetrics.heightPixels
-        // TODO export magic number to a constant
-        val cardHeight = (screenHeight * 0.1).toInt()
+        val cardHeight = (screenHeight * Constants.CARD_HEIGHT_FRACTION).toInt()
 
         holder.itemView.layoutParams.height = cardHeight
 
@@ -65,19 +64,19 @@ class UserAdapter(var contactsList: ArrayList<User>) :
         notifyItemRemoved(index)
 
         val snackbar = Snackbar.make(holder.itemView,
-            "contact has been removed", Snackbar.LENGTH_SHORT)
+            holder.itemView.context.getString(R.string.contact_removed), Snackbar.LENGTH_SHORT)
 
-        snackbar.setAction("Undo") {
+        snackbar.setAction(holder.itemView.context.getString(R.string.undo_button)) {
             contactsList.add(index, user)
             notifyItemInserted(index)
             recyclerView?.scrollToPosition(0)
-            showToast("contact has been returned", holder)
+            showToast(holder.itemView.context.getString(R.string.contact_returned), holder)
         }
         snackbar.show()
     }
 
     fun addItem(name: String, career: String) {
-        val user = User("https://i.pinimg.com/564x/61/f7/5e/61f75ea9a680def2ed1c6929fe75aeee.jpg", name, career)
+        val user = User(Constants.DEFAULT_USER_IMAGE_PATH, name, career)
 
         contactsList.add(0, user)
         notifyItemInserted(0)

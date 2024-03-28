@@ -3,7 +3,6 @@ package com.project.myproject.dialogs
 import android.app.Dialog
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -28,10 +27,21 @@ class AddContactDialogFragment(private val adapter: UserAdapter) : DialogFragmen
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(viewBinding.root)
-            .setMessage("Add contact")
-            .setPositiveButton("Save") { _, _ -> }
+            .setMessage(getString(R.string.add_contact_message))
+            .setPositiveButton(getString(R.string.add_contact_save)) { _, _ -> }
             .create()
 
+        setupDialog(dialog, newContactName, newContactCareer, newContactNameLayout)
+
+        return dialog
+    }
+
+    private fun setupDialog(
+        dialog: AlertDialog,
+        newContactName: TextInputEditText,
+        newContactCareer: TextInputEditText,
+        newContactNameLayout: TextInputLayout
+    ) {
         dialog.setOnShowListener {
             val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener {
@@ -48,6 +58,7 @@ class AddContactDialogFragment(private val adapter: UserAdapter) : DialogFragmen
                     R.color.additional_text_first
                 )
             )
+
             dialog.window?.setBackgroundDrawable(
                 ColorDrawable(
                     ContextCompat.getColor(
@@ -57,8 +68,6 @@ class AddContactDialogFragment(private val adapter: UserAdapter) : DialogFragmen
                 )
             )
         }
-
-        return dialog
     }
 
     private fun addSaveButtonListener(newContactName: TextInputEditText,
@@ -71,7 +80,7 @@ class AddContactDialogFragment(private val adapter: UserAdapter) : DialogFragmen
             adapter.addItem(name, career)
             dismiss()
         } else {
-            newContactNameLayout.error = "Name shouldn't be empty!"
+            newContactNameLayout.error = getString(R.string.add_contact_validation)
         }
     }
 

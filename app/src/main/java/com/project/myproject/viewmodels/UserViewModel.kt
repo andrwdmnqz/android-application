@@ -15,7 +15,11 @@ class UserViewModel() : ViewModel() {
     }
 
     private fun generateList() {
-        val userList = arrayListOf(
+        _users.value = userList
+    }
+
+    companion object {
+        private val userList = arrayListOf(
             User("https://i.pinimg.com/564x/4b/cc/54/4bcc54ebe6d0e6700e3df3047c1129c8.jpg", "User 1", "Career 1"),
             User("https://i.pinimg.com/564x/5e/96/4b/5e964b4d1a6a514bf141c694f5037537.jpg", "User 2", "Career 2"),
             User("https://i.pinimg.com/564x/55/80/5e/55805e4aa3c42e91d39d1e1fd2013e60.jpg", "User 3", "Career 3"),
@@ -27,6 +31,5 @@ class UserViewModel() : ViewModel() {
             User("https://i.pinimg.com/564x/b3/f8/a9/b3f8a9ffb414e67cc998f6a5ae244dcd.jpg", "User 9", "Career 9"),
             User("https://i.pinimg.com/564x/a2/10/da/a210da10f17f0e15dbbe861016c135d1.jpg", "User 10", "Career 10")
         )
-        _users.value = userList
     }
 }
