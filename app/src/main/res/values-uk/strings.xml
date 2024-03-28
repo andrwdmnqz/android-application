@@ -3,6 +3,7 @@
     <string name="edit_button_text">Редагувати профіль</string>
     <string name="settings">Параметри</string>
     <string name="log_out">Вийти</string>
+    <string name="name_placeholder">%s</string>
     <string name="career">Кар\'єра</string>
     <string name="home_address">Адреса</string>
     <string name="edit_profile">Редагувати профіль</string>
@@ -28,4 +29,11 @@
     <string name="back_button_desc">back</string>
     <string name="contacts_label">Контакти</string>
     <string name="add_contacts_label">Додати контакти</string>
+
+    <string name="error_email_required">Електронна пошта обов\'язкова.</string>
+    <string name="error_password_required">Пароль обов\'язковий.</string>
+    <string name="error_password_min_length">Ваш пароль має включати мінімум 8 символів.</string>
+    <string name="error_password_max_length">Ваш пароль має включати максимум 16 символів.</string>
+    <string name="error_password_symbols">Ваш пароль має включати тільки букви, цифри та символи.</string>
+    <string name="error_invalid_email">Некоректна електронна адреса.</string>
 </resources>
