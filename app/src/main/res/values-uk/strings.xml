@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">My Project</string>
+    <string name="edit_button_text">Редагувати профіль</string>
+    <string name="settings_text">Параметри</string>
+    <string name="log_out_text">Вийти</string>
+    <string name="name_placeholder">%s</string>
+    <string name="career">Кар\'єра</string>
+    <string name="home_address">Адреса</string>
+    <string name="edit_profile">Редагувати профіль</string>
+    <string name="view_contacts">ПЕРЕГЛЯНУТИ КОНТАКТИ</string>
+    <string name="profile_image_desc">profile_image</string>
+    <string name="facebook_logo_desc">facebook_logo</string>
+    <string name="linkedin_logo_desc">linkedin_logo</string>
+    <string name="instagram_logo_desc">instagram_logo</string>
+    <string name="acquainted_text">Давайте познайомимося</string>
+    <string name="fill_the_profile_text">Заповність профіль та переходьте до застосунку!</string>
+    <string name="email_hint">Електронна пошта</string>
+    <string name="password_hint">Пароль</string>
+    <string name="remember_me">Запам\'ятати мене</string>
+    <string name="google_text">GOOGLE</string>
+    <string name="or_text">або</string>
+    <string name="register_text">ЗАРЕЄСТРУВАТИСЯ</string>
+    <string name="register_terms_text">Натискаючи "Зареєструватися" ви погоджуєтеся з нашими\nумовами та положеннями</string>
+    <string name="already_have_text">Вже є аккаунт?</string>
+    <string name="sign_in_text">Вхід</string>
+    <string name="google_logo_desc">google_logo</string>
+
+    <string name="error_email_required">Електронна пошта обов\'язкова.</string>
+    <string name="error_password_required">Пароль обов\'язковий.</string>
+    <string name="error_password_min_length">Ваш пароль має включати мінімум 8 символів.</string>
+    <string name="error_password_max_length">Ваш пароль має включати максимум 16 символів.</string>
+    <string name="error_password_symbols">Ваш пароль має включати тільки букви, цифри та символи.</string>
+    <string name="error_invalid_email">Некоректна електронна адреса.</string>
+</resources>

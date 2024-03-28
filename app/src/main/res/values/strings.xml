@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">My Project</string>
+    <string name="edit_button_text">Edit profile</string>
+    <string name="settings_text">Settings</string>
+    <string name="log_out_text">Log out</string>
+    <string name="name_placeholder">%s</string>
+    <string name="career">Career</string>
+    <string name="home_address">Home Address</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="view_contacts">VIEW MY CONTACTS</string>
+    <string name="profile_image_desc">profile_image</string>
+    <string name="facebook_logo_desc">facebook_logo</string>
+    <string name="linkedin_logo_desc">linkedin_logo</string>
+    <string name="instagram_logo_desc">instagram_logo</string>
+    <string name="acquainted_text">Let\'s get acquainted</string>
+    <string name="fill_the_profile_text">Fill out the profile and go to the application!</string>
+    <string name="email_hint">E-mail</string>
+    <string name="password_hint">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="google_text">GOOGLE</string>
+    <string name="or_text">or</string>
+    <string name="register_text">REGISTER</string>
+    <string name="register_terms_text">By clicking Register you agree to our Terms\nand Conditions</string>
+    <string name="already_have_text">Already have an account?</string>
+    <string name="sign_in_text">Sign in</string>
+    <string name="google_logo_desc">google_logo</string>
+
+    <string name="error_email_required">E-mail is required.</string>
+    <string name="error_password_required">Password is required.</string>
+    <string name="error_password_min_length">Your password must include a minimum of 8 characters.</string>
+    <string name="error_password_max_length">Your password must include a maximum of 16 characters.</string>
+    <string name="error_password_symbols">Your password must include only letters, numbers, and symbols.</string>
+    <string name="error_invalid_email">Incorrect E-mail address.</string>
+</resources>
