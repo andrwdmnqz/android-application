@@ -42,15 +42,10 @@ class UserAdapter(var contactsList: ArrayList<User>) :
 
         val user: User = contactsList[position]
 
-        val contactNameField = holder.contactNameView
-        val contactCareerField = holder.contactCareerView
-        val contactImageField = holder.contactImageView
-        val contactDeleteIcon = holder.contactDeleteIcon
-
-        contactNameField.text = user.name
-        contactCareerField.text = user.career
-        contactImageField.loadImageByGlide(user.photo)
-        contactDeleteIcon.setOnClickListener{ deleteItem(position, holder) }
+        holder.contactNameView.text = user.name
+        holder.contactCareerView.text = user.career
+        holder.contactImageView.loadImageByGlide(user.photo)
+        holder.contactDeleteIcon.setOnClickListener{ deleteItem(position, holder) }
     }
 
     override fun getItemCount(): Int {

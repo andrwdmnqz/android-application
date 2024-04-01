@@ -2,22 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-<<<<<<< HEAD
-      <entry key="MyContacts">
-=======
-      <entry key="MainActivity">
-        <State />
-      </entry>
-      <entry key="MyContacts">
-        <State />
-      </entry>
-      <entry key="RegisterActivity">
-        <State />
-      </entry>
-      <entry key="SecondActivity">
->>>>>>> 903b0b3 (created custom view with styled text)
-        <State />
-      </entry>
       <entry key="app">
         <State />
       </entry>
