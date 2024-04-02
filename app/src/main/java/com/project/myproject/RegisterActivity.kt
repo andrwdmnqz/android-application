@@ -28,20 +28,20 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInitialState)
         viewBinding = RegisterActivityBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-
-        val regEmailLayout = viewBinding.regEmailLayout
-        val regPasswordLayout = viewBinding.regPasswordLayout
-
-        regEmailInput = viewBinding.regEmailInput
-        regPasswordInput = viewBinding.regPasswordInput
-
+//
+//        val regEmailLayout = viewBinding.regEmailLayout
+//        val regPasswordLayout = viewBinding.regPasswordLayout
+//
+//        regEmailInput = viewBinding.regEmailInput
+//        regPasswordInput = viewBinding.regPasswordInput
+//
         settingPreference = SettingPreference(this)
-
-        initializeRegisterButton(regEmailLayout, regPasswordLayout)
-
-        emailValidation(regEmailLayout)
-
-        passwordValidation(regPasswordLayout)
+//
+//        initializeRegisterButton(regEmailLayout, regPasswordLayout)
+//
+//        emailValidation(regEmailLayout)
+//
+//        passwordValidation(regPasswordLayout)
     }
 
     private fun passwordValidation(regPasswordLayout: TextInputLayout) {
@@ -100,41 +100,41 @@ class RegisterActivity : AppCompatActivity() {
         })
     }
 
-    private fun initializeRegisterButton(regEmailLayout: TextInputLayout,
-        regPasswordLayout: TextInputLayout) {
-
-        val registerButton = viewBinding.registerButton
-        val rememberMeCheckbox = viewBinding.rememberMe
-
-        registerButton.setOnClickListener {
-            if (regEmailLayout.error == null && regPasswordLayout.error == null
-                && !regEmailInput.text.isNullOrBlank() && !regPasswordInput.text.isNullOrBlank()) {
-
-                lifecycleScope.launch {
-                    val registerIntent = Intent(this@RegisterActivity, MainActivity::class.java)
-                    registerIntent.putExtra(Constants.EMAIL_KEY, regEmailInput.text.toString())
-                    val profileActivityOptions =
-                        ActivityOptions.makeSceneTransitionAnimation(this@RegisterActivity)
-
-                    if (rememberMeCheckbox.isChecked) {
-                        settingPreference.saveEmail(regEmailInput.text.toString())
-                        settingPreference.savePassword(regPasswordInput.text.toString())
-                    }
-
-                    startActivity(registerIntent, profileActivityOptions.toBundle())
-                    finish()
-                }
-            }
-
-            if (regEmailInput.text.isNullOrBlank()) {
-                regEmailLayout.error = getString(R.string.error_email_required)
-            }
-
-            if (regPasswordInput.text.isNullOrBlank()) {
-                regPasswordLayout.error = getString(R.string.error_password_required)
-            }
-        }
-    }
+//    private fun initializeRegisterButton(regEmailLayout: TextInputLayout,
+//        regPasswordLayout: TextInputLayout) {
+//
+//        val registerButton = viewBinding.registerButton
+//        val rememberMeCheckbox = viewBinding.rememberMe
+//
+//        registerButton.setOnClickListener {
+//            if (regEmailLayout.error == null && regPasswordLayout.error == null
+//                && !regEmailInput.text.isNullOrBlank() && !regPasswordInput.text.isNullOrBlank()) {
+//
+//                lifecycleScope.launch {
+//                    val registerIntent = Intent(this@RegisterActivity, MainActivity::class.java)
+//                    registerIntent.putExtra(Constants.EMAIL_KEY, regEmailInput.text.toString())
+//                    val profileActivityOptions =
+//                        ActivityOptions.makeSceneTransitionAnimation(this@RegisterActivity)
+//
+//                    if (rememberMeCheckbox.isChecked) {
+//                        settingPreference.saveEmail(regEmailInput.text.toString())
+//                        settingPreference.savePassword(regPasswordInput.text.toString())
+//                    }
+//
+//                    startActivity(registerIntent, profileActivityOptions.toBundle())
+//                    finish()
+//                }
+//            }
+//
+//            if (regEmailInput.text.isNullOrBlank()) {
+//                regEmailLayout.error = getString(R.string.error_email_required)
+//            }
+//
+//            if (regPasswordInput.text.isNullOrBlank()) {
+//                regPasswordLayout.error = getString(R.string.error_password_required)
+//            }
+//        }
+//    }
 
     override fun onStart() {
         super.onStart()
