@@ -122,43 +122,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/checkbox_vertical" />
 
-    <!--    <LinearLayout-->
-    <!--        android:id="@+id/google_reg_button"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:background="@drawable/google_button"-->
-    <!--        android:gravity="center"-->
-    <!--        android:orientation="horizontal"-->
-    <!--        android:clickable="true"-->
-    <!--        android:focusable="true"-->
-    <!--        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"-->
-    <!--        app:layout_constraintHeight_percent="@dimen/google_button_height"-->
-    <!--        app:layout_constraintVertical_bias="@dimen/google_button_vertical"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent">-->
-
-    <!--        <ImageView-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginEnd="@dimen/google_text_margin"-->
-    <!--            android:adjustViewBounds="true"-->
-    <!--            android:scaleType="fitCenter"-->
-    <!--            android:src="@drawable/google_logo"-->
-    <!--            android:contentDescription="@string/google_logo_desc" />-->
-
-    <!--        <TextView-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:gravity="center"-->
-    <!--            android:text="@string/google_text"-->
-    <!--            android:textColor="@color/additional_text_fourth"-->
-    <!--            android:letterSpacing="@dimen/button_letter_spacing"-->
-    <!--            style="@style/h2_5_style" />-->
-
-    <!--    </LinearLayout>-->
-
     <com.project.myproject.views.CustomGoogleButton
         android:id="@+id/google_reg_button"
         android:layout_width="0dp"
