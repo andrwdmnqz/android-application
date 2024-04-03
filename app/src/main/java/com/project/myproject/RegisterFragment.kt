@@ -1,5 +1,8 @@
 package com.project.myproject
 
+import android.app.ActivityOptions
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,12 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.project.myproject.databinding.FragmentRegisterBinding
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
-
-private const val FRAGMENT_TAG = "REGISTER_TAG"
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {
 
@@ -24,12 +28,17 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     private lateinit var regEmailInput: TextInputEditText
     private lateinit var regPasswordInput: TextInputEditText
 
+    private lateinit var settingPreference: SettingPreference
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRegisterBinding.inflate(layoutInflater)
+        _binding = FragmentRegisterBinding.inflate(layoutInflater, container, false)
+
+        settingPreference = SettingPreference(requireContext())
+
         return binding.root
     }
 
@@ -106,8 +115,10 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         })
     }
 
-    private fun initializeRegisterButton(regEmailLayout: TextInputLayout,
-        regPasswordLayout: TextInputLayout) {
+    private fun initializeRegisterButton(
+        regEmailLayout: TextInputLayout,
+        regPasswordLayout: TextInputLayout
+    ) {
 
         val registerButton = binding.registerButton
         val rememberMeCheckbox = binding.rememberMe
@@ -116,19 +127,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             if (regEmailLayout.error == null && regPasswordLayout.error == null
                 && !regEmailInput.text.isNullOrBlank() && !regPasswordInput.text.isNullOrBlank()) {
 
-//                if (rememberMeCheckbox.isChecked) {
-//                    settingPreference.saveEmail(regEmailInput.text.toString())
-//                    settingPreference.savePassword(regPasswordInput.text.toString())
-//                }
-
-                requireActivity().supportFragmentManager.beginTransaction().apply {
-                    replace(
-                        R.id.fragment_container_view,
-                        DetailViewFragment.newInstance(),
-                        DetailViewFragment.FRAGMENT_TAG
-                    )
-                    commit()
+                if (rememberMeCheckbox.isChecked) {
+                    lifecycleScope.launch {
+                        settingPreference.saveEmail(regEmailInput.text.toString())
+                        settingPreference.savePassword(regPasswordInput.text.toString())
+                    }
                 }
+                it.findNavController().navigate(R.id.action_registerFragment_to_detailViewFragment)
             }
 
             if (regEmailInput.text.isNullOrBlank()) {
@@ -137,6 +142,18 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
             if (regPasswordInput.text.isNullOrBlank()) {
                 regPasswordLayout.error = getString(R.string.error_password_required)
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        lifecycleScope.launch {
+            val email = settingPreference.getEmail().firstOrNull()
+            val password = settingPreference.getPassword().firstOrNull()
+
+            if (!email.isNullOrBlank() && !password.isNullOrBlank()) {
+                findNavController().navigate(R.id.action_registerFragment_to_detailViewFragment)
             }
         }
     }

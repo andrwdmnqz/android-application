@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -45,9 +46,12 @@ val dataStoreVersion = "1.0.0"
 val constraintLayoutVersion = "2.1.4"
 val coreKtxVersion = "1.12.0"
 val glideVersion = "4.14.2"
+val navVersion = "2.7.7"
 
 dependencies {
 
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("com.github.bumptech.glide:glide:$glideVersion")
     implementation("androidx.datastore:datastore-preferences:$dataStoreVersion")
     implementation("androidx.core:core-ktx:$coreKtxVersion")
