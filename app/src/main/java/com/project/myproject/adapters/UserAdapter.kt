@@ -1,36 +1,30 @@
 package com.project.myproject.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.project.myproject.Constants
-import com.project.myproject.R
+import com.project.myproject.databinding.ContactItemBinding
 import com.project.myproject.extensions.loadImageByGlide
 import com.project.myproject.models.User
 
-class UserAdapter(var contactsList: ArrayList<User>) :
+class UserAdapter(private val onDeleteItemClickListener: OnDeleteItemClickListener,
+                  var contactsList: List<User>) :
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
-    var recyclerView: RecyclerView? = null
+    inner class ViewHolder(private val binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val user: User
+            get() = contactsList[adapterPosition]
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val contactNameView = itemView.findViewById<TextView>(R.id.contact_name)
-        val contactCareerView = itemView.findViewById<TextView>(R.id.contact_career)
-        val contactImageView = itemView.findViewById<ImageView>(R.id.user_photo)
-        val contactDeleteIcon = itemView.findViewById<ImageView>(R.id.delete_icon)
+        val contactNameView = binding.contactName
+        val contactCareerView = binding.contactCareer
+        val contactImageView = binding.userPhoto
+        val contactDeleteIcon = binding.deleteIcon
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdapter.ViewHolder {
-        val context = parent.context
-        val inflater = LayoutInflater.from(context)
-
-        val contactView = inflater.inflate(R.layout.contact_item, parent, false)
-        return ViewHolder(contactView)
+        val binding = ContactItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: UserAdapter.ViewHolder, position: Int) {
@@ -45,41 +39,16 @@ class UserAdapter(var contactsList: ArrayList<User>) :
         holder.contactNameView.text = user.name
         holder.contactCareerView.text = user.career
         holder.contactImageView.loadImageByGlide(user.photo)
-        holder.contactDeleteIcon.setOnClickListener{ deleteItem(position, holder) }
+        holder.contactDeleteIcon.setOnClickListener{
+            onDeleteItemClickListener.onDeleteItemClicked(user, position)
+        }
     }
 
     override fun getItemCount(): Int {
         return contactsList.size
     }
 
-    fun deleteItem(index: Int, holder: ViewHolder) {
-        val user = contactsList[index]
-
-        contactsList.removeAt(index)
-        notifyItemRemoved(index)
-
-        val snackbar = Snackbar.make(holder.itemView,
-            holder.itemView.context.getString(R.string.contact_removed), Snackbar.LENGTH_SHORT)
-
-        snackbar.setAction(holder.itemView.context.getString(R.string.undo_button)) {
-            contactsList.add(index, user)
-            notifyItemInserted(index)
-            recyclerView?.scrollToPosition(0)
-            showToast(holder.itemView.context.getString(R.string.contact_returned), holder)
-        }
-        snackbar.show()
-    }
-
-    fun addItem(name: String, career: String) {
-        val user = User(Constants.DEFAULT_USER_IMAGE_PATH, name, career)
-
-        contactsList.add(0, user)
-        notifyItemInserted(0)
-        recyclerView?.scrollToPosition(0)
-    }
-
-    private fun showToast(message: String, holder: UserAdapter.ViewHolder) {
-        val context = holder.itemView.context.applicationContext
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    interface OnDeleteItemClickListener {
+        fun onDeleteItemClicked(user: User, position: Int)
     }
 }

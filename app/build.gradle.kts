@@ -45,14 +45,18 @@ val dataStoreVersion = "1.0.0"
 val constraintLayoutVersion = "2.1.4"
 val coreKtxVersion = "1.12.0"
 val glideVersion = "4.14.2"
+val viewModelVersion = "2.7.0"
+val activityVersion = "1.8.2"
 
 dependencies {
 
+    implementation("androidx.activity:activity-ktx:$activityVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion")
     implementation("com.github.bumptech.glide:glide:$glideVersion")
     implementation("androidx.datastore:datastore-preferences:$dataStoreVersion")
     implementation("androidx.core:core-ktx:$coreKtxVersion")
-    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:$constraintLayoutVersion")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
