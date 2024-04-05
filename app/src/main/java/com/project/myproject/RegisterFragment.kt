@@ -133,7 +133,10 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                         settingPreference.savePassword(regPasswordInput.text.toString())
                     }
                 }
-                it.findNavController().navigate(R.id.action_registerFragment_to_detailViewFragment)
+
+                it.findNavController().navigate(
+                    RegisterFragmentDirections.actionRegisterFragmentToDetailViewFragment(
+                    regEmailInput.text.toString()))
             }
 
             if (regEmailInput.text.isNullOrBlank()) {
@@ -153,7 +156,8 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             val password = settingPreference.getPassword().firstOrNull()
 
             if (!email.isNullOrBlank() && !password.isNullOrBlank()) {
-                findNavController().navigate(R.id.action_registerFragment_to_detailViewFragment)
+                findNavController().navigate(
+                    RegisterFragmentDirections.actionRegisterFragmentToDetailViewFragment(email))
             }
         }
     }

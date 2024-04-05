@@ -35,6 +35,8 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
 
         initializeLogoutButton()
 
+        parseName()
+
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -52,6 +54,44 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
                 it.findNavController().navigate(R.id.action_detailViewFragment_to_registerFragment)
             }
         }
+    }
+
+    private fun parseName() {
+        var name = DetailViewFragmentArgs.fromBundle(requireArguments()).email
+        val nameField = binding.name
+
+        name = name.substringBefore('@')
+
+        val splittedName = name.split('.')
+            .map { it.replaceFirstChar { char -> char.uppercaseChar() } }
+
+        val nameText: String
+
+        if (splittedName.size > 1) {
+            nameText = "${splittedName[0]} ${splittedName[1]}"
+        } else {
+            nameText = getString(R.string.name_placeholder, splittedName[0])
+        }
+        nameField.text = nameText
+
+//        if (extras != null) {
+//            var name = extras.getString(Constants.EMAIL_KEY)
+//            if (name != null) {
+//                name = name.substringBefore('@')
+//
+//                val splittedName = name.split('.')
+//                    .map { it.replaceFirstChar { char -> char.uppercaseChar() } }
+//
+//                val nameText: String
+//
+//                if (splittedName.size > 1) {
+//                    nameText = "${splittedName[0]} ${splittedName[1]}"
+//                } else {
+//                    nameText = getString(R.string.name_placeholder, splittedName[0])
+//                }
+//                nameField.text = nameText
+//            }
+//        }
     }
 
     companion object {
