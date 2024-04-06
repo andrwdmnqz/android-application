@@ -1,8 +1,7 @@
 package com.project.myproject
 
-import android.app.ActivityOptions
-import android.content.Intent
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +36,17 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
 
         parseName()
 
+        setupAnimation()
+
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun setupAnimation() {
+        val animation = TransitionInflater.from(requireContext()).inflateTransition(
+            android.R.transition.move
+        )
+        sharedElementEnterTransition = animation
+        sharedElementReturnTransition = animation
     }
 
     override fun onDestroyView() {
@@ -73,29 +82,5 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
             nameText = getString(R.string.name_placeholder, splittedName[0])
         }
         nameField.text = nameText
-
-//        if (extras != null) {
-//            var name = extras.getString(Constants.EMAIL_KEY)
-//            if (name != null) {
-//                name = name.substringBefore('@')
-//
-//                val splittedName = name.split('.')
-//                    .map { it.replaceFirstChar { char -> char.uppercaseChar() } }
-//
-//                val nameText: String
-//
-//                if (splittedName.size > 1) {
-//                    nameText = "${splittedName[0]} ${splittedName[1]}"
-//                } else {
-//                    nameText = getString(R.string.name_placeholder, splittedName[0])
-//                }
-//                nameField.text = nameText
-//            }
-//        }
-    }
-
-    companion object {
-        const val FRAGMENT_TAG = "DetailViewFragment"
-        fun newInstance(): DetailViewFragment = DetailViewFragment()
     }
 }

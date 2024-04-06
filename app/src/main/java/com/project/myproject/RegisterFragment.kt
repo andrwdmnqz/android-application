@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -133,10 +134,11 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                         settingPreference.savePassword(regPasswordInput.text.toString())
                     }
                 }
+                val extras = FragmentNavigatorExtras(binding.registerBackground to "detailBackground")
 
                 it.findNavController().navigate(
                     RegisterFragmentDirections.actionRegisterFragmentToDetailViewFragment(
-                    regEmailInput.text.toString()))
+                    regEmailInput.text.toString()), extras)
             }
 
             if (regEmailInput.text.isNullOrBlank()) {
@@ -156,8 +158,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             val password = settingPreference.getPassword().firstOrNull()
 
             if (!email.isNullOrBlank() && !password.isNullOrBlank()) {
+                val extras = FragmentNavigatorExtras(binding.registerBackground to "detailBackground")
                 findNavController().navigate(
-                    RegisterFragmentDirections.actionRegisterFragmentToDetailViewFragment(email))
+                    RegisterFragmentDirections.actionRegisterFragmentToDetailViewFragment(email), extras)
             }
         }
     }
@@ -169,7 +172,5 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     companion object {
         private const val PASSWORD_REGEX = "^[a-zA-Z0-9@#\$%^&+=!]+\$"
-        const val FRAGMENT_TAG = "RegisterFragment"
-        fun newInstance(): RegisterFragment = RegisterFragment()
     }
 }
