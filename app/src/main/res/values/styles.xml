@@ -29,4 +29,7 @@
         <item name="android:textSize">@dimen/h4_text</item>
         <item name="fontFamily">@font/open_sans</item>
     </style>
+    <style name="fragmentTransition">
+        <item name="android:windowActivityTransitions">true</item>
+    </style>
 </resources>

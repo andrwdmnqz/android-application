@@ -23,7 +23,7 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDetailViewBinding.inflate(layoutInflater)
+        _binding = FragmentDetailViewBinding.inflate(layoutInflater, container, false)
 
         settingPreference = SettingPreference(requireContext())
 
@@ -43,7 +43,7 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
 
     private fun setupAnimation() {
         val animation = TransitionInflater.from(requireContext()).inflateTransition(
-            android.R.transition.move
+            R.transition.change_bounds
         )
         sharedElementEnterTransition = animation
         sharedElementReturnTransition = animation
