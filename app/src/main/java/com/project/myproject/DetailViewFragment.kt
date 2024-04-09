@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.project.myproject.databinding.FragmentDetailViewBinding
 import kotlinx.coroutines.launch
 
@@ -33,6 +34,8 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         initializeLogoutButton()
+
+        initializeContactsButton()
 
         parseName()
 
@@ -60,8 +63,18 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
             lifecycleScope.launch {
                 settingPreference.clearData()
 
-                it.findNavController().navigate(R.id.action_detailViewFragment_to_registerFragment)
+                val extras = FragmentNavigatorExtras(binding.topRectangle to "registerBackground")
+                it.findNavController().navigate(
+                    DetailViewFragmentDirections.actionDetailViewFragmentToRegisterFragment(), extras)
             }
+        }
+    }
+
+    private fun initializeContactsButton() {
+
+        binding.contactsButton.setOnClickListener {
+
+            it.findNavController().navigate(R.id.action_detailViewFragment_to_contactsFragment)
         }
     }
 

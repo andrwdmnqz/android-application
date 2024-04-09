@@ -22,5 +22,12 @@
         <argument
             android:name="email"
             app:argType="string" />
+        <action
+            android:id="@+id/action_detailViewFragment_to_contactsFragment"
+            app:destination="@id/contactsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.project.myproject.ContactsFragment"
+        android:label="ContactsFragment" />
 </navigation>
