@@ -29,26 +29,38 @@ class MyContactsActivity : AppCompatActivity(), UserAdapter.OnDeleteItemClickLis
 
         setupRecyclerView(adapter)
 
-        setupAddContacts(viewModel)
+        setupAddContactListeners()
     }
 
-    private fun setupAddContacts(viewModel: UserViewModel) {
+    private fun setupAddContactListeners() {
         val addContactsView = viewBinding.addContactsLabel
 
         addContactsView.setOnClickListener {
-            AddContactDialogFragment(viewModel).show(
+            AddContactDialogFragment().show(
                 supportFragmentManager, AddContactDialogFragment.TAG
             )
+        }
+
+        supportFragmentManager.setFragmentResultListener(
+            Constants.CONTACT_INFO_KEY, this) { _, bundle ->
+            val user = User(
+                User.generateId(),
+                Constants.DEFAULT_USER_IMAGE_PATH,
+                bundle.getString(Constants.CONTACT_NAME_KEY)!!,
+                bundle.getString(Constants.CONTACT_CAREER_KEY)!!
+            )
+
+            viewModel.addUser(0, user)
         }
     }
 
     override fun onDeleteItemClicked(user: User, position: Int) {
+        viewModel.deleteUser(user)
+
         showDeleteSnackbar(user, position)
     }
 
     private fun showDeleteSnackbar(user: User, position: Int) {
-
-        viewModel.deleteUser(user)
 
         val snackbar = Snackbar.make(viewBinding.root,
             getString(R.string.contact_removed), Snackbar.LENGTH_LONG)

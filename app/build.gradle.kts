@@ -47,9 +47,11 @@ val coreKtxVersion = "1.12.0"
 val glideVersion = "4.14.2"
 val viewModelVersion = "2.7.0"
 val activityVersion = "1.8.2"
+val fragmentVersion = "1.6.2"
 
 dependencies {
 
+    implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
     implementation("androidx.activity:activity-ktx:$activityVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion")
     implementation("com.github.bumptech.glide:glide:$glideVersion")
