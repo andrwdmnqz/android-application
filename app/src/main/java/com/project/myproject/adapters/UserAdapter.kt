@@ -55,8 +55,4 @@ class UserAdapter(private val onDeleteItemClickListener: OnDeleteItemClickListen
     interface OnDeleteItemClickListener {
         fun onDeleteItemClicked(user: User, position: Int)
     }
-
-    fun getUserAtPosition(position: Int): User {
-        return getItem(position)
-    }
 }
