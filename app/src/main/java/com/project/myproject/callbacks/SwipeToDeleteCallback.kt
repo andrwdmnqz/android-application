@@ -5,25 +5,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.project.myproject.R
 import com.project.myproject.adapters.UserAdapter
+import com.project.myproject.models.User
 import com.project.myproject.viewmodels.UserViewModel
 
-class SwipeToDeleteCallback(private val viewModel: UserViewModel, private val recyclerView: RecyclerView) :
+class SwipeToDeleteCallback(private val swipe: (position: Int, user: User) -> Unit) :
     ItemTouchHelper.SimpleCallback(0,
         ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
-        val user = (viewHolder as UserAdapter.ViewHolder).user
-        viewModel.deleteUser(user)
-
-        val snackbar = Snackbar.make(recyclerView,
-            recyclerView.context.getString(R.string.contact_removed), Snackbar.LENGTH_LONG)
-
-        snackbar.setAction(recyclerView.context.getString(R.string.undo_button)) {
-            viewModel.addUser(position, user)
-            recyclerView.scrollToPosition(position)
+        val user = (viewHolder.itemView.parent as RecyclerView).adapter?.let { adapter ->
+            if (adapter is UserAdapter) {
+                adapter.currentList[position]
+            } else {
+                null
+            }
         }
-        snackbar.show()
+        user?.let { swipe(position, it) }
     }
 
     override fun onMove(
