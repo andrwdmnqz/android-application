@@ -1,5 +1,6 @@
 package com.project.myproject.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.project.myproject.models.User
 import com.project.myproject.repository.UserRepository
@@ -39,13 +40,7 @@ class UserViewModel : ViewModel() {
 
             val currentList = _users.value.toMutableList()
 
-            val insertPosition = if (position <= currentList.size) {
-                position
-            } else {
-                currentList.size
-            }
-
-            currentList.add(insertPosition, user)
+            currentList.add(position, user)
 
             _users.value = currentList
         }

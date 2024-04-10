@@ -2,10 +2,13 @@ package com.project.myproject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.project.myproject.adapters.UserAdapter
 import com.project.myproject.callbacks.SwipeToDeleteCallback
@@ -54,8 +57,6 @@ class MyContactsActivity : AppCompatActivity(), UserAdapter.OnDeleteItemClickLis
             viewModel.addUser(0, user)
 
             adapter.submitList(viewModel.users.value)
-
-            viewBinding.rvContacts.smoothScrollToPosition(0)
         }
     }
 
@@ -74,15 +75,16 @@ class MyContactsActivity : AppCompatActivity(), UserAdapter.OnDeleteItemClickLis
             viewModel.addUser(position, user)
 
             adapter.submitList(viewModel.users.value)
-
-            viewBinding.rvContacts.smoothScrollToPosition(position)
         }
         snackbar.show()
     }
 
     private fun setupRecyclerView() {
         val contactsRV = viewBinding.rvContacts
+
         val itemMarginSize = resources.getDimensionPixelSize(R.dimen.contacts_item_margin)
+
+        setupAdapterScroll(contactsRV)
 
         contactsRV.adapter = adapter
         contactsRV.addItemDecoration(UserItemDecorator(itemMarginSize))
@@ -90,6 +92,7 @@ class MyContactsActivity : AppCompatActivity(), UserAdapter.OnDeleteItemClickLis
 
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback { position, user ->
             viewModel.deleteUser(user.id)
+
             showDeleteSnackbar(user, position)
         })
         itemTouchHelper.attachToRecyclerView(contactsRV)
@@ -101,5 +104,30 @@ class MyContactsActivity : AppCompatActivity(), UserAdapter.OnDeleteItemClickLis
                 adapter.submitList(users)
             }
         }
+    }
+
+    private fun setupAdapterScroll(contactsRV: RecyclerView) {
+        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                // No need to scroll here
+            }
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                // No need to scroll here
+            }
+            override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+                // No need to scroll here
+            }
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (itemCount == 1) {
+                    contactsRV.scrollToPosition(positionStart)
+                }
+            }
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+                // No need to scroll here
+            }
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+                // No need to scroll here
+            }
+        })
     }
 }
