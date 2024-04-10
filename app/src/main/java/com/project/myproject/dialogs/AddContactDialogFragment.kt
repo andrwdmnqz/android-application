@@ -9,15 +9,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.project.myproject.Constants
 import com.project.myproject.R
 import com.project.myproject.databinding.AddContactDialogBinding
-import com.project.myproject.models.User
-import com.project.myproject.viewmodels.UserViewModel
 
-class AddContactDialogFragment(private val viewModel: UserViewModel) : DialogFragment() {
+class AddContactDialogFragment : DialogFragment() {
 
     private lateinit var viewBinding: AddContactDialogBinding
 
@@ -83,8 +82,13 @@ class AddContactDialogFragment(private val viewModel: UserViewModel) : DialogFra
         val career = newContactCareer.text.toString()
 
         if (name.isNotBlank()) {
-            val user = User(User.generateId(), Constants.DEFAULT_USER_IMAGE_PATH, name, career)
-            viewModel.addUser(0, user)
+            val bundle = Bundle().apply {
+                putString(Constants.CONTACT_NAME_KEY, name)
+                putString(Constants.CONTACT_CAREER_KEY, career)
+            }
+            setFragmentResult(Constants.CONTACT_INFO_KEY, bundle)
+//            val user = User(User.generateId(), Constants.DEFAULT_USER_IMAGE_PATH, name, career)
+//            viewModel.addUser(0, user)
             dismiss()
         } else {
             newContactNameLayout.error = getString(R.string.add_contact_validation)
