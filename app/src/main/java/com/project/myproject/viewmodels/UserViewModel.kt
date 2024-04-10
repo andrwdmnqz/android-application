@@ -17,19 +17,19 @@ class UserViewModel : ViewModel() {
     val users = _users.asStateFlow()
 
     fun init() {
-        addUsersToList()
+        fetchUsers()
     }
 
-    private fun addUsersToList() {
+    private fun fetchUsers() {
         CoroutineScope(Dispatchers.Main).launch {
             _users.value = userRepository.addUsersToList()
         }
     }
 
-    fun deleteUser(user: User) {
+    fun deleteUser(id: Int) {
         CoroutineScope(Dispatchers.Main).launch {
-            userRepository.deleteUser(user)
-            _users.value = _users.value.filter { it != user }
+            userRepository.deleteUser(id)
+            _users.value = _users.value.filter { it.id != id }
         }
     }
 
@@ -38,7 +38,14 @@ class UserViewModel : ViewModel() {
             userRepository.addUser(position, user)
 
             val currentList = _users.value.toMutableList()
-            currentList.add(position, user)
+
+            val insertPosition = if (position <= currentList.size) {
+                position
+            } else {
+                currentList.size
+            }
+
+            currentList.add(insertPosition, user)
 
             _users.value = currentList
         }

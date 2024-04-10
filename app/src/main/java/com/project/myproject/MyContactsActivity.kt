@@ -19,15 +19,16 @@ import kotlinx.coroutines.launch
 class MyContactsActivity : AppCompatActivity(), UserAdapter.OnDeleteItemClickListener {
     private val viewModel: UserViewModel by viewModels<UserViewModel>()
     private lateinit var viewBinding: MyContactsActivityBinding
+    private lateinit var adapter: UserAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = MyContactsActivityBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        val adapter = UserAdapter(this, emptyList())
+        adapter = UserAdapter(this)
 
-        setupRecyclerView(adapter)
+        setupRecyclerView()
 
         setupAddContactListeners()
     }
@@ -51,11 +52,15 @@ class MyContactsActivity : AppCompatActivity(), UserAdapter.OnDeleteItemClickLis
             )
 
             viewModel.addUser(0, user)
+
+            adapter.submitList(viewModel.users.value)
+
+            viewBinding.rvContacts.smoothScrollToPosition(0)
         }
     }
 
     override fun onDeleteItemClicked(user: User, position: Int) {
-        viewModel.deleteUser(user)
+        viewModel.deleteUser(user.id)
 
         showDeleteSnackbar(user, position)
     }
@@ -67,12 +72,15 @@ class MyContactsActivity : AppCompatActivity(), UserAdapter.OnDeleteItemClickLis
 
         snackbar.setAction(getString(R.string.undo_button)) {
             viewModel.addUser(position, user)
-            viewBinding.rvContacts.scrollToPosition(position)
+
+            adapter.submitList(viewModel.users.value)
+
+            viewBinding.rvContacts.smoothScrollToPosition(position)
         }
         snackbar.show()
     }
 
-    private fun setupRecyclerView(adapter: UserAdapter) {
+    private fun setupRecyclerView() {
         val contactsRV = viewBinding.rvContacts
         val itemMarginSize = resources.getDimensionPixelSize(R.dimen.contacts_item_margin)
 
@@ -80,15 +88,17 @@ class MyContactsActivity : AppCompatActivity(), UserAdapter.OnDeleteItemClickLis
         contactsRV.addItemDecoration(UserItemDecorator(itemMarginSize))
         contactsRV.layoutManager = LinearLayoutManager(this)
 
-        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(viewModel, contactsRV))
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback { position, user ->
+            viewModel.deleteUser(user.id)
+            showDeleteSnackbar(user, position)
+        })
         itemTouchHelper.attachToRecyclerView(contactsRV)
 
         viewModel.init()
 
         lifecycleScope.launch {
             viewModel.users.collect { users ->
-                adapter.contactsList = users
-                adapter.notifyDataSetChanged()
+                adapter.submitList(users)
             }
         }
     }

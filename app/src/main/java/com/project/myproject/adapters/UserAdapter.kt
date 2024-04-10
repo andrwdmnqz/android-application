@@ -2,20 +2,28 @@ package com.project.myproject.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.project.myproject.Constants
 import com.project.myproject.databinding.ContactItemBinding
 import com.project.myproject.extensions.loadImageByGlide
 import com.project.myproject.models.User
 
-class UserAdapter(private val onDeleteItemClickListener: OnDeleteItemClickListener,
-                  var contactsList: List<User>) :
-    RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter(private val onDeleteItemClickListener: OnDeleteItemClickListener) :
+    ListAdapter<User, UserAdapter.ViewHolder>(UserItemDiffCallback()) {
+
+    class UserItemDiffCallback : DiffUtil.ItemCallback<User>() {
+        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem == newItem
+        }
+    }
 
     inner class ViewHolder(private val binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val user: User
-            get() = contactsList[adapterPosition]
-
         val contactNameView = binding.contactName
         val contactCareerView = binding.contactCareer
         val contactImageView = binding.userPhoto
@@ -34,21 +42,21 @@ class UserAdapter(private val onDeleteItemClickListener: OnDeleteItemClickListen
 
         holder.itemView.layoutParams.height = cardHeight
 
-        val user: User = contactsList[position]
+        val user = getItem(position)
 
         holder.contactNameView.text = user.name
         holder.contactCareerView.text = user.career
         holder.contactImageView.loadImageByGlide(user.photo)
         holder.contactDeleteIcon.setOnClickListener{
-            onDeleteItemClickListener.onDeleteItemClicked(user, position)
+            onDeleteItemClickListener.onDeleteItemClicked(user, holder.adapterPosition)
         }
-    }
-
-    override fun getItemCount(): Int {
-        return contactsList.size
     }
 
     interface OnDeleteItemClickListener {
         fun onDeleteItemClicked(user: User, position: Int)
+    }
+
+    fun getUserAtPosition(position: Int): User {
+        return getItem(position)
     }
 }

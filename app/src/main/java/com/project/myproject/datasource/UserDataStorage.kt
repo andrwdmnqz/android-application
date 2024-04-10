@@ -23,9 +23,9 @@ class UserDataStorage {
         return@withContext userList
     }
 
-    suspend fun deleteUser(user: User) {
+    suspend fun deleteUser(id: Int) {
         withContext(Dispatchers.IO) {
-            userList = userList.filter { it.id != user.id }
+            userList = userList.filter { it.id != id }
         }
     }
 
