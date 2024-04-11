@@ -1,6 +1,5 @@
 package com.project.myproject.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.project.myproject.models.User
 import com.project.myproject.repository.UserRepository
