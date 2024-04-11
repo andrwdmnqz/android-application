@@ -2,11 +2,8 @@ package com.project.myproject.callbacks
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-import com.project.myproject.R
 import com.project.myproject.adapters.UserAdapter
 import com.project.myproject.models.User
-import com.project.myproject.viewmodels.UserViewModel
 
 class SwipeToDeleteCallback(private val swipe: (position: Int, user: User) -> Unit) :
     ItemTouchHelper.SimpleCallback(0,
