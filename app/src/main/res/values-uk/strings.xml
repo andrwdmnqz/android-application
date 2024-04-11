@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">My Project</string>
     <string name="edit_button_text">Редагувати профіль</string>
-    <string name="settings_text">Параметри</string>
-    <string name="log_out_text">Вийти</string>
+    <string name="settings">Параметри</string>
+    <string name="log_out">Вийти</string>
     <string name="name_placeholder">%s</string>
     <string name="career">Кар\'єра</string>
     <string name="home_address">Адреса</string>
@@ -16,6 +16,8 @@
     <string name="fill_the_profile_text">Заповність профіль та переходьте до застосунку!</string>
     <string name="email_hint">Електронна пошта</string>
     <string name="password_hint">Пароль</string>
+    <string name="name_hint">Ім\'я</string>
+    <string name="career_hint">Професія</string>
     <string name="remember_me">Запам\'ятати мене</string>
     <string name="google_text">GOOGLE</string>
     <string name="or_text">або</string>
@@ -24,6 +26,9 @@
     <string name="already_have_text">Вже є аккаунт?</string>
     <string name="sign_in_text">Вхід</string>
     <string name="google_logo_desc">google_logo</string>
+    <string name="back_button_desc">back</string>
+    <string name="contacts_label">Контакти</string>
+    <string name="add_contacts_label">Додати контакти</string>
 
     <string name="error_email_required">Електронна пошта обов\'язкова.</string>
     <string name="error_password_required">Пароль обов\'язковий.</string>
@@ -31,4 +36,11 @@
     <string name="error_password_max_length">Ваш пароль має включати максимум 16 символів.</string>
     <string name="error_password_symbols">Ваш пароль має включати тільки букви, цифри та символи.</string>
     <string name="error_invalid_email">Некоректна електронна адреса.</string>
+
+    <string name="contact_removed">Контакт було видалено</string>
+    <string name="contact_returned">Контакт було повернено</string>
+    <string name="undo_button">Відмінити</string>
+    <string name="add_contact_save">Зберегти</string>
+    <string name="add_contact_message">Додати контакт</string>
+    <string name="add_contact_validation">Ім\'я не повинно бути порожнім!</string>
 </resources>
