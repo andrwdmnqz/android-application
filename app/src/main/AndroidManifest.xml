@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyProject"
         tools:targetApi="31">
-        <activity android:name=".MyContacts"
+        <activity android:name=".MyContactsActivity"
             android:exported="false">
         </activity>
         <activity

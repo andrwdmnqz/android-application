@@ -87,8 +87,6 @@ class AddContactDialogFragment : DialogFragment() {
                 putString(Constants.CONTACT_CAREER_KEY, career)
             }
             setFragmentResult(Constants.CONTACT_INFO_KEY, bundle)
-//            val user = User(User.generateId(), Constants.DEFAULT_USER_IMAGE_PATH, name, career)
-//            viewModel.addUser(0, user)
             dismiss()
         } else {
             newContactNameLayout.error = getString(R.string.add_contact_validation)
