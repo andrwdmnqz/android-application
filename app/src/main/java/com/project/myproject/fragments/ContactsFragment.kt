@@ -1,4 +1,4 @@
-package com.project.myproject
+package com.project.myproject.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.project.myproject.Constants
+import com.project.myproject.R
 import com.project.myproject.adapters.UserAdapter
 import com.project.myproject.callbacks.SwipeToDeleteCallback
 import com.project.myproject.databinding.FragmentContactsBinding
@@ -89,6 +91,7 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnDel
 
             adapter.submitList(viewModel.users.value)
         }
+
         snackbar.show()
     }
 
@@ -108,6 +111,7 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnDel
 
             showDeleteSnackbar(user, position)
         })
+
         itemTouchHelper.attachToRecyclerView(contactsRV)
 
         viewModel.init()

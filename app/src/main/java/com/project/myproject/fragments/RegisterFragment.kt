@@ -1,4 +1,4 @@
-package com.project.myproject
+package com.project.myproject.fragments
 
 import android.os.Bundle
 import android.text.Editable
@@ -14,6 +14,8 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.project.myproject.R
+import com.project.myproject.SettingPreference
 import com.project.myproject.databinding.FragmentRegisterBinding
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -48,16 +50,16 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         regEmailInput = binding.regEmailInput
         regPasswordInput = binding.regPasswordInput
 
-        initializeRegisterButton(regEmailLayout, regPasswordLayout)
+        initializeRegisterButtonListeners(regEmailLayout, regPasswordLayout)
 
-        emailValidation(regEmailLayout)
+        setupEmailValidation(regEmailLayout)
 
-        passwordValidation(regPasswordLayout)
+        setupPasswordValidation(regPasswordLayout)
 
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun passwordValidation(regPasswordLayout: TextInputLayout) {
+    private fun setupPasswordValidation(regPasswordLayout: TextInputLayout) {
         regPasswordInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
@@ -91,7 +93,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         })
     }
 
-    private fun emailValidation(regEmailLayout: TextInputLayout) {
+    private fun setupEmailValidation(regEmailLayout: TextInputLayout) {
         regEmailInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
@@ -113,7 +115,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         })
     }
 
-    private fun initializeRegisterButton(
+    private fun initializeRegisterButtonListeners(
         regEmailLayout: TextInputLayout,
         regPasswordLayout: TextInputLayout
     ) {

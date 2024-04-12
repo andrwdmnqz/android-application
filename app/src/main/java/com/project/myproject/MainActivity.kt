@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         parseName()
 
-        initializeLogoutButton()
+        initializeLogoutButtonListeners()
     }
 
     private fun parseName() {
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initializeLogoutButton() {
+    private fun initializeLogoutButtonListeners() {
 
         viewBinding.logoutButton.setOnClickListener {
             lifecycleScope.launch {

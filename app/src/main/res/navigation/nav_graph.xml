@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.project.myproject.RegisterFragment"
+        android:name="com.project.myproject.fragments.RegisterFragment"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_detailViewFragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailViewFragment"
-        android:name="com.project.myproject.DetailViewFragment"
+        android:name="com.project.myproject.fragments.DetailViewFragment"
         android:label="DetailViewFragment" >
         <action
             android:id="@+id/action_detailViewFragment_to_registerFragment"
@@ -28,6 +28,6 @@
     </fragment>
     <fragment
         android:id="@+id/contactsFragment"
-        android:name="com.project.myproject.ContactsFragment"
+        android:name="com.project.myproject.fragments.ContactsFragment"
         android:label="ContactsFragment" />
 </navigation>

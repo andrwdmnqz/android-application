@@ -1,4 +1,4 @@
-package com.project.myproject
+package com.project.myproject.fragments
 
 import android.os.Bundle
 import android.transition.TransitionInflater
@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import com.project.myproject.R
+import com.project.myproject.SettingPreference
 import com.project.myproject.databinding.FragmentDetailViewBinding
 import kotlinx.coroutines.launch
 
@@ -33,9 +35,9 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        initializeLogoutButton()
+        initializeLogoutButtonListeners()
 
-        initializeContactsButton()
+        initializeContactsButtonListeners()
 
         parseName()
 
@@ -57,7 +59,7 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
         super.onDestroyView()
     }
 
-    private fun initializeLogoutButton() {
+    private fun initializeLogoutButtonListeners() {
 
         binding.logoutButton.setOnClickListener {
             lifecycleScope.launch {
@@ -70,7 +72,7 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
         }
     }
 
-    private fun initializeContactsButton() {
+    private fun initializeContactsButtonListeners() {
 
         binding.contactsButton.setOnClickListener {
 
