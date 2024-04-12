@@ -9,6 +9,7 @@ class Constants {
         const val CONTACT_INFO_KEY = "contactInfo"
         const val CONTACT_NAME_KEY = "contactName"
         const val CONTACT_CAREER_KEY = "contactCareer"
+        const val CONTACT_ADDRESS_KEY = "contactAddress"
 
         const val DEFAULT_USER_IMAGE_PATH = "https://i.pinimg.com/564x/61/f7/5e/61f75ea9a680def2ed1c6929fe75aeee.jpg"
     }

@@ -14,7 +14,7 @@ import com.project.myproject.SettingPreference
 import com.project.myproject.databinding.FragmentMainBinding
 import kotlinx.coroutines.launch
 
-class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
+class MainFragment : Fragment(R.layout.fragment_main) {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!

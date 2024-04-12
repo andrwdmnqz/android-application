@@ -66,7 +66,8 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnDel
                 User.generateId(),
                 Constants.DEFAULT_USER_IMAGE_PATH,
                 bundle.getString(Constants.CONTACT_NAME_KEY)!!,
-                bundle.getString(Constants.CONTACT_CAREER_KEY)!!
+                bundle.getString(Constants.CONTACT_CAREER_KEY)!!,
+                bundle.getString(Constants.CONTACT_ADDRESS_KEY)!!
             )
 
             viewModel.addUser(0, user)

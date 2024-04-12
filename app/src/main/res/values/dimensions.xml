@@ -77,4 +77,5 @@
     <dimen name="delete_icon_horizontal">0.96</dimen>
     <dimen name="delete_icon_margin_vertical">26dp</dimen>
 
+    <dimen name="profile_textview_vertical">0.03</dimen>
 </resources>

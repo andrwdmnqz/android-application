@@ -26,6 +26,7 @@ class AddContactDialogFragment : DialogFragment() {
 
         val newContactName = viewBinding.contactNameInput
         val newContactCareer = viewBinding.contactCareerInput
+        val newContactAddress = viewBinding.contactAddressInput
         val newContactNameLayout = viewBinding.contactNameLayout
 
         val dialog = AlertDialog.Builder(requireContext())
@@ -34,7 +35,7 @@ class AddContactDialogFragment : DialogFragment() {
             .setPositiveButton(getString(R.string.add_contact_save)) { _, _ -> }
             .create()
 
-        setupDialog(dialog, newContactName, newContactCareer, newContactNameLayout)
+        setupDialog(dialog, newContactName, newContactCareer, newContactAddress, newContactNameLayout)
 
         setupNameValidation(viewBinding.contactNameLayout, viewBinding.contactNameInput)
 
@@ -45,6 +46,7 @@ class AddContactDialogFragment : DialogFragment() {
         dialog: AlertDialog,
         newContactName: TextInputEditText,
         newContactCareer: TextInputEditText,
+        newContactAddress: TextInputEditText,
         newContactNameLayout: TextInputLayout
     ) {
         dialog.setOnShowListener {
@@ -53,6 +55,7 @@ class AddContactDialogFragment : DialogFragment() {
                 addSaveButtonListener(
                     newContactName,
                     newContactCareer,
+                    newContactAddress,
                     newContactNameLayout
                 )
             }
@@ -76,15 +79,18 @@ class AddContactDialogFragment : DialogFragment() {
     }
 
     private fun addSaveButtonListener(newContactName: TextInputEditText,
-        newContactCareer: TextInputEditText, newContactNameLayout: TextInputLayout) {
+        newContactCareer: TextInputEditText, newContactAddress: TextInputEditText,
+            newContactNameLayout: TextInputLayout) {
 
         val name = newContactName.text.toString()
         val career = newContactCareer.text.toString()
+        val address = newContactAddress.text.toString()
 
         if (name.isNotBlank()) {
             val bundle = Bundle().apply {
                 putString(Constants.CONTACT_NAME_KEY, name)
                 putString(Constants.CONTACT_CAREER_KEY, career)
+                putString(Constants.CONTACT_ADDRESS_KEY, address)
             }
             setFragmentResult(Constants.CONTACT_INFO_KEY, bundle)
             dismiss()

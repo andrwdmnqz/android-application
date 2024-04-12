@@ -18,6 +18,7 @@
     <string name="password_hint">Password</string>
     <string name="name_hint">Name</string>
     <string name="career_hint">Career</string>
+    <string name="address_hint">Address</string>
     <string name="remember_me">Remember me</string>
     <string name="google_text">GOOGLE</string>
     <string name="or_text">or</string>
@@ -43,4 +44,7 @@
     <string name="add_contact_save">Save</string>
     <string name="add_contact_message">Add contact</string>
     <string name="add_contact_validation">Name shouldn\'t be empty!</string>
+
+    <string name="message_button_text">message</string>
+    <string name="profile_textview_text">Profile</string>
 </resources>

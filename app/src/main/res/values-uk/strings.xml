@@ -18,6 +18,7 @@
     <string name="password_hint">Пароль</string>
     <string name="name_hint">Ім\'я</string>
     <string name="career_hint">Професія</string>
+    <string name="address_hint">Адреса</string>
     <string name="remember_me">Запам\'ятати мене</string>
     <string name="google_text">GOOGLE</string>
     <string name="or_text">або</string>
@@ -43,4 +44,7 @@
     <string name="add_contact_save">Зберегти</string>
     <string name="add_contact_message">Додати контакт</string>
     <string name="add_contact_validation">Ім\'я не повинно бути порожнім!</string>
+
+    <string name="message_button_text">Повідомлення</string>
+    <string name="profile_textview_text">Профіль</string>
 </resources>
