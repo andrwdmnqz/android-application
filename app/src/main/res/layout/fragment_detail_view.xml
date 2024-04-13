@@ -58,7 +58,7 @@
         app:layout_constraintWidth_percent="@dimen/photo_width" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/tvName"
         style="@style/h2_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
         app:layout_constraintVertical_bias="@dimen/name_vertical" />
 
     <TextView
-        android:id="@+id/career"
+        android:id="@+id/tvCareer"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
         app:layout_constraintVertical_bias="@dimen/career_vertical" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvAddress"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

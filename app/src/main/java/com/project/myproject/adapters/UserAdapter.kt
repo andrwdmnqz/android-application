@@ -10,7 +10,7 @@ import com.project.myproject.databinding.ContactItemBinding
 import com.project.myproject.extensions.loadImageByGlide
 import com.project.myproject.models.User
 
-class UserAdapter(private val onDeleteItemClickListener: OnDeleteItemClickListener) :
+class UserAdapter(private val onUserItemClickListener: OnUserItemClickListener) :
     ListAdapter<User, UserAdapter.ViewHolder>(UserItemDiffCallback()) {
 
     class UserItemDiffCallback : DiffUtil.ItemCallback<User>() {
@@ -47,12 +47,18 @@ class UserAdapter(private val onDeleteItemClickListener: OnDeleteItemClickListen
         holder.contactNameView.text = user.name
         holder.contactCareerView.text = user.career
         holder.contactImageView.loadImageByGlide(user.photo)
-        holder.contactDeleteIcon.setOnClickListener{
-            onDeleteItemClickListener.onDeleteItemClicked(user, holder.adapterPosition)
+
+        holder.itemView.setOnClickListener {
+            onUserItemClickListener.onContactItemClicked(user)
+        }
+
+        holder.contactDeleteIcon.setOnClickListener {
+            onUserItemClickListener.onDeleteItemClicked(user, holder.adapterPosition)
         }
     }
 
-    interface OnDeleteItemClickListener {
+    interface OnUserItemClickListener {
+        fun onContactItemClicked(user: User)
         fun onDeleteItemClicked(user: User, position: Int)
     }
 }

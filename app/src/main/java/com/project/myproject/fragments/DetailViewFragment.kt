@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.project.myproject.R
 import com.project.myproject.databinding.FragmentDetailViewBinding
+import com.project.myproject.extensions.loadImageByGlide
 
 class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
 
@@ -41,7 +42,6 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
             R.transition.change_bounds
         )
         sharedElementEnterTransition = animation
-        sharedElementReturnTransition = animation
     }
 
     override fun onDestroyView() {
@@ -57,21 +57,12 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
     }
 
     private fun setupTextFields() {
-        var name = MainFragmentArgs.fromBundle(requireArguments()).email
-        val nameField = binding.name
 
-        name = name.substringBefore('@')
+        val bundle = DetailViewFragmentArgs.fromBundle(requireArguments())
 
-        val splittedName = name.split('.')
-            .map { it.replaceFirstChar { char -> char.uppercaseChar() } }
-
-        val nameText: String
-
-        if (splittedName.size > 1) {
-            nameText = "${splittedName[0]} ${splittedName[1]}"
-        } else {
-            nameText = getString(R.string.name_placeholder, splittedName[0])
-        }
-        nameField.text = nameText
+        binding.profileImage.loadImageByGlide(bundle.imageLink)
+        binding.tvName.text = bundle.name
+        binding.tvCareer.text = bundle.career
+        binding.tvAddress.text = bundle.address
     }
 }

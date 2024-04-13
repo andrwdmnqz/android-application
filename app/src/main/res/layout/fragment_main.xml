@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/rectangle"
-        android:transitionName="detailBackground"
+        android:transitionName="mainBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/top_rectangle_height"
@@ -89,7 +89,7 @@
         app:layout_constraintVertical_bias="@dimen/career_vertical" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/address"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

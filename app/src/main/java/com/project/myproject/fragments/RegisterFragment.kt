@@ -157,7 +157,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             val password = settingPreference.getPassword().firstOrNull()
 
             if (!email.isNullOrBlank() && !password.isNullOrBlank()) {
-                val extras = FragmentNavigatorExtras(binding.registerBackground to "detailBackground")
+                val extras = FragmentNavigatorExtras(binding.registerBackground to "mainBackground")
                 findNavController().navigate(
                     RegisterFragmentDirections.actionRegisterFragmentToMainFragment(email), extras)
             }

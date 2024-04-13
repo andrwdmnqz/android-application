@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +25,7 @@ import com.project.myproject.models.User
 import com.project.myproject.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
 
-class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnDeleteItemClickListener {
+class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUserItemClickListener {
     private val viewModel: UserViewModel by viewModels<UserViewModel>()
 
     private var _binding: FragmentContactsBinding? = null
@@ -85,6 +86,17 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnDel
 
             adapter.submitList(viewModel.users.value)
         }
+    }
+
+    override fun onContactItemClicked(user: User) {
+        val extras = FragmentNavigatorExtras(binding.contactsBackground to "detailBackground")
+
+        findNavController().navigate(
+            ContactsFragmentDirections.actionContactsFragmentToDetailViewFragment(
+                user.photo, user.name,
+                user.career, user.address
+            ), extras
+        )
     }
 
     override fun onDeleteItemClicked(user: User, position: Int) {

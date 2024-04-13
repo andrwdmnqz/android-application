@@ -8,10 +8,11 @@
     tools:context=".MyContactsActivity">
 
     <View
-        android:id="@+id/top_rectangle"
+        android:id="@+id/contactsBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/rectangle"
+        android:transitionName="contactsBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/contacts_tool_bar_height"
@@ -64,7 +65,7 @@
         android:layout_height="wrap_content"
         android:text="@string/add_contacts_label"
         android:textColor="@color/default_text_color"
-        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle"
+        app:layout_constraintBottom_toBottomOf="@+id/contactsBackground"
         app:layout_constraintStart_toStartOf="@+id/toolbar_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/add_contacts_label_vertical" />
@@ -76,6 +77,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_rectangle" />
+        app:layout_constraintTop_toBottomOf="@+id/contactsBackground" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
