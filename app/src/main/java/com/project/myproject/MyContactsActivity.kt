@@ -6,7 +6,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -64,7 +63,7 @@ class MyContactsActivity : AppCompatActivity(), UserAdapter.OnUserItemClickListe
     }
 
     override fun onContactItemClicked(user: User) {
-        val extras = FragmentNavigatorExtras(viewBinding.topRectangle to "detailBackground")
+        val extras = FragmentNavigatorExtras(viewBinding.contactsBackground to "detailBackground")
 
         val action = ContactsFragmentDirections.actionContactsFragmentToDetailViewFragment(
             user.photo, user.name, user.career, user.address

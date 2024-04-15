@@ -1,10 +1,14 @@
 package com.project.myproject.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.transition.Transition
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -20,6 +24,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val binding get() = _binding!!
 
     private lateinit var settingPreference: SettingPreference
+
+    private lateinit var animation: Transition
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,8 +52,50 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun onStart() {
+        super.onStart()
+        hideAllViewsExceptBackground()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Handler().postDelayed({
+            fadeAllViewsExceptBackground()
+        }, animation.duration)
+    }
+
+    private fun hideAllViewsExceptBackground() {
+        val mainLayout: ConstraintLayout = binding.clMain
+
+        for (i in 0 until mainLayout.childCount) {
+            val view: View = mainLayout.getChildAt(i)
+
+            view.visibility = View.INVISIBLE
+        }
+        binding.mainBackground.visibility = View.VISIBLE
+    }
+
+    private fun fadeAllViewsExceptBackground() {
+        val mainLayout: ConstraintLayout = binding.clMain
+
+        for (i in 0 until mainLayout.childCount) {
+            val view: View = mainLayout.getChildAt(i)
+
+            if (view == binding.mainBackground) {
+                continue
+            }
+
+            view.visibility = View.VISIBLE
+
+            val fadeInAnimation = AnimationUtils.loadAnimation(context, androidx.appcompat.R.anim.abc_fade_in)
+            view.startAnimation(fadeInAnimation)
+        }
+    }
+
     private fun setupAnimation() {
-        val animation = TransitionInflater.from(requireContext()).inflateTransition(
+
+        animation = TransitionInflater.from(requireContext()).inflateTransition(
             R.transition.change_bounds
         )
         sharedElementEnterTransition = animation
@@ -65,7 +113,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             lifecycleScope.launch {
                 settingPreference.clearData()
 
-                val extras = FragmentNavigatorExtras(binding.topRectangle to "registerBackground")
+                val extras = FragmentNavigatorExtras(binding.mainBackground to "registerBackground")
                 it.findNavController().navigate(
                     MainFragmentDirections.actionMainFragmentToRegisterFragment(), extras)
             }
@@ -75,8 +123,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun initializeContactsButtonListeners() {
 
         binding.contactsButton.setOnClickListener {
-
-            it.findNavController().navigate(R.id.action_mainFragment_to_contactsFragment)
+            val extras = FragmentNavigatorExtras(binding.mainBackground to "contactsBackground")
+            it.findNavController().navigate(
+                MainFragmentDirections.actionMainFragmentToContactsFragment(), extras)
         }
     }
 

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background">
 
     <View
-        android:id="@+id/top_rectangle"
+        android:id="@+id/detailBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/rectangle"
@@ -64,7 +65,7 @@
         android:layout_height="wrap_content"
         android:text="@string/name_hint"
         android:textColor="@color/default_text_color"
-        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle"
+        app:layout_constraintBottom_toBottomOf="@+id/detailBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_image"
@@ -77,7 +78,7 @@
         android:layout_height="wrap_content"
         android:text="@string/career"
         android:textColor="@color/additional_first"
-        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle"
+        app:layout_constraintBottom_toBottomOf="@+id/detailBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_image"
@@ -90,7 +91,7 @@
         android:layout_height="wrap_content"
         android:text="@string/home_address"
         android:textColor="@color/additional_first"
-        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle"
+        app:layout_constraintBottom_toBottomOf="@+id/detailBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_image"
@@ -107,7 +108,7 @@
         app:layout_constraintHeight_percent="@dimen/networks_logo_height"
         app:layout_constraintHorizontal_bias="@dimen/facebook_logo_hor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_rectangle"
+        app:layout_constraintTop_toBottomOf="@id/detailBackground"
         app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
         app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
 
@@ -121,7 +122,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/networks_logo_height"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
+        app:layout_constraintTop_toBottomOf="@+id/detailBackground"
         app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
         app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
 
@@ -136,7 +137,7 @@
         app:layout_constraintHeight_percent="@dimen/networks_logo_height"
         app:layout_constraintHorizontal_bias="@dimen/instagram_logo_hor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
+        app:layout_constraintTop_toBottomOf="@+id/detailBackground"
         app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
         app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
 
@@ -153,7 +154,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/contacts_height"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
+        app:layout_constraintTop_toBottomOf="@+id/detailBackground"
         app:layout_constraintVertical_bias="@dimen/contacts_vertical"
         app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
 

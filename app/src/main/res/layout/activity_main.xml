@@ -1,180 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/default_background">
+    android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/top_rectangle"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/rectangle"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/navHostFragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="@dimen/top_rectangle_height"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="@dimen/top_rectangle_vertical" />
-
-    <TextView
-        style="@style/h1_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/settings"
-        android:textColor="@color/default_text_color"
-        app:layout_constraintBottom_toBottomOf="@id/logout_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="@dimen/settings_horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/logout_button" />
-
-    <Button
-        android:id="@+id/logout_button"
-        style="@style/h3_style"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/logout_button"
-        android:text="@string/log_out"
-        android:textAllCaps="false"
-        android:textColor="@color/additional_first"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="@dimen/logout_height"
-        app:layout_constraintHorizontal_bias="@dimen/logout_horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="@dimen/logout_vertical"
-        app:layout_constraintWidth_percent="@dimen/logout_width" />
-
-    <ImageView
-        android:id="@+id/profile_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:contentDescription="@string/profile_image_desc"
-        android:src="@mipmap/mock_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="@dimen/photo_height"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="@dimen/photo_vertical"
-        app:layout_constraintWidth_percent="@dimen/photo_width" />
-
-    <TextView
-        android:id="@+id/name"
-        style="@style/h2_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/default_text_color"
-        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_image"
-        app:layout_constraintVertical_bias="@dimen/name_vertical" />
-
-    <TextView
-        android:id="@+id/career"
-        style="@style/h3_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/career"
-        android:textColor="@color/additional_first"
-        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image"
-        app:layout_constraintVertical_bias="@dimen/career_vertical" />
-
-    <TextView
-        android:id="@+id/textView"
-        style="@style/h3_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/home_address"
-        android:textColor="@color/additional_first"
-        app:layout_constraintBottom_toBottomOf="@+id/top_rectangle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image"
-        app:layout_constraintVertical_bias="@dimen/address_vertical" />
-
-    <ImageView
-        android:id="@+id/facebook_logo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:contentDescription="@string/facebook_logo_desc"
-        android:src="@drawable/facebook_logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="@dimen/networks_logo_height"
-        app:layout_constraintHorizontal_bias="@dimen/facebook_logo_hor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_rectangle"
-        app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
-        app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
-
-    <ImageView
-        android:id="@+id/linkedin_logo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:contentDescription="@string/linkedin_logo_desc"
-        android:src="@drawable/linkedin_logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="@dimen/networks_logo_height"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
-        app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
-        app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
-
-    <ImageView
-        android:id="@+id/instagram_logo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:contentDescription="@string/instagram_logo_desc"
-        android:src="@drawable/instagram_logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="@dimen/networks_logo_height"
-        app:layout_constraintHorizontal_bias="@dimen/instagram_logo_hor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
-        app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
-        app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
-
-    <Button
-        android:id="@+id/edit_button"
-        style="@style/h2_style"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/edit_button"
-        android:text="@string/edit_profile"
-        android:textAllCaps="false"
-        android:textColor="@color/additional_text_first"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="@dimen/edit_profile_height"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
-        app:layout_constraintVertical_bias="@dimen/edit_profile_vertical"
-        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
-
-    <Button
-        android:id="@+id/contacts_button"
-        style="@style/h2_5_style"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/view_contacts_button"
-        android:letterSpacing="@dimen/button_letter_spacing"
-        android:text="@string/view_contacts"
-        android:textColor="@color/default_text_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="@dimen/contacts_height"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_rectangle"
-        app:layout_constraintVertical_bias="@dimen/contacts_vertical"
-        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
+        custom:defaultNavHost="true"
+        custom:navGraph="@navigation/nav_graph"
+        tools:layout="@layout/fragment_register" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
