@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.project.myproject.Constants
 import com.project.myproject.R
@@ -68,7 +69,9 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
     private fun setupBackArrowListeners() {
 
         binding.toolbarBack.setOnClickListener {
-            it.findNavController().popBackStack()
+//            it.findNavController().popBackStack()
+            val viewPager = activity?.findViewById<ViewPager2>(R.id.viewPager)
+            viewPager?.currentItem = Constants.FIRST_TAB_NUMBER
         }
     }
 
@@ -207,19 +210,6 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
             val fadeInAnimation = AnimationUtils.loadAnimation(context, androidx.appcompat.R.anim.abc_fade_in)
             view.startAnimation(fadeInAnimation)
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        hideAllViewsExceptBackground()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        Handler().postDelayed({
-            fadeAllViewsExceptBackground()
-        }, animation.duration)
     }
 
     private fun setupAnimation() {

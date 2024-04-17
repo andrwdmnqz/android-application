@@ -12,9 +12,6 @@
         <action
             android:id="@+id/action_viewPagerFragment_to_detailViewFragment"
             app:destination="@id/detailViewFragment" />
-        <action
-            android:id="@+id/action_viewPagerFragment_to_registerActivity"
-            app:destination="@id/registerActivity" />
     </fragment>
     <fragment
         android:id="@+id/detailViewFragment"
@@ -34,8 +31,4 @@
             android:name="address"
             app:argType="string" />
     </fragment>
-    <activity
-        android:id="@+id/registerActivity"
-        android:name="com.project.myproject.RegisterActivity"
-        android:label="RegisterActivity" />
 </navigation>

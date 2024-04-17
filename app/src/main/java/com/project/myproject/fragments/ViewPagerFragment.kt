@@ -7,15 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.project.myproject.Constants
 import com.project.myproject.R
 import com.project.myproject.adapters.ViewPagerAdapter
 import com.project.myproject.databinding.FragmentViewPagerBinding
-
-
-private const val FIRST_TAB_NUMBER = 0
-private const val SECOND_TAB_NUMBER = 1
-private const val FIRST_TAB_TEXT = "My profile"
-private const val SECOND_TAB_TEXT = "Contacts"
 
 class ViewPagerFragment : Fragment(R.layout.fragment_view_pager) {
 
@@ -47,8 +42,8 @@ class ViewPagerFragment : Fragment(R.layout.fragment_view_pager) {
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
-                FIRST_TAB_NUMBER -> FIRST_TAB_TEXT
-                SECOND_TAB_NUMBER -> SECOND_TAB_TEXT
+                Constants.FIRST_TAB_NUMBER -> Constants.FIRST_TAB_TEXT
+                Constants.SECOND_TAB_NUMBER -> Constants.SECOND_TAB_TEXT
                 else -> throw IllegalStateException()
             }
         }.attach()
