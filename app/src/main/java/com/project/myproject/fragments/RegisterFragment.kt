@@ -144,9 +144,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 }
                 val extras = FragmentNavigatorExtras(binding.registerBackground to "mainBackground")
 
-                it.findNavController().navigate(
-                    RegisterFragmentDirections.actionRegisterFragmentToMainFragment(
-                    regEmailInput.text.toString()), extras)
+//                it.findNavController().navigate(
+//                    RegisterFragmentDirections.actionRegisterFragmentToMainFragment(
+//                    regEmailInput.text.toString()), extras)
             }
 
             if (regEmailInput.text.isNullOrBlank()) {
@@ -207,8 +207,8 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
             if (!email.isNullOrBlank() && !password.isNullOrBlank()) {
                 val extras = FragmentNavigatorExtras(binding.registerBackground to "mainBackground")
-                findNavController().navigate(
-                    RegisterFragmentDirections.actionRegisterFragmentToMainFragment(email), extras)
+//                findNavController().navigate(
+//                    RegisterFragmentDirections.actionRegisterFragmentToMainFragment(email), extras)
             }
         }
     }

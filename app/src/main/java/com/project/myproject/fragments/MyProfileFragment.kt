@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.transition.Transition
 import android.transition.TransitionInflater
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,14 +14,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.viewpager2.widget.ViewPager2
 import com.project.myproject.R
 import com.project.myproject.SettingPreference
-import com.project.myproject.databinding.FragmentMainBinding
+import com.project.myproject.databinding.FragmentMyProfileBinding
 import kotlinx.coroutines.launch
 
-class MainFragment : Fragment(R.layout.fragment_main) {
+class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
 
-    private var _binding: FragmentMainBinding? = null
+    private var _binding: FragmentMyProfileBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var settingPreference: SettingPreference
@@ -32,7 +34,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentMyProfileBinding.inflate(layoutInflater, container, false)
 
         settingPreference = SettingPreference(requireContext())
 
@@ -45,7 +47,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         initializeContactsButtonListeners()
 
-        parseName()
+        //parseName()
 
         setupAnimation()
 
@@ -114,8 +116,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 settingPreference.clearData()
 
                 val extras = FragmentNavigatorExtras(binding.mainBackground to "registerBackground")
-                it.findNavController().navigate(
-                    MainFragmentDirections.actionMainFragmentToRegisterFragment(), extras)
+//                it.findNavController().navigate(
+//                    MainFragmentDirections.actionMainFragmentToRegisterFragment(), extras)
             }
         }
     }
@@ -123,28 +125,27 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun initializeContactsButtonListeners() {
 
         binding.contactsButton.setOnClickListener {
-            val extras = FragmentNavigatorExtras(binding.mainBackground to "contactsBackground")
-            it.findNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToContactsFragment(), extras)
+            val viewPager = activity?.findViewById<ViewPager2>(R.id.viewPager)
+            viewPager?.currentItem = 1
         }
     }
 
-    private fun parseName() {
-        var name = MainFragmentArgs.fromBundle(requireArguments()).email
-        val nameField = binding.name
-
-        name = name.substringBefore('@')
-
-        val splittedName = name.split('.')
-            .map { it.replaceFirstChar { char -> char.uppercaseChar() } }
-
-        val nameText: String
-
-        if (splittedName.size > 1) {
-            nameText = "${splittedName[0]} ${splittedName[1]}"
-        } else {
-            nameText = getString(R.string.name_placeholder, splittedName[0])
-        }
-        nameField.text = nameText
-    }
+//    private fun parseName() {
+//        var name = MainFragmentArgs.fromBundle(requireArguments()).email
+//        val nameField = binding.name
+//
+//        name = name.substringBefore('@')
+//
+//        val splittedName = name.split('.')
+//            .map { it.replaceFirstChar { char -> char.uppercaseChar() } }
+//
+//        val nameText: String
+//
+//        if (splittedName.size > 1) {
+//            nameText = "${splittedName[0]} ${splittedName[1]}"
+//        } else {
+//            nameText = getString(R.string.name_placeholder, splittedName[0])
+//        }
+//        nameField.text = nameText
+//    }
 }

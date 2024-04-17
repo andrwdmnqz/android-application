@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.transition.Transition
 import android.transition.TransitionInflater
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -102,7 +101,7 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
         val extras = FragmentNavigatorExtras(binding.contactsBackground to "detailBackground")
 
         findNavController().navigate(
-            ContactsFragmentDirections.actionContactsFragmentToDetailViewFragment(
+            ViewPagerFragmentDirections.actionViewPagerFragmentToDetailViewFragment(
                 user.photo, user.name,
                 user.career, user.address
             ), extras

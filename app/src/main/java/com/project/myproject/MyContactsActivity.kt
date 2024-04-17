@@ -15,7 +15,6 @@ import com.project.myproject.callbacks.SwipeToDeleteCallback
 import com.project.myproject.databinding.MyContactsActivityBinding
 import com.project.myproject.decorators.UserItemDecorator
 import com.project.myproject.dialogs.AddContactDialogFragment
-import com.project.myproject.fragments.ContactsFragmentDirections
 import com.project.myproject.models.User
 import com.project.myproject.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
@@ -65,11 +64,11 @@ class MyContactsActivity : AppCompatActivity(), UserAdapter.OnUserItemClickListe
     override fun onContactItemClicked(user: User) {
         val extras = FragmentNavigatorExtras(viewBinding.contactsBackground to "detailBackground")
 
-        val action = ContactsFragmentDirections.actionContactsFragmentToDetailViewFragment(
-            user.photo, user.name, user.career, user.address
-        )
-
-        findNavController(R.id.action_contactsFragment_to_detailViewFragment).navigate(action, extras)
+//        val action = ContactsFragmentDirections.actionContactsFragmentToDetailViewFragment(
+//            user.photo, user.name, user.career, user.address
+//        )
+//
+//        findNavController(R.id.action_contactsFragment_to_detailViewFragment).navigate(action, extras)
     }
 
     override fun onDeleteItemClicked(user: User, position: Int) {
