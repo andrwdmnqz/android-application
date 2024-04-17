@@ -47,4 +47,6 @@
 
     <string name="message_button_text">Повідомлення</string>
     <string name="profile_textview_text">Профіль</string>
+
+    <string name="tab_layout_description">tab layout</string>
 </resources>
