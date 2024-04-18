@@ -109,6 +109,10 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
             lifecycleScope.launch {
                 settingPreference.clearData()
 
+                val navController = it.findNavController()
+
+                navController.popBackStack(navController.graph.startDestinationId, true)
+
                 val intent = Intent(requireContext(), RegisterActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)

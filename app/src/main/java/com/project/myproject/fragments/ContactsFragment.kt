@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -41,12 +42,16 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
 
     private lateinit var animation: Transition
 
+    private lateinit var viewPager: ViewPager2
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentContactsBinding.inflate(layoutInflater, container, false)
+
+        viewPager = activity?.findViewById(R.id.viewPager)!!
 
         return binding.root
     }
@@ -66,14 +71,33 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun onStart() {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+
+            if (isFirstTab()) {
+                activity?.finish()
+            } else {
+                moveToFirstTab()
+            }
+        }
+
+        super.onStart()
+    }
+
     private fun setupBackArrowListeners() {
 
         binding.toolbarBack.setOnClickListener {
 //            it.findNavController().popBackStack()
-            val viewPager = activity?.findViewById<ViewPager2>(R.id.viewPager)
-            viewPager?.currentItem = Constants.FIRST_TAB_NUMBER
+            moveToFirstTab()
         }
     }
+
+    private fun moveToFirstTab() {
+        val viewPager = activity?.findViewById<ViewPager2>(R.id.viewPager)
+        viewPager?.currentItem = Constants.FIRST_TAB_NUMBER
+    }
+
+    private fun isFirstTab() = viewPager.currentItem == Constants.FIRST_TAB_NUMBER
 
     private fun setupAddContactListeners() {
         val addContactsView = binding.addContactsLabel
