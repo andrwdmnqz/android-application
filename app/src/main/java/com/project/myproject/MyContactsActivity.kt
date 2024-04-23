@@ -29,7 +29,7 @@ class MyContactsActivity : AppCompatActivity(), UserAdapter.OnUserItemClickListe
         viewBinding = MyContactsActivityBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        adapter = UserAdapter(this)
+        adapter = UserAdapter(this) {}
 
         setupRecyclerView()
 
@@ -52,7 +52,8 @@ class MyContactsActivity : AppCompatActivity(), UserAdapter.OnUserItemClickListe
                 Constants.DEFAULT_USER_IMAGE_PATH,
                 bundle.getString(Constants.CONTACT_NAME_KEY)!!,
                 bundle.getString(Constants.CONTACT_CAREER_KEY)!!,
-                bundle.getString(Constants.CONTACT_ADDRESS_KEY)!!
+                bundle.getString(Constants.CONTACT_ADDRESS_KEY)!!,
+                false
             )
 
             viewModel.addUser(0, user)

@@ -38,6 +38,7 @@
     <string name="error_password_symbols">Ваш пароль має включати тільки букви, цифри та символи.</string>
     <string name="error_invalid_email">Некоректна електронна адреса.</string>
 
+    <string name="contact_photo_desc">contact photo</string>
     <string name="contact_removed">Контакт було видалено</string>
     <string name="contact_returned">Контакт було повернено</string>
     <string name="undo_button">Відмінити</string>
@@ -49,4 +50,7 @@
     <string name="profile_textview_text">Профіль</string>
 
     <string name="tab_layout_description">tab layout</string>
+    <string name="multiselect_delete_description">multiselect delete icon</string>
+    <string name="contact_selected_description">selected icon</string>
+    <string name="contact_unselected_description">unselected icon</string>
 </resources>

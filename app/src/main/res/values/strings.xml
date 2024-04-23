@@ -38,6 +38,7 @@
     <string name="error_password_symbols">Your password must include only letters, numbers, and symbols.</string>
     <string name="error_invalid_email">Incorrect E-mail address.</string>
 
+    <string name="contact_photo_desc">contact photo</string>
     <string name="contact_removed">Contact has been removed</string>
     <string name="contact_returned">Contact has been returned</string>
     <string name="undo_button">Undo</string>
@@ -49,4 +50,7 @@
     <string name="profile_textview_text">Profile</string>
 
     <string name="tab_layout_description">tab layout</string>
+    <string name="multiselect_delete_description">multiselect delete icon</string>
+    <string name="contact_selected_description">selected icon</string>
+    <string name="contact_unselected_description">unselected icon</string>
 </resources>

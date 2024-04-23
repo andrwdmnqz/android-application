@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -58,18 +59,18 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        adapter = UserAdapter(this)
+        adapter = UserAdapter(this) { show -> showMultiselectDelete(show) }
 
         setupRecyclerView()
-
         setupBackArrowListeners()
-
         setupAddContactListeners()
-
         setupAnimation()
+        setupMultiselectDeleteListeners()
 
         super.onViewCreated(view, savedInstanceState)
     }
+
+
 
     override fun onStart() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
@@ -115,7 +116,8 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
                 Constants.DEFAULT_USER_IMAGE_PATH,
                 bundle.getString(Constants.CONTACT_NAME_KEY)!!,
                 bundle.getString(Constants.CONTACT_CAREER_KEY)!!,
-                bundle.getString(Constants.CONTACT_ADDRESS_KEY)!!
+                bundle.getString(Constants.CONTACT_ADDRESS_KEY)!!,
+                false
             )
 
             viewModel.addUser(0, user)
@@ -244,5 +246,18 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
 
         sharedElementEnterTransition = animation
         sharedElementReturnTransition = animation
+    }
+
+    private fun setupMultiselectDeleteListeners() {
+        val multiselectDeleteIcon = binding.ivMultiselectDelete
+        multiselectDeleteIcon.setOnClickListener {
+
+
+            multiselectDeleteIcon.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun showMultiselectDelete(show: Boolean) {
+        binding.ivMultiselectDelete.isVisible = show
     }
 }
