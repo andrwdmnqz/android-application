@@ -1,16 +1,22 @@
 package com.project.myproject.adapters
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.project.myproject.Constants
+import com.project.myproject.R
 import com.project.myproject.databinding.ContactItemBinding
 import com.project.myproject.extensions.loadImageByGlide
 import com.project.myproject.models.User
+
 
 class UserAdapter(
     private val onUserItemClickListener: OnUserItemClickListener,
@@ -91,11 +97,17 @@ class UserAdapter(
         val selectedIcon = holder.contactSelectedIcon
         val unselectedIcon = holder.contactUnselectedIcon
 
+        val constraintLayout = holder.itemView as ConstraintLayout
+        val shapeDrawable = constraintLayout.background as GradientDrawable
+        val backgroundColor: Int
+
         if (!isMultiselectEnable) {
 
             deleteIcon.visibility = View.VISIBLE
             selectedIcon.visibility = View.INVISIBLE
             unselectedIcon.visibility = View.INVISIBLE
+
+            backgroundColor = ContextCompat.getColor(holder.itemView.context, R.color.default_background)
         } else {
             holder.contactDeleteIcon.visibility = View.INVISIBLE
             if (itemSelectedList.contains(position)) {
@@ -105,7 +117,9 @@ class UserAdapter(
                 holder.contactSelectedIcon.visibility = View.INVISIBLE
                 holder.contactUnselectedIcon.visibility = View.VISIBLE
             }
+            backgroundColor = ContextCompat.getColor(holder.itemView.context, R.color.selected_background)
         }
+        shapeDrawable.setColor(backgroundColor)
     }
 
     private fun toggleItemSelection(position: Int, holder: ViewHolder, user: User) {
