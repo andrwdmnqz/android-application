@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.transition.Transition
 import android.transition.TransitionInflater
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -139,8 +140,11 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
 
     override fun onDeleteItemClicked(user: User, position: Int) {
         viewModel.deleteUser(user.id)
+        adapter.submitList(viewModel.users.value)
 
         showDeleteSnackbar(user, position)
+
+        adapter.notifyItemRangeChanged(position, adapter.itemCount)
     }
 
     private fun showDeleteSnackbar(user: User, position: Int) {
@@ -251,7 +255,6 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
     private fun setupMultiselectDeleteListeners() {
         val multiselectDeleteIcon = binding.ivMultiselectDelete
         multiselectDeleteIcon.setOnClickListener {
-
 
             multiselectDeleteIcon.visibility = View.INVISIBLE
         }

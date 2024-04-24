@@ -43,8 +43,6 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
 
         settingPreference = SettingPreference(requireContext())
 
-        Log.d("DEBUG", "HERE1")
-
         return binding.root
     }
 
@@ -132,7 +130,6 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
         var name = activity?.intent?.extras?.getString(Constants.EMAIL_KEY)
         name = name!!
         val nameField = binding.name
-        Log.d("DEBUG", name)
 
         name = name.substringBefore('@')
 

@@ -1,5 +1,6 @@
 package com.project.myproject.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,17 +57,14 @@ class UserAdapter(
         holder.contactCareerView.text = user.career
         holder.contactImageView.loadImageByGlide(user.photo)
 
-        if (isMultiselectEnable) {
-            if (itemSelectedList.contains(position)) {
-                holder.contactSelectedIcon.visibility = View.VISIBLE
-                holder.contactUnselectedIcon.visibility = View.INVISIBLE
-            } else {
-                holder.contactSelectedIcon.visibility = View.INVISIBLE
-                holder.contactUnselectedIcon.visibility = View.VISIBLE
-            }
-        }
+        Log.d("DEBUG", "${this.currentList}")
+
+        Log.d("DEBUG", "pre/ position - $position, user name - ${user.name}")
+        defineItemViewsVisibility(holder, position)
 
         holder.itemView.setOnLongClickListener {
+            Log.d("DEBUG", "long click position - $position, user name - ${user.name}")
+
             selectItem(holder, user, position)
 
             notifyItemRangeChanged(0, this.itemCount)
@@ -87,14 +85,36 @@ class UserAdapter(
         }
     }
 
+    private fun defineItemViewsVisibility(holder: ViewHolder, position: Int) {
+        Log.d("DEBUG", "name - ${holder.contactNameView.text}, position - $position")
+        val deleteIcon = holder.contactDeleteIcon
+        val selectedIcon = holder.contactSelectedIcon
+        val unselectedIcon = holder.contactUnselectedIcon
+
+        if (!isMultiselectEnable) {
+
+            deleteIcon.visibility = View.VISIBLE
+            selectedIcon.visibility = View.INVISIBLE
+            unselectedIcon.visibility = View.INVISIBLE
+        } else {
+            holder.contactDeleteIcon.visibility = View.INVISIBLE
+            if (itemSelectedList.contains(position)) {
+                holder.contactSelectedIcon.visibility = View.VISIBLE
+                holder.contactUnselectedIcon.visibility = View.INVISIBLE
+            } else {
+                holder.contactSelectedIcon.visibility = View.INVISIBLE
+                holder.contactUnselectedIcon.visibility = View.VISIBLE
+            }
+        }
+    }
+
     private fun toggleItemSelection(position: Int, holder: ViewHolder, user: User) {
         if (itemSelectedList.contains(position)) {
 
-            itemSelectedList.removeAt(position)
+            itemSelectedList.remove(position)
             user.isSelected = false
 
-            holder.contactSelectedIcon.visibility = View.INVISIBLE
-            holder.contactUnselectedIcon.visibility = View.VISIBLE
+            changeVisibility(holder)
 
             if (itemSelectedList.isEmpty()) {
                 isMultiselectEnable = false
@@ -109,11 +129,21 @@ class UserAdapter(
     private fun selectItem(holder: ViewHolder, user: User, position: Int) {
         isMultiselectEnable = true
         itemSelectedList.add(position)
-
+        Log.d("DEBUG", "$itemSelectedList")
+        Log.d("DEBUG", "selecting user ${user.name}, position - $position")
         user.isSelected = true
         showMultiselectDelete(true)
-        holder.contactSelectedIcon.visibility = View.VISIBLE
-        holder.contactUnselectedIcon.visibility = View.INVISIBLE
+
+        changeVisibility(holder)
+    }
+
+    private fun changeVisibility(holder: ViewHolder) {
+        val selectedIcon = holder.contactSelectedIcon
+        val unselectedIcon = holder.contactUnselectedIcon
+        val tempVisibility = selectedIcon.visibility
+
+        selectedIcon.visibility = unselectedIcon.visibility
+        unselectedIcon.visibility = tempVisibility
     }
 
     interface OnUserItemClickListener {
