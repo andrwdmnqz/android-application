@@ -1,11 +1,14 @@
 package com.project.myproject.adapters
 
+import android.content.Context
+import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -16,16 +19,20 @@ import com.project.myproject.R
 import com.project.myproject.databinding.ContactItemBinding
 import com.project.myproject.extensions.loadImageByGlide
 import com.project.myproject.models.User
+import kotlin.math.roundToInt
 
 
 class UserAdapter(
+    private val context: Context,
     private val onUserItemClickListener: OnUserItemClickListener,
     private val showMultiselectDelete: (Boolean) -> Unit
     ) :
     ListAdapter<User, UserAdapter.ViewHolder>(UserItemDiffCallback()) {
-
     private var isMultiselectEnable = false
     private val itemSelectedList = mutableListOf<Int>()
+
+    private val shiftAmount = context.resources.getDimensionPixelSize(R.dimen.multiselect_view_shift_right).toFloat()
+
     class UserItemDiffCallback : DiffUtil.ItemCallback<User>() {
         override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
             return oldItem.id == newItem.id
@@ -63,13 +70,15 @@ class UserAdapter(
         holder.contactCareerView.text = user.career
         holder.contactImageView.loadImageByGlide(user.photo)
 
-        Log.d("DEBUG", "${this.currentList}")
-
-        Log.d("DEBUG", "pre/ position - $position, user name - ${user.name}")
         defineItemViewsVisibility(holder, position)
 
+        shiftViews(holder, isMultiselectEnable)
+
+        setItemListeners(holder, user, position)
+    }
+
+    private fun setItemListeners(holder: ViewHolder, user: User, position: Int) {
         holder.itemView.setOnLongClickListener {
-            Log.d("DEBUG", "long click position - $position, user name - ${user.name}")
 
             selectItem(holder, user, position)
 
@@ -91,8 +100,14 @@ class UserAdapter(
         }
     }
 
+    private fun shiftViews(holder: ViewHolder, shift: Boolean) {
+        holder.contactImageView.translationX = if (shift) shiftAmount else 0f
+        holder.contactNameView.translationX = if (shift) shiftAmount else 0f
+        holder.contactCareerView.translationX = if (shift) shiftAmount else 0f
+    }
+
     private fun defineItemViewsVisibility(holder: ViewHolder, position: Int) {
-        Log.d("DEBUG", "name - ${holder.contactNameView.text}, position - $position")
+
         val deleteIcon = holder.contactDeleteIcon
         val selectedIcon = holder.contactSelectedIcon
         val unselectedIcon = holder.contactUnselectedIcon
@@ -110,16 +125,20 @@ class UserAdapter(
             backgroundColor = ContextCompat.getColor(holder.itemView.context, R.color.default_background)
         } else {
             holder.contactDeleteIcon.visibility = View.INVISIBLE
-            if (itemSelectedList.contains(position)) {
-                holder.contactSelectedIcon.visibility = View.VISIBLE
-                holder.contactUnselectedIcon.visibility = View.INVISIBLE
-            } else {
-                holder.contactSelectedIcon.visibility = View.INVISIBLE
-                holder.contactUnselectedIcon.visibility = View.VISIBLE
-            }
+            markIsSelected(position, selectedIcon, unselectedIcon)
             backgroundColor = ContextCompat.getColor(holder.itemView.context, R.color.selected_background)
         }
         shapeDrawable.setColor(backgroundColor)
+    }
+
+    private fun markIsSelected(position: Int, selectedIcon: View, unselectedIcon: View) {
+        if (itemSelectedList.contains(position)) {
+            selectedIcon.visibility = View.VISIBLE
+            unselectedIcon.visibility = View.INVISIBLE
+        } else {
+            selectedIcon.visibility = View.INVISIBLE
+            unselectedIcon.visibility = View.VISIBLE
+        }
     }
 
     private fun toggleItemSelection(position: Int, holder: ViewHolder, user: User) {
@@ -143,8 +162,7 @@ class UserAdapter(
     private fun selectItem(holder: ViewHolder, user: User, position: Int) {
         isMultiselectEnable = true
         itemSelectedList.add(position)
-        Log.d("DEBUG", "$itemSelectedList")
-        Log.d("DEBUG", "selecting user ${user.name}, position - $position")
+
         user.isSelected = true
         showMultiselectDelete(true)
 

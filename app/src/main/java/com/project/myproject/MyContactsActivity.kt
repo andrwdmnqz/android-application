@@ -29,7 +29,7 @@ class MyContactsActivity : AppCompatActivity(), UserAdapter.OnUserItemClickListe
         viewBinding = MyContactsActivityBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        adapter = UserAdapter(this) {}
+        adapter = UserAdapter(this, this) {}
 
         setupRecyclerView()
 

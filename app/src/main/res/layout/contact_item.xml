@@ -39,7 +39,6 @@
         android:id="@+id/user_photo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="invisible"
         android:contentDescription="@string/contact_photo_desc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

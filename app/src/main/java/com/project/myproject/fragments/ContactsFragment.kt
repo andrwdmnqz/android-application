@@ -60,7 +60,7 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        adapter = UserAdapter(this) { show -> showMultiselectDelete(show) }
+        adapter = UserAdapter(requireContext(), this) { show -> showMultiselectDelete(show) }
 
         setupRecyclerView()
         setupBackArrowListeners()
