@@ -74,13 +74,13 @@ class UserAdapter(
 
         shiftViews(holder, isMultiselectEnable)
 
-        setItemListeners(holder, user, position)
+        setItemListeners(holder, user)
     }
 
-    private fun setItemListeners(holder: ViewHolder, user: User, position: Int) {
+    private fun setItemListeners(holder: ViewHolder, user: User) {
         holder.itemView.setOnLongClickListener {
 
-            selectItem(holder, user, position)
+            selectItem(holder, user, holder.adapterPosition)
 
             notifyItemRangeChanged(0, this.itemCount)
 
@@ -89,7 +89,7 @@ class UserAdapter(
 
         holder.itemView.setOnClickListener {
             if (isMultiselectEnable) {
-                toggleItemSelection(position, holder, user)
+                toggleItemSelection(holder.adapterPosition, holder, user)
             } else {
                 onUserItemClickListener.onContactItemClicked(user)
             }
@@ -150,9 +150,7 @@ class UserAdapter(
             changeVisibility(holder)
 
             if (itemSelectedList.isEmpty()) {
-                isMultiselectEnable = false
-                showMultiselectDelete(false)
-                notifyItemRangeChanged(0, this.itemCount)
+                exitMultiselectMode()
             }
         } else {
             selectItem(holder, user, position)
@@ -178,8 +176,18 @@ class UserAdapter(
         unselectedIcon.visibility = tempVisibility
     }
 
+    fun exitMultiselectMode() {
+        isMultiselectEnable = false
+        showMultiselectDelete(false)
+
+        itemSelectedList.clear()
+        notifyItemRangeChanged(0, itemCount)
+    }
+
     interface OnUserItemClickListener {
         fun onContactItemClicked(user: User)
         fun onDeleteItemClicked(user: User, position: Int)
     }
+
+    public fun getSelectedItems() = itemSelectedList
 }

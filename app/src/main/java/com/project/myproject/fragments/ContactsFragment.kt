@@ -140,11 +140,13 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
 
     override fun onDeleteItemClicked(user: User, position: Int) {
         viewModel.deleteUser(user.id)
+
         adapter.submitList(viewModel.users.value)
 
-        showDeleteSnackbar(user, position)
+        //showDeleteSnackbar(user, position)
 
         adapter.notifyItemRangeChanged(position, adapter.itemCount)
+        Log.d("DEBUG", "notified")
     }
 
     private fun showDeleteSnackbar(user: User, position: Int) {
@@ -154,8 +156,6 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
 
         snackbar.setAction(getString(R.string.undo_button)) {
             viewModel.addUser(position, user)
-
-            adapter.submitList(viewModel.users.value)
         }
 
         snackbar.show()
@@ -256,7 +256,13 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
         val multiselectDeleteIcon = binding.ivMultiselectDelete
         multiselectDeleteIcon.setOnClickListener {
 
-            multiselectDeleteIcon.visibility = View.INVISIBLE
+            val selectedItems = adapter.getSelectedItems().sortedDescending()
+
+            selectedItems.forEach {
+                viewModel.deleteUser(viewModel.users.value[it].id)
+            }
+
+            adapter.exitMultiselectMode()
         }
     }
 
