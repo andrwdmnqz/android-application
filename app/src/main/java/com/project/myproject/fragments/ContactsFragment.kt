@@ -1,7 +1,6 @@
 package com.project.myproject.fragments
 
 import android.os.Bundle
-import android.os.Handler
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.util.Log
@@ -15,7 +14,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -33,6 +31,7 @@ import com.project.myproject.dialogs.AddContactDialogFragment
 import com.project.myproject.models.User
 import com.project.myproject.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
+import kotlin.system.exitProcess
 
 class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUserItemClickListener {
     private val viewModel: UserViewModel by viewModels<UserViewModel>()
@@ -71,13 +70,11 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
         super.onViewCreated(view, savedInstanceState)
     }
 
-
-
     override fun onStart() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-
             if (isFirstTab()) {
                 activity?.finish()
+                exitProcess(0)
             } else {
                 moveToFirstTab()
             }
@@ -143,10 +140,9 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
 
         adapter.submitList(viewModel.users.value)
 
-        //showDeleteSnackbar(user, position)
+        showDeleteSnackbar(user, position)
 
         adapter.notifyItemRangeChanged(position, adapter.itemCount)
-        Log.d("DEBUG", "notified")
     }
 
     private fun showDeleteSnackbar(user: User, position: Int) {

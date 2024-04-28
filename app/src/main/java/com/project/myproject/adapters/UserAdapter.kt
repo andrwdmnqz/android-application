@@ -1,14 +1,10 @@
 package com.project.myproject.adapters
 
 import android.content.Context
-import android.content.res.Resources
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -19,8 +15,6 @@ import com.project.myproject.R
 import com.project.myproject.databinding.ContactItemBinding
 import com.project.myproject.extensions.loadImageByGlide
 import com.project.myproject.models.User
-import kotlin.math.roundToInt
-
 
 class UserAdapter(
     private val context: Context,
@@ -70,7 +64,7 @@ class UserAdapter(
         holder.contactCareerView.text = user.career
         holder.contactImageView.loadImageByGlide(user.photo)
 
-        defineItemViewsVisibility(holder, position)
+        defineItemViewsAppearance(holder, position)
 
         shiftViews(holder, isMultiselectEnable)
 
@@ -81,7 +75,6 @@ class UserAdapter(
         holder.itemView.setOnLongClickListener {
 
             selectItem(holder, user, holder.adapterPosition)
-
             notifyItemRangeChanged(0, this.itemCount)
 
             true
@@ -106,7 +99,7 @@ class UserAdapter(
         holder.contactCareerView.translationX = if (shift) shiftAmount else 0f
     }
 
-    private fun defineItemViewsVisibility(holder: ViewHolder, position: Int) {
+    private fun defineItemViewsAppearance(holder: ViewHolder, position: Int) {
 
         val deleteIcon = holder.contactDeleteIcon
         val selectedIcon = holder.contactSelectedIcon
@@ -121,10 +114,9 @@ class UserAdapter(
             deleteIcon.visibility = View.VISIBLE
             selectedIcon.visibility = View.INVISIBLE
             unselectedIcon.visibility = View.INVISIBLE
-
             backgroundColor = ContextCompat.getColor(holder.itemView.context, R.color.default_background)
         } else {
-            holder.contactDeleteIcon.visibility = View.INVISIBLE
+            deleteIcon.visibility = View.INVISIBLE
             markIsSelected(position, selectedIcon, unselectedIcon)
             backgroundColor = ContextCompat.getColor(holder.itemView.context, R.color.selected_background)
         }
@@ -170,8 +162,8 @@ class UserAdapter(
     private fun changeVisibility(holder: ViewHolder) {
         val selectedIcon = holder.contactSelectedIcon
         val unselectedIcon = holder.contactUnselectedIcon
-        val tempVisibility = selectedIcon.visibility
 
+        val tempVisibility = selectedIcon.visibility
         selectedIcon.visibility = unselectedIcon.visibility
         unselectedIcon.visibility = tempVisibility
     }
@@ -189,5 +181,5 @@ class UserAdapter(
         fun onDeleteItemClicked(user: User, position: Int)
     }
 
-    public fun getSelectedItems() = itemSelectedList
+    fun getSelectedItems() = itemSelectedList
 }
