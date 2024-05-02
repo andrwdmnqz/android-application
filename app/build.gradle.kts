@@ -42,17 +42,20 @@ android {
     }
 }
 
-val dataStoreVersion = "1.0.0"
+val dataStoreVersion = "1.1.0"
 val constraintLayoutVersion = "2.1.4"
-val coreKtxVersion = "1.12.0"
+val coreKtxVersion = "1.13.0"
 val glideVersion = "4.14.2"
 val viewModelVersion = "2.7.0"
-val activityVersion = "1.8.2"
+val activityVersion = "1.9.0"
 val navVersion = "2.7.7"
 val fragmentVersion = "1.6.2"
+val retrofitVersion = "2.11.0"
 
 dependencies {
 
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
     implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
     implementation("androidx.activity:activity-ktx:$activityVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion")

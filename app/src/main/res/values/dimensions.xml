@@ -88,4 +88,18 @@
     <dimen name="multiselect_checked_icon_height">0.3</dimen>
     <dimen name="multiselect_checked_icon_width">0.06</dimen>
     <dimen name="multiselect_view_shift_right">32dp</dimen>
+
+    <dimen name="forgot_password_horizontal">0.92</dimen>
+    <dimen name="login_button_vertical">0.92</dimen>
+
+    <dimen name="add_photo_width">0.155</dimen>
+    <dimen name="add_photo_height">0.083</dimen>
+    <dimen name="add_photo_horizontal">0.81</dimen>
+
+    <dimen name="your_profile_data_vertical">0.315</dimen>
+    <dimen name="filling_profile_text_vertical">0.367</dimen>
+    <dimen name="user_name_input_vertical">0.45</dimen>
+    <dimen name="phone_input_vertical">0.58</dimen>
+    <dimen name="forward_button_vertical">0.975</dimen>
+    <dimen name="cancel_button_vertical">0.86</dimen>
 </resources>
