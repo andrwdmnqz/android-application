@@ -51,11 +51,14 @@ val activityVersion = "1.9.0"
 val navVersion = "2.7.7"
 val fragmentVersion = "1.6.2"
 val retrofitVersion = "2.11.0"
+val okHttpVersion = "4.12.0"
 
 dependencies {
 
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation("com.squareup.okhttp3:okhttp:$okHttpVersion")
+    implementation("com.squareup.okhttp3:logging-interceptor:$okHttpVersion")
     implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
     implementation("androidx.activity:activity-ktx:$activityVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion")

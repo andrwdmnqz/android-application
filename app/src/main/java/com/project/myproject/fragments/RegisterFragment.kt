@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -22,20 +23,28 @@ import com.google.android.material.textfield.TextInputLayout
 import com.project.myproject.R
 import com.project.myproject.SettingPreference
 import com.project.myproject.databinding.FragmentRegisterBinding
+import com.project.myproject.network.retrofit.RetrofitService
+import com.project.myproject.repository.MainRepository
+import com.project.myproject.viewmodels.RegistrationCallbacks
+import com.project.myproject.viewmodels.UserViewModel
+import com.project.myproject.viewmodels.UserViewModelFactory
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
-class RegisterFragment : Fragment(R.layout.fragment_register) {
+class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallbacks {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var regEmailLayout: TextInputLayout
     private lateinit var regEmailInput: TextInputEditText
     private lateinit var regPasswordInput: TextInputEditText
 
     private lateinit var settingPreference: SettingPreference
 
     private lateinit var animation: Transition
+
+    private lateinit var viewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,21 +60,27 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val regEmailLayout = binding.regEmailLayout
+        regEmailLayout = binding.regEmailLayout
         val regPasswordLayout = binding.regPasswordLayout
 
         regEmailInput = binding.regEmailInput
         regPasswordInput = binding.regPasswordInput
 
-        initializeRegisterButtonListeners(regEmailLayout, regPasswordLayout)
-
-        setupEmailValidation(regEmailLayout)
-
+        createViewModel()
+        initializeRegisterButtonListeners(regPasswordLayout)
+        setupEmailValidation()
         setupPasswordValidation(regPasswordLayout)
-
         setupAnimation()
 
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun createViewModel() {
+        val retrofitService = RetrofitService.getInstance()
+        val mainRepository = MainRepository(retrofitService)
+
+        viewModel = ViewModelProvider(this, UserViewModelFactory(
+            mainRepository, this))[UserViewModel::class.java]
     }
 
     private fun setupPasswordValidation(regPasswordLayout: TextInputLayout) {
@@ -102,7 +117,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         })
     }
 
-    private fun setupEmailValidation(regEmailLayout: TextInputLayout) {
+    private fun setupEmailValidation() {
         regEmailInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
@@ -125,7 +140,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     }
 
     private fun initializeRegisterButtonListeners(
-        regEmailLayout: TextInputLayout,
         regPasswordLayout: TextInputLayout
     ) {
 
@@ -133,27 +147,31 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         val rememberMeCheckbox = binding.rememberMe
 
         registerButton.setOnClickListener {
+            val email = regEmailInput.text
+            val password = regPasswordInput.text
+
             if (regEmailLayout.error == null && regPasswordLayout.error == null
-                && !regEmailInput.text.isNullOrBlank() && !regPasswordInput.text.isNullOrBlank()) {
+                && !email.isNullOrBlank() && !password.isNullOrBlank()) {
 
                 if (rememberMeCheckbox.isChecked) {
                     lifecycleScope.launch {
-                        settingPreference.saveEmail(regEmailInput.text.toString())
-                        settingPreference.savePassword(regPasswordInput.text.toString())
+                        settingPreference.saveEmail(email.toString())
+                        settingPreference.savePassword(password.toString())
                     }
                 }
-                val extras = FragmentNavigatorExtras(binding.registerBackground to "mainBackground")
 
+                viewModel.registerUser(email.toString(), password.toString())
+//                val extras = FragmentNavigatorExtras(binding.registerBackground to "mainBackground")
 //                it.findNavController().navigate(
 //                    RegisterFragmentDirections.actionRegisterFragmentToMainFragment(
 //                    regEmailInput.text.toString()), extras)
             }
 
-            if (regEmailInput.text.isNullOrBlank()) {
+            if (email.isNullOrBlank()) {
                 regEmailLayout.error = getString(R.string.error_email_required)
             }
 
-            if (regPasswordInput.text.isNullOrBlank()) {
+            if (password.isNullOrBlank()) {
                 regPasswordLayout.error = getString(R.string.error_password_required)
             }
         }
@@ -228,5 +246,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     companion object {
         private const val PASSWORD_REGEX = "^[a-zA-Z0-9@#\$%^&+=!]+\$"
+    }
+
+    override fun onEmailTakenError() {
+        regEmailLayout.error = getString(R.string.error_email_exists)
+    }
+
+    override fun onSuccess() {
+        findNavController().navigate(R.id.action_registerFragment_to_profileDataFragment)
     }
 }

@@ -37,6 +37,7 @@
     <string name="error_password_max_length">Your password must include a maximum of 16 characters.</string>
     <string name="error_password_symbols">Your password must include only letters, numbers, and symbols.</string>
     <string name="error_invalid_email">Incorrect E-mail address.</string>
+    <string name="error_email_exists">Email is already taken.</string>
 
     <string name="contact_photo_desc">contact photo</string>
     <string name="contact_removed">Contact has been removed</string>

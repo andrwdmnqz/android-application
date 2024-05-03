@@ -37,6 +37,7 @@
     <string name="error_password_max_length">Ваш пароль має включати максимум 16 символів.</string>
     <string name="error_password_symbols">Ваш пароль має включати тільки букви, цифри та символи.</string>
     <string name="error_invalid_email">Некоректна електронна адреса.</string>
+    <string name="error_email_exists">Електронна пошта вже зайнята.</string>
 
     <string name="contact_photo_desc">contact photo</string>
     <string name="contact_removed">Контакт було видалено</string>

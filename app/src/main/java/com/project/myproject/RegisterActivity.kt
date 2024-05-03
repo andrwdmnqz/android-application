@@ -24,8 +24,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var regEmailInput: TextInputEditText
     private lateinit var regPasswordInput: TextInputEditText
 
-    override fun onCreate(savedInitialState: Bundle?) {
-        super.onCreate(savedInitialState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewBinding = RegisterActivityBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
