@@ -36,7 +36,7 @@
     <string name="error_password_min_length">Ваш пароль має включати мінімум 8 символів.</string>
     <string name="error_password_max_length">Ваш пароль має включати максимум 16 символів.</string>
     <string name="error_password_symbols">Ваш пароль має включати тільки букви, цифри та символи.</string>
-    <string name="error_invalid_email">Некоректна електронна адреса.</string>
+    <string name="error_invalid_email">Некоректна електронна пошта.</string>
     <string name="error_email_exists">Електронна пошта вже зайнята.</string>
 
     <string name="contact_photo_desc">contact photo</string>
@@ -69,4 +69,9 @@
     <string name="mobile_phone_hint">Мобільний телефон</string>
     <string name="forward_button_text">Вперед</string>
     <string name="cancel_button_text">Скасувати</string>
+
+    <string name="invalid_login_data">Неправильна пошта або пароль.</string>
+    <string name="login_error_password_min_length">Пароль має включати мінімум 8 символів.</string>
+    <string name="login_error_password_max_length">Пароль має включати максимум 16 символів.</string>
+    <string name="login_error_password_symbols">Пароль має включати тільки букви, цифри та символи.</string>
 </resources>

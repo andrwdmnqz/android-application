@@ -13,12 +13,15 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.project.myproject.Constants
 import com.project.myproject.R
 import com.project.myproject.SettingPreference
 import com.project.myproject.databinding.FragmentRegisterBinding
@@ -26,10 +29,11 @@ import com.project.myproject.network.retrofit.RetrofitService
 import com.project.myproject.repository.MainRepository
 import com.project.myproject.viewmodels.RegistrationCallbacks
 import com.project.myproject.viewmodels.UserViewModel
-import com.project.myproject.viewmodels.UserViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallbacks {
 
     private var _binding: FragmentRegisterBinding? = null
@@ -43,7 +47,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
 
     private lateinit var animation: Transition
 
-    private lateinit var viewModel: UserViewModel
+    private val viewModel by activityViewModels<UserViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +57,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
         _binding = FragmentRegisterBinding.inflate(layoutInflater, container, false)
 
         settingPreference = SettingPreference(requireContext())
+        viewModel.setRegistrationCallbacks(this)
 
         return binding.root
     }
@@ -65,7 +70,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
         regEmailInput = binding.regEmailInput
         regPasswordInput = binding.regPasswordInput
 
-        createViewModel()
+        //createViewModel()
         initializeRegisterButtonListeners(regPasswordLayout)
         initializeSignInViewListener()
         setupEmailValidation()
@@ -83,13 +88,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
         }
     }
 
-    private fun createViewModel() {
-        val retrofitService = RetrofitService.getInstance()
-        val mainRepository = MainRepository(retrofitService)
-
-        viewModel = ViewModelProvider(this, UserViewModelFactory(
-            mainRepository, this))[UserViewModel::class.java]
-    }
+//    private fun createViewModel() {
+//        val retrofitService = RetrofitService.getInstance()
+//        val mainRepository = MainRepository(retrofitService)
+//
+//        viewModel = ViewModelProvider(this, UserViewModelFactory(
+//            mainRepository, this))[UserViewModel::class.java]
+//    }
 
     private fun setupPasswordValidation(regPasswordLayout: TextInputLayout) {
         regPasswordInput.addTextChangedListener(object : TextWatcher {
@@ -102,7 +107,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
             }
 
             override fun afterTextChanged(s: Editable?) {
-                val passwordAllowedSymbolsRegex = Regex(PASSWORD_REGEX)
+                val passwordAllowedSymbolsRegex = Regex(Constants.PASSWORD_REGEX)
                 val password = s.toString()
                 when {
                     password.isNotEmpty() && password.length < 8 -> {
@@ -250,10 +255,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
-    }
-
-    companion object {
-        private const val PASSWORD_REGEX = "^[a-zA-Z0-9@#\$%^&+=!]+\$"
     }
 
     override fun onEmailTakenError() {

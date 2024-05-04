@@ -36,7 +36,7 @@
     <string name="error_password_min_length">Your password must include a minimum of 8 characters.</string>
     <string name="error_password_max_length">Your password must include a maximum of 16 characters.</string>
     <string name="error_password_symbols">Your password must include only letters, numbers, and symbols.</string>
-    <string name="error_invalid_email">Incorrect E-mail address.</string>
+    <string name="error_invalid_email">Invalid E-mail address.</string>
     <string name="error_email_exists">Email is already taken.</string>
 
     <string name="contact_photo_desc">contact photo</string>
@@ -69,4 +69,9 @@
     <string name="mobile_phone_hint">Mobile phone</string>
     <string name="forward_button_text">Forward</string>
     <string name="cancel_button_text">Cancel</string>
+
+    <string name="invalid_login_data">Wrong email or password.</string>
+    <string name="login_error_password_min_length">Password must include a minimum of 8 characters.</string>
+    <string name="login_error_password_max_length">Password must include a maximum of 16 characters.</string>
+    <string name="login_error_password_symbols">Password must include only letters, numbers, and symbols.</string>
 </resources>

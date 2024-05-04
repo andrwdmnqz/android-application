@@ -1,25 +1,22 @@
 package com.project.myproject.repository
 
-import android.util.Log
 import com.project.myproject.network.retrofit.RetrofitService
 import com.project.myproject.network.retrofit.models.CreateRequest
-import com.project.myproject.network.retrofit.response.CreateResponse
+import com.project.myproject.network.retrofit.models.LoginRequest
+import com.project.myproject.network.retrofit.response.AuthorizationResponse
 import retrofit2.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class MainRepository constructor(private val retrofitService: RetrofitService) {
+@Singleton
+class MainRepository @Inject constructor(private val retrofitService: RetrofitService) {
 
-    suspend fun createUser(createRequest: CreateRequest): Response<CreateResponse> {
-        try {
-            Log.d("DEBUG", "in repository $createRequest")
-            val responseResult = retrofitService.createUser(createRequest)
-            Log.d("DEBUG", "in repository just anything after response")
+    suspend fun createUser(createRequest: CreateRequest): Response<AuthorizationResponse> {
+        return retrofitService.createUser(createRequest)
+    }
 
-            Log.d("DEBUG", "in repository $responseResult")
-            return responseResult
-        } catch (e: Exception) {
-            Log.d("DEBUG", "Exception occurred: ${e.message}", e)
-            throw e // Rethrow the exception or handle it according to your requirements
-        }
+    suspend fun loginUser(loginRequest: LoginRequest): Response<AuthorizationResponse> {
+        return retrofitService.loginUser(loginRequest)
     }
 }
 

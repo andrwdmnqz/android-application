@@ -1,6 +1,6 @@
 package com.project.myproject.network.retrofit.response
 
-data class CreateResponse(
+data class AuthorizationResponse(
     val status: String,
     val code: Int,
     val message: String,

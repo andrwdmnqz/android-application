@@ -43,7 +43,7 @@
         app:layout_constraintVertical_bias="@dimen/fill_the_profile_vertical" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/reg_email_layout"
+        android:id="@+id/tilLoginEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColorHint="@color/additional_text_second"
@@ -61,7 +61,7 @@
         app:layout_constraintWidth_percent="@dimen/user_inputs_width">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/reg_email_input"
+            android:id="@+id/tietLoginEmail"
             style="@style/h2_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/reg_password_layout"
+        android:id="@+id/tilLoginPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColorHint="@color/additional_text_second"
@@ -93,7 +93,7 @@
         app:layout_constraintWidth_percent="@dimen/user_inputs_width">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/reg_password_input"
+            android:id="@+id/tietLoginPassword"
             style="@style/h2_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
-        android:id="@+id/remember_me"
+        android:id="@+id/chbRememberMeLogin"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -171,6 +171,7 @@
         app:layout_constraintVertical_bias="@dimen/already_have_vert" />
 
     <TextView
+        android:id="@+id/tvSignUp"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
