@@ -40,8 +40,10 @@
             android:id="@+id/action_registerFragment_to_profileDataFragment"
             app:destination="@id/profileDataFragment" />
         <action
-            android:id="@+id/action_registerFragment_to_loginFragment2"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

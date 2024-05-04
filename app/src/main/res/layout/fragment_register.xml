@@ -200,6 +200,7 @@
         app:layout_constraintVertical_bias="@dimen/already_have_vert" />
 
     <TextView
+        android:id="@+id/tvSignIn"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -15,7 +15,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
@@ -68,11 +67,20 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
 
         createViewModel()
         initializeRegisterButtonListeners(regPasswordLayout)
+        initializeSignInViewListener()
         setupEmailValidation()
         setupPasswordValidation(regPasswordLayout)
         setupAnimation()
 
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun initializeSignInViewListener() {
+        val signInView = binding.tvSignIn
+
+        signInView.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
     }
 
     private fun createViewModel() {
