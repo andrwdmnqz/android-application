@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="h1_style">
+        <item name="android:textSize">@dimen/h1_text</item>
+        <item name="fontFamily">@font/open_sans</item>
+    </style>
+    <style name="h2_style">
+        <item name="android:textSize">@dimen/h2_text</item>
+        <item name="fontFamily">@font/open_sans</item>
+    </style>
+    <style name="h2_5_style">
+        <item name="android:textSize">@dimen/h2_5_text</item>
+        <item name="fontFamily">@font/open_sans</item>
+    </style>
+    <style name="h3_style">
+        <item name="android:textSize">@dimen/h3_text</item>
+        <item name="fontFamily">@font/open_sans</item>
+    </style>
+    <style name="h4_style">
+        <item name="android:textSize">@dimen/h4_text</item>
+        <item name="fontFamily">@font/open_sans</item>
+    </style>
+    <style name="material_button_theme" parent="Theme.MaterialComponents.Light.Bridge">
+        <item name="android:textSize">@dimen/h2_5_text</item>
+        <item name="fontFamily">@font/open_sans</item>
+    </style>
+    <style name="error_text_style">
+        <item name="android:textColor">@color/error_color</item>
+        <item name="android:textSize">@dimen/h4_text</item>
+        <item name="fontFamily">@font/open_sans</item>
+    </style>
+    <style name="fragmentTransition">
+        <item name="android:windowActivityTransitions">true</item>
+    </style>
+</resources>
