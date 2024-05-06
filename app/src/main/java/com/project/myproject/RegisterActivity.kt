@@ -117,8 +117,8 @@ class RegisterActivity : AppCompatActivity() {
                         ActivityOptions.makeSceneTransitionAnimation(this@RegisterActivity)
 
                     if (rememberMeCheckbox.isChecked) {
-                        settingPreference.saveEmail(regEmailInput.text.toString())
-                        settingPreference.savePassword(regPasswordInput.text.toString())
+//                        settingPreference.saveEmail(regEmailInput.text.toString())
+//                        settingPreference.savePassword(regPasswordInput.text.toString())
                     }
 
                     startActivity(registerIntent, profileActivityOptions.toBundle())
@@ -139,18 +139,18 @@ class RegisterActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         lifecycleScope.launch {
-            val email = settingPreference.getEmail().firstOrNull()
-            val password = settingPreference.getPassword().firstOrNull()
+//            val email = settingPreference.getEmail().firstOrNull()
+//            val password = settingPreference.getPassword().firstOrNull()
 
-            if (!email.isNullOrBlank() && !password.isNullOrBlank()) {
-                val registerIntent = Intent(this@RegisterActivity, MainActivity::class.java)
-                registerIntent.putExtra(Constants.EMAIL_KEY, email)
-                val profileActivityOptions =
-                    ActivityOptions.makeSceneTransitionAnimation(this@RegisterActivity)
-
-                startActivity(registerIntent, profileActivityOptions.toBundle())
-                finish()
-            }
+//            if (!email.isNullOrBlank() && !password.isNullOrBlank()) {
+//                val registerIntent = Intent(this@RegisterActivity, MainActivity::class.java)
+//                registerIntent.putExtra(Constants.EMAIL_KEY, email)
+//                val profileActivityOptions =
+//                    ActivityOptions.makeSceneTransitionAnimation(this@RegisterActivity)
+//
+//                startActivity(registerIntent, profileActivityOptions.toBundle())
+//                finish()
+//            }
         }
     }
 

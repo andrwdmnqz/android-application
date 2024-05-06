@@ -4,6 +4,7 @@ import com.project.myproject.network.retrofit.RetrofitService
 import com.project.myproject.network.retrofit.models.CreateRequest
 import com.project.myproject.network.retrofit.models.LoginRequest
 import com.project.myproject.network.retrofit.response.AuthorizationResponse
+import com.project.myproject.network.retrofit.response.UserResponse
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,6 +18,10 @@ class MainRepository @Inject constructor(private val retrofitService: RetrofitSe
 
     suspend fun loginUser(loginRequest: LoginRequest): Response<AuthorizationResponse> {
         return retrofitService.loginUser(loginRequest)
+    }
+
+    suspend fun getUser(userId: Int, accessToken: String): Response<UserResponse> {
+        return retrofitService.getUser(userId, accessToken)
     }
 }
 

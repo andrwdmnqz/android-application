@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.transition.Transition
 import android.transition.TransitionInflater
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -166,18 +167,14 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
             if (regEmailLayout.error == null && regPasswordLayout.error == null
                 && !email.isNullOrBlank() && !password.isNullOrBlank()) {
 
+                viewModel.registerUser(email.toString(), password.toString())
+
                 if (rememberMeCheckbox.isChecked) {
                     lifecycleScope.launch {
-                        settingPreference.saveEmail(email.toString())
-                        settingPreference.savePassword(password.toString())
+                        settingPreference.saveAccessToken(email.toString())
+                        settingPreference.saveRefreshToken(password.toString())
                     }
                 }
-
-                viewModel.registerUser(email.toString(), password.toString())
-//                val extras = FragmentNavigatorExtras(binding.registerBackground to "mainBackground")
-//                it.findNavController().navigate(
-//                    RegisterFragmentDirections.actionRegisterFragmentToMainFragment(
-//                    regEmailInput.text.toString()), extras)
             }
 
             if (email.isNullOrBlank()) {
@@ -233,13 +230,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
         hideAllViewsExceptBackground()
 
         lifecycleScope.launch {
-            val email = settingPreference.getEmail().firstOrNull()
-            val password = settingPreference.getPassword().firstOrNull()
+            val accessToken = settingPreference.getAccessToken().firstOrNull()
+            val refreshToken = settingPreference.getRefreshToken().firstOrNull()
+            val userId = settingPreference.getUserId().firstOrNull()
+            Log.d("DEBUG", "refresh token - $refreshToken")
 
-            if (!email.isNullOrBlank() && !password.isNullOrBlank()) {
-                val extras = FragmentNavigatorExtras(binding.registerBackground to "mainBackground")
-//                findNavController().navigate(
-//                    RegisterFragmentDirections.actionRegisterFragmentToMainFragment(email), extras)
+            if (!accessToken.isNullOrBlank() && !refreshToken.isNullOrBlank() && userId != null) {
+                viewModel.getUser(userId, accessToken)
             }
         }
     }
@@ -263,5 +260,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
 
     override fun onSuccess() {
         findNavController().navigate(R.id.action_registerFragment_to_profileDataFragment)
+    }
+
+    override fun onUserIsRemembered() {
+        findNavController().navigate(R.id.action_registerFragment_to_viewPagerFragment)
     }
 }

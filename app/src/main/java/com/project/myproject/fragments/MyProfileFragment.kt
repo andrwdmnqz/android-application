@@ -2,27 +2,25 @@ package com.project.myproject.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.transition.Transition
 import android.transition.TransitionInflater
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigator
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.viewpager2.widget.ViewPager2
 import com.project.myproject.Constants
 import com.project.myproject.R
 import com.project.myproject.RegisterActivity
 import com.project.myproject.SettingPreference
 import com.project.myproject.databinding.FragmentMyProfileBinding
+import com.project.myproject.extensions.loadImageByGlide
+import com.project.myproject.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
 
 class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
@@ -33,6 +31,8 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
     private lateinit var settingPreference: SettingPreference
 
     private lateinit var animation: Transition
+
+    private val viewModel by activityViewModels<UserViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +52,7 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
 
         initializeContactsButtonListeners()
 
-        parseName()
+        setupUserData()
 
         setupAnimation()
 
@@ -107,13 +107,7 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
             lifecycleScope.launch {
                 settingPreference.clearData()
 
-                val navController = it.findNavController()
-
-                navController.popBackStack(navController.graph.startDestinationId, true)
-
-                val intent = Intent(requireContext(), RegisterActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                it.findNavController().navigate(R.id.action_viewPagerFragment_to_loginFragment)
             }
         }
     }
@@ -126,23 +120,22 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
         }
     }
 
-    private fun parseName() {
-        var name = activity?.intent?.extras?.getString(Constants.EMAIL_KEY)
-        name = name!!
-        val nameField = binding.name
+    private fun setupUserData() {
+        val photoView = binding.ivProfilePhoto
+        val nameView = binding.tvNameProfile
+        val careerView = binding.tvCareerProfile
+        val addressView = binding.tvAddressProfile
 
-        name = name.substringBefore('@')
+        val user = viewModel.getCurrentUser()
 
-        val splittedName = name.split('.')
-            .map { it.replaceFirstChar { char -> char.uppercaseChar() } }
-
-        val nameText: String
-
-        if (splittedName.size > 1) {
-            nameText = "${splittedName[0]} ${splittedName[1]}"
+        if (user?.image != null) {
+            photoView.loadImageByGlide(user.image)
         } else {
-            nameText = getString(R.string.name_placeholder, splittedName[0])
+            photoView.setImageResource(R.mipmap.ic_launcher)
         }
-        nameField.text = nameText
+
+        nameView.text = user?.name ?: "Name"
+        careerView.text = user?.career ?: "Career"
+        addressView.text = user?.address ?: "Address"
     }
 }

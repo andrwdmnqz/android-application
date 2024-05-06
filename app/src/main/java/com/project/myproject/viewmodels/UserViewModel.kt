@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.project.myproject.models.User
 import com.project.myproject.network.retrofit.models.CreateRequest
 import com.project.myproject.network.retrofit.models.LoginRequest
+import com.project.myproject.network.retrofit.response.UserResponse
 import com.project.myproject.repository.MainRepository
 import com.project.myproject.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,13 +20,14 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 interface RegistrationCallbacks {
-    fun onEmailTakenError()
     fun onSuccess()
+    fun onEmailTakenError()
+    fun onUserIsRemembered()
 }
 
 interface LoginCallbacks {
+    fun onSuccess(accessToken: String, refreshToken: String, userId: Int)
     fun onInvalidLoginData()
-    fun onSuccess()
 }
 
 @HiltViewModel
@@ -41,6 +43,8 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     private var job: Job? = null
     private val errorMessage = MutableStateFlow<String>("")
     private val loading = MutableStateFlow<Boolean>(false)
+
+    private var currentUser: UserResponse? = null
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         onError("Exception handled: ${throwable.localizedMessage}")
@@ -84,9 +88,33 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
             Log.d("DEBUG", "raw - ${response.raw()}")
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
-                    loginCallbacks?.onSuccess()
+                    val responseBodyData = response.body()!!.data
+                    currentUser = responseBodyData.user
+                    loginCallbacks?.onSuccess(responseBodyData.accessToken, responseBodyData.refreshToken, currentUser!!.id)
                 } else {
                     loginCallbacks?.onInvalidLoginData()
+                }
+            }
+        }
+    }
+
+    fun getUser(userId: Int, accessToken: String) {
+
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            Log.d("DEBUG", "in job $userId, $accessToken")
+
+            val response = mainRepository.getUser(userId, accessToken)
+            Log.d("DEBUG", "$response")
+            Log.d("DEBUG", "body - ${response.body()}")
+            Log.d("DEBUG", "message - ${response.message()}")
+            Log.d("DEBUG", "code - ${response.code()}")
+            Log.d("DEBUG", "error body - ${response.errorBody()}")
+            Log.d("DEBUG", "headers - ${response.headers()}")
+            Log.d("DEBUG", "raw - ${response.raw()}")
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    currentUser = response.body()
+                    registrationCallbacks?.onSuccess()
                 }
             }
         }
@@ -130,6 +158,8 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
         super.onCleared()
         job?.cancel()
     }
+
+    fun getCurrentUser() = currentUser
 
     fun setRegistrationCallbacks(registrationCallbacks: RegistrationCallbacks) {
         this.registrationCallbacks = registrationCallbacks

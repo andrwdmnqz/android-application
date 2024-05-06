@@ -4,6 +4,9 @@ class Constants {
     companion object {
         const val EMAIL_KEY = "email"
         const val PASSWORD_KEY = "password"
+        const val ACCESS_TOKEN_KEY = "accessToken"
+        const val REFRESH_TOKEN_KEY = "refreshToken"
+        const val USER_ID_KEY = "userId"
         const val DATA_STORE_NAME = "MyPreferences"
         const val CARD_HEIGHT_FRACTION = 0.1
         const val CONTACT_INFO_KEY = "contactInfo"

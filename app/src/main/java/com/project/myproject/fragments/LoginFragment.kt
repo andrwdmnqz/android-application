@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
@@ -75,7 +74,6 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginCallbacks {
 
     private fun initializeLoginButtonListeners() {
         val registerButton = binding.buttonLogin
-        val rememberMeCheckbox = binding.chbRememberMeLogin
 
         registerButton.setOnClickListener {
             val email = loginEmailInput.text
@@ -83,13 +81,6 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginCallbacks {
 
             if (loginEmailLayout.error == null && loginPasswordLayout.error == null
                 && !email.isNullOrBlank() && !password.isNullOrBlank()) {
-
-                if (rememberMeCheckbox.isChecked) {
-                    lifecycleScope.launch {
-                        settingPreference.saveEmail(email.toString())
-                        settingPreference.savePassword(password.toString())
-                    }
-                }
 
                 viewModel.loginUser(email.toString(), password.toString())
             }
@@ -160,12 +151,22 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginCallbacks {
         })
     }
 
+    override fun onSuccess(accessToken: String, refreshToken: String, userId: Int) {
+        val rememberMeCheckbox = binding.chbRememberMeLogin
+
+        if (rememberMeCheckbox.isChecked) {
+            lifecycleScope.launch {
+                settingPreference.saveAccessToken(accessToken)
+                settingPreference.saveRefreshToken(refreshToken)
+                settingPreference.saveUserId(userId)
+            }
+        }
+
+        findNavController().navigate(R.id.action_loginFragment_to_viewPagerFragment)
+    }
+
     override fun onInvalidLoginData() {
         loginEmailLayout.error = getString(R.string.invalid_login_data)
         loginPasswordLayout.error = " "
-    }
-
-    override fun onSuccess() {
-        findNavController().navigate(R.id.action_loginFragment_to_viewPagerFragment)
     }
 }

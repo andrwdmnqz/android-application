@@ -50,7 +50,7 @@
         app:layout_constraintWidth_percent="@dimen/logout_width" />
 
     <ImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/ivProfilePhoto"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/profile_image_desc"
@@ -64,7 +64,7 @@
         app:layout_constraintWidth_percent="@dimen/photo_width" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/tvNameProfile"
         style="@style/h2_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,11 +73,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/mainBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_image"
+        app:layout_constraintTop_toBottomOf="@id/ivProfilePhoto"
         app:layout_constraintVertical_bias="@dimen/name_vertical" />
 
     <TextView
-        android:id="@+id/career"
+        android:id="@+id/tvCareerProfile"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,11 +86,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/mainBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image"
+        app:layout_constraintTop_toBottomOf="@+id/ivProfilePhoto"
         app:layout_constraintVertical_bias="@dimen/career_vertical" />
 
     <TextView
-        android:id="@+id/address"
+        android:id="@+id/tvAddressProfile"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/mainBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image"
+        app:layout_constraintTop_toBottomOf="@+id/ivProfilePhoto"
         app:layout_constraintVertical_bias="@dimen/address_vertical" />
 
     <ImageView
