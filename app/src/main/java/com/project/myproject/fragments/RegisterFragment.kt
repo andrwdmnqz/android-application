@@ -31,6 +31,7 @@ import com.project.myproject.repository.MainRepository
 import com.project.myproject.viewmodels.RegistrationCallbacks
 import com.project.myproject.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
@@ -156,11 +157,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
     private fun initializeRegisterButtonListeners(
         regPasswordLayout: TextInputLayout
     ) {
-
         val registerButton = binding.registerButton
-        val rememberMeCheckbox = binding.rememberMe
 
         registerButton.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.refreshTokens(settingPreference.getRefreshToken().firstOrNull()!!)
+            }
+
             val email = regEmailInput.text
             val password = regPasswordInput.text
 
@@ -168,13 +171,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
                 && !email.isNullOrBlank() && !password.isNullOrBlank()) {
 
                 viewModel.registerUser(email.toString(), password.toString())
-
-                if (rememberMeCheckbox.isChecked) {
-                    lifecycleScope.launch {
-                        settingPreference.saveAccessToken(email.toString())
-                        settingPreference.saveRefreshToken(password.toString())
-                    }
-                }
             }
 
             if (email.isNullOrBlank()) {
@@ -241,14 +237,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        Handler().postDelayed({
-            fadeAllViewsExceptBackground()
-        }, animation.duration)
-    }
-
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
@@ -258,11 +246,25 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
         regEmailLayout.error = getString(R.string.error_email_exists)
     }
 
-    override fun onSuccess() {
+    override fun onSuccess(accessToken: String, refreshToken: String, userId: Int) {
+        val rememberMeCheckbox = binding.rememberMe
+
+        if (rememberMeCheckbox.isChecked) {
+            lifecycleScope.launch {
+                settingPreference.saveAccessToken(accessToken)
+                settingPreference.saveRefreshToken(refreshToken)
+                settingPreference.saveUserId(userId)
+            }
+        }
+
         findNavController().navigate(R.id.action_registerFragment_to_profileDataFragment)
     }
 
     override fun onUserIsRemembered() {
         findNavController().navigate(R.id.action_registerFragment_to_viewPagerFragment)
+    }
+
+    override fun onTokensRefreshed(newAuthToken: String, newRefreshToken: String) {
+        TODO("Not yet implemented")
     }
 }
