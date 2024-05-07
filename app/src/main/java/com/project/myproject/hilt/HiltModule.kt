@@ -4,10 +4,12 @@ import android.content.Context
 import com.project.myproject.Constants
 import com.project.myproject.SettingPreference
 import com.project.myproject.fragments.LoginFragment
+import com.project.myproject.fragments.ProfileDataFragment
 import com.project.myproject.fragments.RegisterFragment
 import com.project.myproject.network.retrofit.RetrofitService
 import com.project.myproject.network.retrofit.TokenAuthenticator
 import com.project.myproject.repository.MainRepository
+import com.project.myproject.viewmodels.EditCallbacks
 import com.project.myproject.viewmodels.LoginCallbacks
 import com.project.myproject.viewmodels.TokenCallbacks
 import com.project.myproject.viewmodels.RegistrationCallbacks
@@ -73,4 +75,8 @@ object HiltModule {
     @Provides
     @Singleton
     fun provideOverallCallbacks(): TokenCallbacks = RegisterFragment()
+
+    @Provides
+    @Singleton
+    fun provideEditCallbacks(): EditCallbacks = ProfileDataFragment()
 }

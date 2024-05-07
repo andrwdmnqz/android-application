@@ -2,6 +2,7 @@ package com.project.myproject.repository
 
 import com.project.myproject.network.retrofit.RetrofitService
 import com.project.myproject.network.retrofit.models.CreateRequest
+import com.project.myproject.network.retrofit.models.EditUserRequest
 import com.project.myproject.network.retrofit.models.LoginRequest
 import com.project.myproject.network.retrofit.response.AuthorizationResponse
 import com.project.myproject.network.retrofit.response.GetUserResponse
@@ -28,5 +29,11 @@ class MainRepository @Inject constructor(private val retrofitService: RetrofitSe
 
     suspend fun getUser(userId: Int, accessToken: String): Response<GetUserResponse> {
         return retrofitService.getUser(userId, accessToken)
+    }
+
+    suspend fun editUser(userId: Int, accessToken: String, request: EditUserRequest):
+            Response <GetUserResponse> {
+
+        return retrofitService.editUser(userId, accessToken, request)
     }
 }

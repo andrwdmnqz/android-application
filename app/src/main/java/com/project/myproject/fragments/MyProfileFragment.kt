@@ -1,14 +1,12 @@
 package com.project.myproject.fragments
 
-import android.content.Intent
+
 import android.os.Bundle
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,7 +14,6 @@ import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.project.myproject.Constants
 import com.project.myproject.R
-import com.project.myproject.RegisterActivity
 import com.project.myproject.SettingPreference
 import com.project.myproject.databinding.FragmentMyProfileBinding
 import com.project.myproject.extensions.loadImageByGlide
@@ -49,42 +46,11 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         initializeLogoutButtonListeners()
-
         initializeContactsButtonListeners()
-
         setupUserData()
-
         setupAnimation()
 
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    private fun hideAllViewsExceptBackground() {
-        val mainLayout: ConstraintLayout = binding.clMain
-
-        for (i in 0 until mainLayout.childCount) {
-            val view: View = mainLayout.getChildAt(i)
-
-            view.visibility = View.INVISIBLE
-        }
-        binding.mainBackground.visibility = View.VISIBLE
-    }
-
-    private fun fadeAllViewsExceptBackground() {
-        val mainLayout: ConstraintLayout = binding.clMain
-
-        for (i in 0 until mainLayout.childCount) {
-            val view: View = mainLayout.getChildAt(i)
-
-            if (view == binding.mainBackground) {
-                continue
-            }
-
-            view.visibility = View.VISIBLE
-
-            val fadeInAnimation = AnimationUtils.loadAnimation(context, androidx.appcompat.R.anim.abc_fade_in)
-            view.startAnimation(fadeInAnimation)
-        }
     }
 
     private fun setupAnimation() {
@@ -129,7 +95,7 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
         val user = viewModel.getCurrentUser()
 
         if (user?.image != null) {
-            photoView.loadImageByGlide(user.image)
+            photoView.loadImageByGlide(user.image!!)
         } else {
             photoView.setImageResource(R.mipmap.ic_launcher)
         }

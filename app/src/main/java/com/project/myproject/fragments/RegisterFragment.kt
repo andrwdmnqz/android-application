@@ -180,8 +180,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
             view.visibility = View.INVISIBLE
         }
         binding.registerBackground.visibility = View.VISIBLE
-
-
     }
 
     private fun fadeAllViewsExceptBackground() {

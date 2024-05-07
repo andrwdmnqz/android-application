@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.project.myproject.Constants
 import com.project.myproject.models.User
 import com.project.myproject.network.retrofit.models.CreateRequest
+import com.project.myproject.network.retrofit.models.EditUserRequest
 import com.project.myproject.network.retrofit.models.LoginRequest
 import com.project.myproject.network.retrofit.response.UserResponse
 import com.project.myproject.repository.MainRepository
@@ -35,11 +36,16 @@ interface TokenCallbacks {
     fun onTokensRefreshFailure()
 }
 
+interface EditCallbacks {
+    fun onUserEdited()
+}
+
 @HiltViewModel
 class UserViewModel @Inject constructor(private val mainRepository: MainRepository,
     private var registrationCallbacks: RegistrationCallbacks? = null,
     private var loginCallbacks: LoginCallbacks? = null,
-    private var overallCallbacks: TokenCallbacks? = null): ViewModel() {
+    private var overallCallbacks: TokenCallbacks? = null,
+    private var editCallbacks: EditCallbacks? = null): ViewModel() {
 
     private val userRepository = UserRepository()
 
@@ -128,6 +134,40 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
         }
     }
 
+    fun editUser(userId: Int, accessToken: String, userName: String, phoneNumber: String) {
+
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            Log.d("DEBUG", "edit user $userId, $accessToken")
+            Log.d("DEBUG", "edit user $userName, $phoneNumber")
+
+            val tempName = userName.ifBlank { Constants.DEFAULT_NAME }
+            val tempPhone = phoneNumber.ifBlank { Constants.DEFAULT_PHONE }
+
+            Log.d("DEBUG", "edit user $tempName, $tempPhone")
+            val zxc = EditUserRequest(name = tempName, phone = tempPhone)
+            val token = Constants.BEARER_TOKEN_START + accessToken
+            Log.d("DEBUG", "edit user $zxc $token")
+
+            val response = mainRepository.editUser(userId,
+                Constants.BEARER_TOKEN_START + accessToken,
+                EditUserRequest(name = tempName, phone = tempPhone))
+
+            Log.d("DEBUG", "$response")
+            Log.d("DEBUG", "body - ${response.body()}")
+            Log.d("DEBUG", "message - ${response.message()}")
+            Log.d("DEBUG", "code - ${response.code()}")
+            Log.d("DEBUG", "error body - ${response.errorBody()}")
+            Log.d("DEBUG", "headers - ${response.headers()}")
+            Log.d("DEBUG", "raw - ${response.raw()}")
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    currentUser = response.body()?.data?.user
+                    editCallbacks?.onUserEdited()
+                }
+            }
+        }
+    }
+
     fun init() {
         fetchUsers()
     }
@@ -179,5 +219,9 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
 
     fun setOverallCallbacks(overallCallbacks: TokenCallbacks?) {
         this.overallCallbacks = overallCallbacks
+    }
+
+    fun setEditCallbacks(editCallbacks: EditCallbacks?) {
+        this.editCallbacks = editCallbacks
     }
 }
