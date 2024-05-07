@@ -61,8 +61,11 @@ class ProfileDataFragment : Fragment(R.layout.fragment_profile_data), EditCallba
             val phoneNumber = binding.tInputEditMobilePhone.text.toString()
 
             lifecycleScope.launch {
-                viewModel.editUser(settingPreference.getUserId().first(),
-                    settingPreference.getAccessToken().first(),
+                val userId = settingPreference.getUserId().first()
+                val accessToken = settingPreference.getAccessToken().first()
+                Log.d("DEBUG", "Getted id - $userId, getted access - $accessToken")
+                viewModel.editUser(userId,
+                    accessToken,
                     userNameText, phoneNumber)
             }
         }

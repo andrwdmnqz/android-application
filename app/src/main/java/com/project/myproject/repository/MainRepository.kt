@@ -34,6 +34,6 @@ class MainRepository @Inject constructor(private val retrofitService: RetrofitSe
     suspend fun editUser(userId: Int, accessToken: String, request: EditUserRequest):
             Response <GetUserResponse> {
 
-        return retrofitService.editUser(userId, accessToken, request)
+        return retrofitService.editUser(userId, accessToken, "application/json", request)
     }
 }

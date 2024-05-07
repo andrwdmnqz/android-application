@@ -10,6 +10,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -29,6 +30,7 @@ interface RetrofitService {
     suspend fun editUser(
         @Path("userId") userId: Int,
         @Header("Authorization") accessToken: String,
+        @Header("Content-type") contentType: String,
         @Body request: EditUserRequest
     ): Response<GetUserResponse>
 
