@@ -24,7 +24,6 @@ interface RegistrationCallbacks {
     fun onSuccess(accessToken: String, refreshToken: String, userId: Int)
     fun onEmailTakenError()
     fun onUserIsRemembered()
-    fun onTokensRefreshed(newAuthToken: String, newRefreshToken: String)
 }
 
 interface LoginCallbacks {
@@ -32,10 +31,15 @@ interface LoginCallbacks {
     fun onInvalidLoginData()
 }
 
+interface TokenCallbacks {
+    fun onTokensRefreshFailure()
+}
+
 @HiltViewModel
 class UserViewModel @Inject constructor(private val mainRepository: MainRepository,
     private var registrationCallbacks: RegistrationCallbacks? = null,
-    private var loginCallbacks: LoginCallbacks? = null): ViewModel() {
+    private var loginCallbacks: LoginCallbacks? = null,
+    private var overallCallbacks: TokenCallbacks? = null): ViewModel() {
 
     private val userRepository = UserRepository()
 
@@ -43,8 +47,8 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     val users = _users.asStateFlow()
 
     private var job: Job? = null
-    private val errorMessage = MutableStateFlow<String>("")
-    private val loading = MutableStateFlow<Boolean>(false)
+    private val errorMessage = MutableStateFlow("")
+    private val loading = MutableStateFlow(false)
 
     private var currentUser: UserResponse? = null
 
@@ -124,27 +128,6 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
         }
     }
 
-    fun refreshTokens(refreshToken: String) {
-
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "Token refreshing $refreshToken")
-
-            val response = mainRepository.refreshTokens(refreshToken)
-            Log.d("DEBUG", "$response")
-            Log.d("DEBUG", "body - ${response.body()}")
-            Log.d("DEBUG", "message - ${response.message()}")
-            Log.d("DEBUG", "code - ${response.code()}")
-            Log.d("DEBUG", "error body - ${response.errorBody()}")
-            Log.d("DEBUG", "headers - ${response.headers()}")
-            Log.d("DEBUG", "raw - ${response.raw()}")
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    registrationCallbacks?.onTokensRefreshed(response.body()!!.accessToken, response.body()!!.accessToken)
-                }
-            }
-        }
-    }
-
     fun init() {
         fetchUsers()
     }
@@ -192,5 +175,9 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
 
     fun setLoginCallbacks(loginCallbacks: LoginCallbacks) {
         this.loginCallbacks = loginCallbacks
+    }
+
+    fun setOverallCallbacks(overallCallbacks: TokenCallbacks?) {
+        this.overallCallbacks = overallCallbacks
     }
 }

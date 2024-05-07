@@ -28,6 +28,7 @@ import com.project.myproject.SettingPreference
 import com.project.myproject.databinding.FragmentRegisterBinding
 import com.project.myproject.network.retrofit.RetrofitService
 import com.project.myproject.repository.MainRepository
+import com.project.myproject.viewmodels.TokenCallbacks
 import com.project.myproject.viewmodels.RegistrationCallbacks
 import com.project.myproject.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +37,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallbacks {
+class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallbacks, TokenCallbacks {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
@@ -60,6 +61,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
 
         settingPreference = SettingPreference(requireContext())
         viewModel.setRegistrationCallbacks(this)
+        viewModel.setOverallCallbacks(this)
 
         return binding.root
     }
@@ -72,12 +74,10 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
         regEmailInput = binding.regEmailInput
         regPasswordInput = binding.regPasswordInput
 
-        //createViewModel()
         initializeRegisterButtonListeners(regPasswordLayout)
         initializeSignInViewListener()
         setupEmailValidation()
         setupPasswordValidation(regPasswordLayout)
-        setupAnimation()
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -89,14 +89,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
     }
-
-//    private fun createViewModel() {
-//        val retrofitService = RetrofitService.getInstance()
-//        val mainRepository = MainRepository(retrofitService)
-//
-//        viewModel = ViewModelProvider(this, UserViewModelFactory(
-//            mainRepository, this))[UserViewModel::class.java]
-//    }
 
     private fun setupPasswordValidation(regPasswordLayout: TextInputLayout) {
         regPasswordInput.addTextChangedListener(object : TextWatcher {
@@ -160,10 +152,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
         val registerButton = binding.registerButton
 
         registerButton.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.refreshTokens(settingPreference.getRefreshToken().firstOrNull()!!)
-            }
-
             val email = regEmailInput.text
             val password = regPasswordInput.text
 
@@ -183,16 +171,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
         }
     }
 
-    private fun setupAnimation() {
-        hideAllViewsExceptBackground()
-
-        animation = TransitionInflater.from(requireContext()).inflateTransition(
-            R.transition.change_bounds
-        )
-        sharedElementEnterTransition = animation
-        sharedElementReturnTransition = animation
-    }
-
     private fun hideAllViewsExceptBackground() {
         val mainLayout: ConstraintLayout = binding.clMain
 
@@ -202,6 +180,8 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
             view.visibility = View.INVISIBLE
         }
         binding.registerBackground.visibility = View.VISIBLE
+
+
     }
 
     private fun fadeAllViewsExceptBackground() {
@@ -225,7 +205,12 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
         super.onStart()
         hideAllViewsExceptBackground()
 
+        Handler().postDelayed({
+            _binding?.let { fadeAllViewsExceptBackground() }
+        }, 1000)
+
         lifecycleScope.launch {
+
             val accessToken = settingPreference.getAccessToken().firstOrNull()
             val refreshToken = settingPreference.getRefreshToken().firstOrNull()
             val userId = settingPreference.getUserId().firstOrNull()
@@ -261,10 +246,10 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
     }
 
     override fun onUserIsRemembered() {
-        findNavController().navigate(R.id.action_registerFragment_to_viewPagerFragment)
+        findNavController().navigate(R.id.viewPagerFragment)
     }
 
-    override fun onTokensRefreshed(newAuthToken: String, newRefreshToken: String) {
-        TODO("Not yet implemented")
+    override fun onTokensRefreshFailure() {
+        findNavController().navigate(R.id.registerFragment)
     }
 }

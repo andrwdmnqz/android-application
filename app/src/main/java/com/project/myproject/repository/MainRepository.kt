@@ -30,4 +30,3 @@ class MainRepository @Inject constructor(private val retrofitService: RetrofitSe
         return retrofitService.getUser(userId, accessToken)
     }
 }
-

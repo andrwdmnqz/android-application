@@ -5,7 +5,6 @@ import com.project.myproject.network.retrofit.models.LoginRequest
 import com.project.myproject.network.retrofit.response.AuthorizationResponse
 import com.project.myproject.network.retrofit.response.GetUserResponse
 import com.project.myproject.network.retrofit.response.TokenResponse
-import com.project.myproject.network.retrofit.response.UserResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
