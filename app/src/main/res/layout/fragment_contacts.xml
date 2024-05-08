@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background"
-    tools:context=".MainActivity">
+    tools:context=".ui.activities.MainActivity">
 
     <View
         android:id="@+id/contactsBackground"
@@ -27,11 +27,11 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/back_button_desc"
         android:src="@drawable/arrow_back_24px"
-        app:layout_constraintBottom_toBottomOf="@+id/contacts_label"
+        app:layout_constraintBottom_toBottomOf="@id/contacts_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/contacts_tool_bar_start"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/contacts_label" />
+        app:layout_constraintTop_toTopOf="@id/contacts_label" />
 
     <TextView
         android:id="@+id/contacts_label"
@@ -53,11 +53,11 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/back_button_desc"
         android:src="@drawable/search_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/contacts_label"
+        app:layout_constraintBottom_toBottomOf="@id/contacts_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/contacts_tool_bar_end"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/contacts_label" />
+        app:layout_constraintTop_toTopOf="@id/contacts_label" />
 
     <TextView
         android:id="@+id/add_contacts_label"
@@ -66,8 +66,8 @@
         android:layout_height="wrap_content"
         android:text="@string/add_contacts_label"
         android:textColor="@color/default_text_color"
-        app:layout_constraintBottom_toBottomOf="@+id/contactsBackground"
-        app:layout_constraintStart_toStartOf="@+id/toolbar_back"
+        app:layout_constraintBottom_toBottomOf="@id/contactsBackground"
+        app:layout_constraintStart_toStartOf="@id/toolbar_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/add_contacts_label_vertical" />
 
@@ -78,7 +78,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactsBackground" />
+        app:layout_constraintTop_toBottomOf="@id/contactsBackground" />
 
     <ImageView
         android:id="@+id/ivMultiselectDelete"

@@ -83,10 +83,10 @@
         android:layout_height="wrap_content"
         android:text="@string/career"
         android:textColor="@color/additional_first"
-        app:layout_constraintBottom_toBottomOf="@+id/mainBackground"
+        app:layout_constraintBottom_toBottomOf="@id/mainBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivProfilePhoto"
+        app:layout_constraintTop_toBottomOf="@id/ivProfilePhoto"
         app:layout_constraintVertical_bias="@dimen/career_vertical" />
 
     <TextView
@@ -96,10 +96,10 @@
         android:layout_height="wrap_content"
         android:text="@string/home_address"
         android:textColor="@color/additional_first"
-        app:layout_constraintBottom_toBottomOf="@+id/mainBackground"
+        app:layout_constraintBottom_toBottomOf="@id/mainBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivProfilePhoto"
+        app:layout_constraintTop_toBottomOf="@id/ivProfilePhoto"
         app:layout_constraintVertical_bias="@dimen/address_vertical" />
 
     <ImageView
@@ -127,7 +127,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/networks_logo_height"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainBackground"
+        app:layout_constraintTop_toBottomOf="@id/mainBackground"
         app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
         app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
 
@@ -142,7 +142,7 @@
         app:layout_constraintHeight_percent="@dimen/networks_logo_height"
         app:layout_constraintHorizontal_bias="@dimen/instagram_logo_hor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainBackground"
+        app:layout_constraintTop_toBottomOf="@id/mainBackground"
         app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
         app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
 
@@ -159,7 +159,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/edit_profile_height"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainBackground"
+        app:layout_constraintTop_toBottomOf="@id/mainBackground"
         app:layout_constraintVertical_bias="@dimen/edit_profile_vertical"
         app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
 
@@ -176,7 +176,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/contacts_height"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainBackground"
+        app:layout_constraintTop_toBottomOf="@id/mainBackground"
         app:layout_constraintVertical_bias="@dimen/contacts_vertical"
         app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
 

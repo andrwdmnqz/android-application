@@ -124,7 +124,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/checkbox_vertical" />
 
-    <com.project.myproject.views.CustomGoogleButton
+    <com.project.myproject.ui.customViews.CustomGoogleButton
         android:id="@+id/google_reg_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -152,7 +152,7 @@
         app:layout_constraintBottom_toTopOf="@id/register_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/google_reg_button" />
+        app:layout_constraintTop_toBottomOf="@id/google_reg_button" />
 
     <Button
         android:id="@+id/register_button"
@@ -210,7 +210,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/sign_in_text_hor"
-        app:layout_constraintStart_toEndOf="@+id/already_have_text"
+        app:layout_constraintStart_toEndOf="@id/already_have_text"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/already_have_vert" />
 

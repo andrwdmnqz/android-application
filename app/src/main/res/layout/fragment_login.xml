@@ -181,7 +181,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/sign_in_text_hor"
-        app:layout_constraintStart_toEndOf="@+id/tvNoAccount"
+        app:layout_constraintStart_toEndOf="@id/tvNoAccount"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/already_have_vert" />
 

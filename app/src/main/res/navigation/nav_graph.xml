@@ -6,7 +6,7 @@
     app:startDestination="@id/registerFragment">
     <fragment
         android:id="@+id/viewPagerFragment"
-        android:name="com.project.myproject.fragments.ViewPagerFragment"
+        android:name="com.project.myproject.ui.fragments.ViewPagerFragment"
         android:label="ViewPagerFragment"
         tools:layout="@layout/fragment_my_profile" >
         <action
@@ -20,25 +20,16 @@
     </fragment>
     <fragment
         android:id="@+id/detailViewFragment"
-        android:name="com.project.myproject.fragments.DetailViewFragment"
+        android:name="com.project.myproject.ui.fragments.DetailViewFragment"
         android:label="DetailViewFragment"
         tools:layout="@layout/fragment_detail_view" >
         <argument
-            android:name="imageLink"
-            app:argType="string" />
-        <argument
-            android:name="name"
-            app:argType="string" />
-        <argument
-            android:name="career"
-            app:argType="string" />
-        <argument
-            android:name="address"
-            app:argType="string" />
+            android:name="contact"
+            app:argType="com.project.myproject.data.models.User" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.project.myproject.fragments.RegisterFragment"
+        android:name="com.project.myproject.ui.fragments.RegisterFragment"
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_register" >
         <action
@@ -57,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.project.myproject.fragments.LoginFragment"
+        android:name="com.project.myproject.ui.fragments.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login" >
         <action
@@ -73,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileDataFragment"
-        android:name="com.project.myproject.fragments.ProfileDataFragment"
+        android:name="com.project.myproject.ui.fragments.ProfileDataFragment"
         android:label="ProfileDataFragment"
         tools:layout="@layout/fragment_profile_data" >
         <action

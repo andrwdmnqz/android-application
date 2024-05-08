@@ -41,7 +41,7 @@
         app:layout_constraintHeight_percent="@dimen/add_photo_height"
         app:layout_constraintHorizontal_bias="@dimen/add_photo_horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ivSelectedPhoto"
+        app:layout_constraintTop_toTopOf="@id/ivSelectedPhoto"
         app:layout_constraintWidth_percent="@dimen/add_photo_width" />
 
     <TextView
