@@ -44,14 +44,15 @@ android {
     }
 }
 
-val dataStoreVersion = "1.1.0"
+val materialVersion = "1.12.0"
+val dataStoreVersion = "1.1.1"
 val constraintLayoutVersion = "2.1.4"
-val coreKtxVersion = "1.13.0"
+val coreKtxVersion = "1.13.1"
 val glideVersion = "4.14.2"
 val viewModelVersion = "2.7.0"
 val activityVersion = "1.9.0"
 val navVersion = "2.7.7"
-val fragmentVersion = "1.6.2"
+val fragmentVersion = "1.7.0"
 val retrofitVersion = "2.11.0"
 val okHttpVersion = "4.12.0"
 val hiltVersion = "2.49"
@@ -74,7 +75,7 @@ dependencies {
     implementation("androidx.core:core-ktx:$coreKtxVersion")
     implementation("androidx.constraintlayout:constraintlayout:$constraintLayoutVersion")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:$materialVersion")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

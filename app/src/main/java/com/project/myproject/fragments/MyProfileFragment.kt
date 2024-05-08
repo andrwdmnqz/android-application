@@ -97,7 +97,7 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
         if (user?.image != null) {
             photoView.loadImageByGlide(user.image!!)
         } else {
-            photoView.setImageResource(R.mipmap.ic_launcher)
+            photoView.setImageResource(R.mipmap.empty_photo_icon)
         }
 
         nameView.text = user?.name ?: "Name"
