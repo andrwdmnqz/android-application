@@ -22,10 +22,8 @@ class DetailViewFragment : BaseFragment<FragmentDetailViewBinding>(FragmentDetai
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        setupBackActionListeners()
-
-        setupTextFields()
-
+        setListeners()
+        setObservers()
         setupAnimation()
 
         super.onViewCreated(view, savedInstanceState)
@@ -40,11 +38,11 @@ class DetailViewFragment : BaseFragment<FragmentDetailViewBinding>(FragmentDetai
     }
 
     override fun setObservers() {
-        TODO("Not yet implemented")
+        setupTextFields()
     }
 
     override fun setListeners() {
-        TODO("Not yet implemented")
+        setupBackActionListeners()
     }
 
     private fun setupBackActionListeners() {

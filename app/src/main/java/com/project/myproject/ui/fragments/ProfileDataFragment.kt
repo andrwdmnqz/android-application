@@ -16,20 +16,20 @@ import com.project.myproject.ui.viewmodels.EditCallbacks
 import com.project.myproject.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentProfileDataBinding::inflate),
     EditCallbacks {
 
-    private lateinit var settingPreference: SettingPreference
+    @Inject
+    lateinit var settingPreference: SettingPreference
 
     private val viewModel by activityViewModels<UserViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.setEditCallbacks(this)
-        settingPreference = SettingPreference(requireContext())
 
-        initializeForwardButtonListeners()
-        initializeCancelButtonListeners()
+        setListeners()
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -60,11 +60,12 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
     }
 
     override fun setObservers() {
-        TODO("Not yet implemented")
+        // Not used
     }
 
     override fun setListeners() {
-        TODO("Not yet implemented")
+        initializeForwardButtonListeners()
+        initializeCancelButtonListeners()
     }
 
     override fun onUserEdited() {

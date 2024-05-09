@@ -28,36 +28,37 @@ import com.project.myproject.ui.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate),
+class RegisterFragment :
+    BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate),
     RegistrationCallbacks,
     TokenCallbacks {
 
+    @Inject
+    lateinit var settingPreference: SettingPreference
+
     private lateinit var regEmailLayout: TextInputLayout
     private lateinit var regEmailInput: TextInputEditText
+    private lateinit var regPasswordLayout: TextInputLayout
     private lateinit var regPasswordInput: TextInputEditText
-
-    private lateinit var settingPreference: SettingPreference
 
     private val viewModel by activityViewModels<UserViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        settingPreference = SettingPreference(requireContext())
         viewModel.setRegistrationCallbacks(this)
         viewModel.setOverallCallbacks(this)
 
         regEmailLayout = binding.regEmailLayout
-        val regPasswordLayout = binding.regPasswordLayout
-
         regEmailInput = binding.regEmailInput
+
+        regPasswordLayout = binding.regPasswordLayout
         regPasswordInput = binding.regPasswordInput
 
-        initializeRegisterButtonListeners(regPasswordLayout)
-        initializeSignInViewListener()
-        setupEmailValidation()
-        setupPasswordValidation(regPasswordLayout)
+        setListeners()
+        setObservers()
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -70,7 +71,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
         }
     }
 
-    private fun setupPasswordValidation(regPasswordLayout: TextInputLayout) {
+    private fun setupPasswordValidation() {
         regPasswordInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
@@ -126,9 +127,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
         })
     }
 
-    private fun initializeRegisterButtonListeners(
-        regPasswordLayout: TextInputLayout
-    ) {
+    private fun initializeRegisterButtonListeners() {
         val registerButton = binding.registerButton
 
         registerButton.setOnClickListener {
@@ -163,19 +162,23 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
     }
 
     private fun fadeAllViewsExceptBackground() {
-        val mainLayout: ConstraintLayout = binding.clMain
+        try {
+            val mainLayout: ConstraintLayout = binding.clMain
 
-        for (i in 0 until mainLayout.childCount) {
-            val view: View = mainLayout.getChildAt(i)
+            for (i in 0 until mainLayout.childCount) {
+                val view: View = mainLayout.getChildAt(i)
 
-            if (view == binding.registerBackground) {
-                continue
+                if (binding.registerBackground == view) {
+                    continue
+                }
+
+                view.visibility = View.VISIBLE
+
+                val fadeInAnimation = AnimationUtils.loadAnimation(context, androidx.appcompat.R.anim.abc_fade_in)
+                view.startAnimation(fadeInAnimation)
             }
-
-            view.visibility = View.VISIBLE
-
-            val fadeInAnimation = AnimationUtils.loadAnimation(context, androidx.appcompat.R.anim.abc_fade_in)
-            view.startAnimation(fadeInAnimation)
+        } catch (e: NullPointerException) {
+            // Ignore the exception
         }
     }
 
@@ -193,6 +196,8 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
             val refreshToken = settingPreference.getRefreshToken().firstOrNull()
             val userId = settingPreference.getUserId().firstOrNull()
             Log.d("DEBUG", "refresh token - $refreshToken")
+            Log.d("DEBUG", "access token - $accessToken")
+            Log.d("DEBUG", "user id - $userId")
 
             if (!accessToken.isNullOrBlank() && !refreshToken.isNullOrBlank() && userId != null) {
                 viewModel.getUser(userId, accessToken)
@@ -201,11 +206,13 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
     }
 
     override fun setObservers() {
-        TODO("Not yet implemented")
+        setupEmailValidation()
+        setupPasswordValidation()
     }
 
     override fun setListeners() {
-        TODO("Not yet implemented")
+        initializeRegisterButtonListeners()
+        initializeSignInViewListener()
     }
 
     override fun onEmailTakenError() {

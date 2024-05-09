@@ -9,10 +9,12 @@ import com.project.myproject.ui.fragments.RegisterFragment
 import com.project.myproject.data.network.RetrofitService
 import com.project.myproject.utils.TokenAuthenticator
 import com.project.myproject.data.repository.MainRepository
+import com.project.myproject.ui.fragments.BaseFragment
 import com.project.myproject.ui.viewmodels.EditCallbacks
 import com.project.myproject.ui.viewmodels.LoginCallbacks
 import com.project.myproject.ui.viewmodels.TokenCallbacks
 import com.project.myproject.ui.viewmodels.RegistrationCallbacks
+import dagger.Component
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

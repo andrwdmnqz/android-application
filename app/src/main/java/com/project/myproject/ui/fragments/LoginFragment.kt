@@ -1,8 +1,10 @@
 package com.project.myproject.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -16,8 +18,11 @@ import com.project.myproject.utils.SettingPreference
 import com.project.myproject.databinding.FragmentLoginBinding
 import com.project.myproject.ui.viewmodels.LoginCallbacks
 import com.project.myproject.ui.viewmodels.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate), LoginCallbacks {
 
     private lateinit var loginEmailLayout: TextInputLayout
@@ -25,13 +30,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private lateinit var loginPasswordLayout: TextInputLayout
     private lateinit var loginPasswordInput: TextInputEditText
 
-    private lateinit var settingPreference: SettingPreference
+    @Inject
+    lateinit var settingPreference: SettingPreference
 
     private val viewModel by activityViewModels<UserViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        settingPreference = SettingPreference(requireContext())
         viewModel.setLoginCallbacks(this)
 
         loginEmailLayout = binding.tilLoginEmail
@@ -40,20 +45,24 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         loginEmailInput = binding.tietLoginEmail
         loginPasswordInput = binding.tietLoginPassword
 
-        initializeLoginButtonListeners()
-        initializeSignUpViewListener()
-        setupEmailValidation()
-        setupPasswordValidation()
+        setListeners()
+        setObservers()
 
         super.onViewCreated(view, savedInstanceState)
     }
 
     override fun setObservers() {
-        TODO("Not yet implemented")
+        setupEmailValidation()
+        setupPasswordValidation()
     }
 
     override fun setListeners() {
-        TODO("Not yet implemented")
+        initializeLoginButtonListeners()
+        initializeSignUpViewListener()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
     }
 
     private fun initializeSignUpViewListener() {
@@ -148,6 +157,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
         if (rememberMeCheckbox.isChecked) {
             lifecycleScope.launch {
+                Log.d("DEBUG", "saving access token $accessToken")
+                Log.d("DEBUG", "saving refresh token $refreshToken")
+                Log.d("DEBUG", "saving id $userId")
                 settingPreference.saveAccessToken(accessToken)
                 settingPreference.saveRefreshToken(refreshToken)
                 settingPreference.saveUserId(userId)

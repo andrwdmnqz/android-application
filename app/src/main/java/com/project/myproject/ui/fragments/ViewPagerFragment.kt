@@ -11,19 +11,13 @@ import com.project.myproject.databinding.FragmentViewPagerBinding
 
 class ViewPagerFragment : BaseFragment<FragmentViewPagerBinding>(FragmentViewPagerBinding::inflate) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val binding = FragmentViewPagerBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val viewPager = binding.viewPager
+        val tabLayout = binding.tabLayout
 
         val fragmentList = arrayListOf<BaseFragment<*>>(MyProfileFragment(), ContactsFragment())
 
         val adapter = ViewPagerAdapter(fragmentList, requireActivity().supportFragmentManager, lifecycle)
-
-        val viewPager = binding.viewPager
-        val tabLayout = binding.tabLayout
 
         viewPager.adapter = adapter
 
@@ -34,15 +28,18 @@ class ViewPagerFragment : BaseFragment<FragmentViewPagerBinding>(FragmentViewPag
                 else -> throw IllegalStateException()
             }
         }.attach()
+        super.onViewCreated(view, savedInstanceState)
+    }
 
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 
     override fun setObservers() {
-        TODO("Not yet implemented")
+        // Not used
     }
 
     override fun setListeners() {
-        TODO("Not yet implemented")
+        // Not used
     }
 }

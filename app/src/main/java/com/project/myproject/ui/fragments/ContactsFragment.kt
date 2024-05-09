@@ -43,10 +43,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         adapter = UserAdapter(requireContext(), this) { show -> showMultiselectDelete(show) }
 
         setupRecyclerView()
-        setupBackArrowListeners()
-        setupAddContactListeners()
+        setListeners()
         setupAnimation()
-        setupMultiselectDeleteListeners()
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -65,11 +63,13 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     override fun setObservers() {
-        TODO("Not yet implemented")
+        // Not used
     }
 
     override fun setListeners() {
-        TODO("Not yet implemented")
+        setupBackArrowListeners()
+        setupAddContactListeners()
+        setupMultiselectDeleteListeners()
     }
 
     private fun setupBackArrowListeners() {

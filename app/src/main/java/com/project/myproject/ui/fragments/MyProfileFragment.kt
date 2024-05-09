@@ -4,10 +4,7 @@ package com.project.myproject.ui.fragments
 import android.os.Bundle
 import android.transition.Transition
 import android.transition.TransitionInflater
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -18,21 +15,23 @@ import com.project.myproject.utils.SettingPreference
 import com.project.myproject.databinding.FragmentMyProfileBinding
 import com.project.myproject.utils.extensions.loadImageByGlide
 import com.project.myproject.ui.viewmodels.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MyProfileFragment : BaseFragment<FragmentMyProfileBinding>(FragmentMyProfileBinding::inflate) {
 
-    private lateinit var settingPreference: SettingPreference
+    @Inject
+    lateinit var settingPreference: SettingPreference
 
     private lateinit var animation: Transition
 
     private val viewModel by activityViewModels<UserViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        settingPreference = SettingPreference(requireContext())
 
-        initializeLogoutButtonListeners()
-        initializeContactsButtonListeners()
+        setListeners()
         setupUserData()
         setupAnimation()
 
@@ -49,11 +48,12 @@ class MyProfileFragment : BaseFragment<FragmentMyProfileBinding>(FragmentMyProfi
     }
 
     override fun setObservers() {
-        TODO("Not yet implemented")
+        // Not used
     }
 
     override fun setListeners() {
-        TODO("Not yet implemented")
+        initializeLogoutButtonListeners()
+        initializeContactsButtonListeners()
     }
 
     private fun initializeLogoutButtonListeners() {
