@@ -4,26 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.project.myproject.utils.Constants
-import com.project.myproject.R
 import com.project.myproject.ui.adapters.ViewPagerAdapter
 import com.project.myproject.databinding.FragmentViewPagerBinding
 
-class ViewPagerFragment : Fragment(R.layout.fragment_view_pager) {
-
-    private var _binding: FragmentViewPagerBinding? = null
-    private val binding get() = _binding!!
+class ViewPagerFragment : BaseFragment<FragmentViewPagerBinding>(FragmentViewPagerBinding::inflate) {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentViewPagerBinding.inflate(layoutInflater, container, false)
+        val binding = FragmentViewPagerBinding.inflate(inflater, container, false)
 
-        val fragmentList = arrayListOf(MyProfileFragment(), ContactsFragment())
+        val fragmentList = arrayListOf<BaseFragment<*>>(MyProfileFragment(), ContactsFragment())
 
         val adapter = ViewPagerAdapter(fragmentList, requireActivity().supportFragmentManager, lifecycle)
 
@@ -43,8 +38,11 @@ class ViewPagerFragment : Fragment(R.layout.fragment_view_pager) {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
+    override fun setObservers() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setListeners() {
+        TODO("Not yet implemented")
     }
 }

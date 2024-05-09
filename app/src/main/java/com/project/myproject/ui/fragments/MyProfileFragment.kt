@@ -20,10 +20,7 @@ import com.project.myproject.utils.extensions.loadImageByGlide
 import com.project.myproject.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
 
-class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
-
-    private var _binding: FragmentMyProfileBinding? = null
-    private val binding get() = _binding!!
+class MyProfileFragment : BaseFragment<FragmentMyProfileBinding>(FragmentMyProfileBinding::inflate) {
 
     private lateinit var settingPreference: SettingPreference
 
@@ -31,19 +28,8 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
 
     private val viewModel by activityViewModels<UserViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMyProfileBinding.inflate(layoutInflater, container, false)
-
-        settingPreference = SettingPreference(requireContext())
-
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        settingPreference = SettingPreference(requireContext())
 
         initializeLogoutButtonListeners()
         initializeContactsButtonListeners()
@@ -62,9 +48,12 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
         sharedElementReturnTransition = animation
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
+    override fun setObservers() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setListeners() {
+        TODO("Not yet implemented")
     }
 
     private fun initializeLogoutButtonListeners() {

@@ -3,12 +3,9 @@ package com.project.myproject.ui.fragments
 import android.os.Bundle
 import android.transition.Transition
 import android.transition.TransitionInflater
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -30,11 +27,9 @@ import com.project.myproject.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
-class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUserItemClickListener {
+class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate),
+    UserAdapter.OnUserItemClickListener {
     private val viewModel: UserViewModel by viewModels<UserViewModel>()
-
-    private var _binding: FragmentContactsBinding? = null
-    private val binding get() = _binding!!
 
     private lateinit var adapter: UserAdapter
 
@@ -42,20 +37,9 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
 
     private lateinit var viewPager: ViewPager2
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentContactsBinding.inflate(layoutInflater, container, false)
-
-        viewPager = activity?.findViewById(R.id.viewPager)!!
-
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        viewPager = activity?.findViewById(R.id.viewPager)!!
         adapter = UserAdapter(requireContext(), this) { show -> showMultiselectDelete(show) }
 
         setupRecyclerView()
@@ -80,13 +64,15 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
         super.onStart()
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
+    override fun setObservers() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setListeners() {
+        TODO("Not yet implemented")
     }
 
     private fun setupBackArrowListeners() {
-
         binding.toolbarBack.setOnClickListener {
             moveToFirstTab()
         }

@@ -14,23 +14,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.project.myproject.R
+import com.project.myproject.databinding.FragmentContactsBinding
 import com.project.myproject.databinding.FragmentDetailViewBinding
 import com.project.myproject.utils.extensions.loadImageByGlide
 
-class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
-
-    private var _binding: FragmentDetailViewBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentDetailViewBinding.inflate(layoutInflater, container, false)
-
-        return binding.root
-    }
+class DetailViewFragment : BaseFragment<FragmentDetailViewBinding>(FragmentDetailViewBinding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -51,9 +39,12 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
         super.onStart()
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
+    override fun setObservers() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setListeners() {
+        TODO("Not yet implemented")
     }
 
     private fun setupBackActionListeners() {

@@ -17,28 +17,16 @@ import com.project.myproject.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class ProfileDataFragment : Fragment(R.layout.fragment_profile_data), EditCallbacks {
-    private var _binding: FragmentProfileDataBinding? = null
-    private val binding get() = _binding!!
+class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentProfileDataBinding::inflate),
+    EditCallbacks {
 
     private lateinit var settingPreference: SettingPreference
 
     private val viewModel by activityViewModels<UserViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProfileDataBinding.inflate(layoutInflater, container, false)
-
-        settingPreference = SettingPreference(requireContext())
-        viewModel.setEditCallbacks(this)
-
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.setEditCallbacks(this)
+        settingPreference = SettingPreference(requireContext())
 
         initializeForwardButtonListeners()
         initializeCancelButtonListeners()
@@ -71,9 +59,12 @@ class ProfileDataFragment : Fragment(R.layout.fragment_profile_data), EditCallba
         }
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
+    override fun setObservers() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setListeners() {
+        TODO("Not yet implemented")
     }
 
     override fun onUserEdited() {

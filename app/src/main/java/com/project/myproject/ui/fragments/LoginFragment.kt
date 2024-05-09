@@ -4,10 +4,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -21,10 +18,7 @@ import com.project.myproject.ui.viewmodels.LoginCallbacks
 import com.project.myproject.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
 
-class LoginFragment : Fragment(R.layout.fragment_login), LoginCallbacks {
-
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
+class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate), LoginCallbacks {
 
     private lateinit var loginEmailLayout: TextInputLayout
     private lateinit var loginEmailInput: TextInputEditText
@@ -35,20 +29,10 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginCallbacks {
 
     private val viewModel by activityViewModels<UserViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         settingPreference = SettingPreference(requireContext())
         viewModel.setLoginCallbacks(this)
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         loginEmailLayout = binding.tilLoginEmail
         loginPasswordLayout = binding.tilLoginPassword
@@ -64,9 +48,12 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginCallbacks {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
+    override fun setObservers() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setListeners() {
+        TODO("Not yet implemented")
     }
 
     private fun initializeSignUpViewListener() {

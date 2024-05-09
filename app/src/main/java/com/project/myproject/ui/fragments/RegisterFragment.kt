@@ -30,11 +30,9 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallbacks,
+class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate),
+    RegistrationCallbacks,
     TokenCallbacks {
-
-    private var _binding: FragmentRegisterBinding? = null
-    private val binding get() = _binding!!
 
     private lateinit var regEmailLayout: TextInputLayout
     private lateinit var regEmailInput: TextInputEditText
@@ -42,25 +40,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
 
     private lateinit var settingPreference: SettingPreference
 
-    private lateinit var animation: Transition
-
     private val viewModel by activityViewModels<UserViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentRegisterBinding.inflate(layoutInflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         settingPreference = SettingPreference(requireContext())
         viewModel.setRegistrationCallbacks(this)
         viewModel.setOverallCallbacks(this)
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         regEmailLayout = binding.regEmailLayout
         val regPasswordLayout = binding.regPasswordLayout
@@ -198,7 +184,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
         hideAllViewsExceptBackground()
 
         Handler().postDelayed({
-            _binding?.let { fadeAllViewsExceptBackground() }
+            fadeAllViewsExceptBackground()
         }, 1000)
 
         lifecycleScope.launch {
@@ -214,9 +200,12 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegistrationCallb
         }
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
+    override fun setObservers() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setListeners() {
+        TODO("Not yet implemented")
     }
 
     override fun onEmailTakenError() {
