@@ -6,103 +6,85 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/contact_name_layout"
+        style="@style/TextInputLayoutDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/additional_text_first"
-        app:boxBackgroundColor="@color/additional_first"
-        app:cursorColor="@color/additional_text_first"
-        app:hintTextColor="@color/additional_text_first"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/error_text_style"
-        app:layout_constraintWidth_percent="@dimen/user_inputs_width"
-        app:layout_constraintHeight_percent="@dimen/email_input_height"
-        app:layout_constraintVertical_bias="@dimen/email_input_vertical"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/contact_career_layout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/email_input_height"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/contact_career_layout" >
+        app:layout_constraintVertical_bias="@dimen/email_input_vertical"
+        app:layout_constraintWidth_percent="@dimen/user_inputs_width">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/contact_name_input"
+            style="@style/TextInputEditTextDialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/name_hint"
+            android:inputType="text"
             android:minHeight="@dimen/min_edittext_height"
             android:paddingStart="@dimen/email_input_padding"
-            android:paddingEnd="0dp"
-            android:inputType="text"
-            android:textColorHint="@color/additional_text_first"
-            android:hint="@string/name_hint"
-            android:textColor="@color/additional_text_first"
-            app:backgroundTint="@color/additional_text_first"
-            style="@style/h2_style" />
+            android:paddingEnd="0dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/contact_career_layout"
+        style="@style/TextInputLayoutDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/additional_text_first"
-        app:boxBackgroundColor="@color/additional_first"
-        app:cursorColor="@color/additional_text_first"
-        app:hintTextColor="@color/additional_text_first"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/error_text_style"
-        app:layout_constraintWidth_percent="@dimen/user_inputs_width"
-        app:layout_constraintHeight_percent="@dimen/email_input_height"
-        app:layout_constraintVertical_bias="@dimen/email_input_vertical"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/contact_address_layout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/email_input_height"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/contact_name_layout"
-        app:layout_constraintBottom_toTopOf="@id/contact_address_layout" >
+        app:layout_constraintVertical_bias="@dimen/email_input_vertical"
+        app:layout_constraintWidth_percent="@dimen/user_inputs_width">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/contact_career_input"
+            style="@style/TextInputEditTextDialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/career_hint"
+            android:inputType="text"
             android:minHeight="@dimen/min_edittext_height"
             android:paddingStart="@dimen/email_input_padding"
-            android:textColorHint="@color/additional_text_first"
-            android:paddingEnd="0dp"
-            android:inputType="text"
-            android:hint="@string/career_hint"
-            android:textColor="@color/additional_text_first"
-            app:backgroundTint="@color/additional_text_first"
-            style="@style/h2_style" />
+            android:paddingEnd="0dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/contact_address_layout"
+        style="@style/TextInputLayoutDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/additional_text_first"
-        app:boxBackgroundColor="@color/additional_first"
-        app:cursorColor="@color/additional_text_first"
-        app:hintTextColor="@color/additional_text_first"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/error_text_style"
-        app:layout_constraintWidth_percent="@dimen/user_inputs_width"
-        app:layout_constraintHeight_percent="@dimen/email_input_height"
-        app:layout_constraintVertical_bias="@dimen/email_input_vertical"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/email_input_height"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/contact_career_layout"
-        app:layout_constraintBottom_toBottomOf="parent" >
+        app:layout_constraintVertical_bias="@dimen/email_input_vertical"
+        app:layout_constraintWidth_percent="@dimen/user_inputs_width">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/contact_address_input"
+            style="@style/TextInputEditTextDialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/address_hint"
+            android:inputType="text"
             android:minHeight="@dimen/min_edittext_height"
             android:paddingStart="@dimen/email_input_padding"
-            android:textColorHint="@color/additional_text_first"
-            android:paddingEnd="0dp"
-            android:inputType="text"
-            android:hint="@string/address_hint"
-            android:textColor="@color/additional_text_first"
-            app:backgroundTint="@color/additional_text_first"
-            style="@style/h2_style" />
+            android:paddingEnd="0dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

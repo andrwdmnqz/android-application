@@ -7,9 +7,9 @@
 
     <View
         android:id="@+id/profileDataBackground"
+        style="@style/TopBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/rectangle"
         android:transitionName="loginBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/your_profile_data_text"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +62,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fill_the_profile_text"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,14 +70,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tInputLayoutProfileName"
+        style="@style/TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/additional_text_second"
-        app:boxBackgroundColor="@color/additional_first"
-        app:cursorColor="@color/default_text_color"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/error_text_style"
-        app:hintTextColor="@color/additional_third"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/email_input_height"
@@ -90,28 +85,24 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tInputEditProfileName"
-            style="@style/h2_style"
+            style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/user_name_hint"
             android:inputType="text"
             android:minHeight="@dimen/min_edittext_height"
             android:paddingStart="@dimen/email_input_padding"
-            android:paddingEnd="0dp"
-            android:textColor="@color/default_text_color"
-            app:backgroundTint="@color/additional_text_second" />
+            android:paddingEnd="0dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tInputLayoutMobilePhone"
+        style="@style/TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/additional_text_second"
-        app:cursorColor="@color/default_text_color"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/error_text_style"
-        app:hintTextColor="@color/additional_third"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/email_input_height"
@@ -122,7 +113,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tInputEditMobilePhone"
-            style="@style/h2_style"
+            style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:digits="0123456789+"
@@ -130,9 +121,7 @@
             android:inputType="phone"
             android:minHeight="@dimen/min_edittext_height"
             android:paddingStart="@dimen/email_input_padding"
-            android:paddingEnd="0dp"
-            android:textColor="@color/default_text_color"
-            app:backgroundTint="@color/additional_text_second" />
+            android:paddingEnd="0dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -144,7 +133,6 @@
         android:background="@drawable/cancel_button"
         android:text="@string/cancel_button_text"
         android:textAllCaps="false"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/edit_profile_height"
@@ -161,14 +149,13 @@
         android:background="@drawable/view_contacts_button"
         android:letterSpacing="@dimen/button_letter_spacing"
         android:text="@string/forward_button_text"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/contacts_height"
         app:layout_constraintHorizontal_bias="0.531"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="@dimen/forward_button_vertical"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/forward_button_vertical"
         app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

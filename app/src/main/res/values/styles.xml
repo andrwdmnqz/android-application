@@ -1,34 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="h1_style">
-        <item name="android:textSize">@dimen/h1_text</item>
-        <item name="fontFamily">@font/open_sans</item>
+
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+        <item name="background_color">@color/main_background</item>
     </style>
-    <style name="h2_style">
+
+    <style name="TopBackground">
+        <item name="android:background">@color/main_background</item>
+    </style>
+
+    <style name="MainContainerStyle">
+        <item name="android:background">@color/default_background</item>
+    </style>
+
+    <style name="TextInputLayout">
+        <item name="android:textColorHint">@color/additional_six</item>
+        <item name="boxBackgroundColor">@color/additional_first</item>
+        <item name="cursorColor">@color/default_text_color</item>
+        <item name="hintTextColor">@color/additional_third</item>
+    </style>
+
+    <style name="TextInputLayoutDialog" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">@color/additional_fifth</item>
+        <item name="boxBackgroundColor">@color/additional_first</item>
+        <item name="boxStrokeColor">@color/additional_first</item> <!-- Optionally, add this if needed -->
+        <item name="cursorColor">@color/additional_fifth</item>
+        <item name="hintTextColor">@color/additional_fifth</item>
+    </style>
+
+    <style name="TextInputEditText">
+        <item name="android:textColor">@color/default_text_color</item>
+        <item name="android:textColorHint">@color/additional_first</item>
+        <item name="backgroundTint">@color/additional_six</item>
         <item name="android:textSize">@dimen/h2_text</item>
         <item name="fontFamily">@font/open_sans</item>
     </style>
+
+    <style name="TextInputEditTextDialog">
+        <item name="android:textColor">@color/additional_fifth</item>
+        <item name="android:textColorHint">@color/additional_fifth</item>
+        <item name="backgroundTint">@color/additional_fifth</item>
+        <item name="android:textSize">@dimen/h2_text</item>
+        <item name="fontFamily">@font/open_sans</item>
+    </style>
+
+    <style name="Checkbox">
+        <item name="android:textSize">@dimen/h3_text</item>
+        <item name="fontFamily">@font/open_sans</item>
+        <item name="android:buttonTint">@color/default_text_color</item>
+        <item name="android:textColor">@color/additional_seven</item>
+    </style>
+
+    <style name="h1_style">
+        <item name="android:textSize">@dimen/h1_text</item>
+        <item name="fontFamily">@font/open_sans</item>
+        <item name="android:textColor">@color/default_text_color</item>
+    </style>
+
+    <style name="h2_style">
+        <item name="android:textColor">@color/default_text_color</item>
+        <item name="android:textSize">@dimen/h2_text</item>
+        <item name="fontFamily">@font/open_sans</item>
+    </style>
+
     <style name="h2_5_style">
+        <item name="android:textColor">@color/default_text_color</item>
         <item name="android:textSize">@dimen/h2_5_text</item>
         <item name="fontFamily">@font/open_sans</item>
     </style>
+
     <style name="h3_style">
+        <item name="android:textColor">@color/default_text_color</item>
         <item name="android:textSize">@dimen/h3_text</item>
         <item name="fontFamily">@font/open_sans</item>
     </style>
+
     <style name="h4_style">
+        <item name="android:textColor">@color/default_text_color</item>
         <item name="android:textSize">@dimen/h4_text</item>
         <item name="fontFamily">@font/open_sans</item>
     </style>
+
     <style name="material_button_theme" parent="Theme.MaterialComponents.Light.Bridge">
         <item name="android:textSize">@dimen/h2_5_text</item>
         <item name="fontFamily">@font/open_sans</item>
     </style>
+
     <style name="error_text_style">
         <item name="android:textColor">@color/error_color</item>
         <item name="android:textSize">@dimen/h4_text</item>
         <item name="fontFamily">@font/open_sans</item>
     </style>
+
     <style name="fragmentTransition">
         <item name="android:windowActivityTransitions">true</item>
     </style>

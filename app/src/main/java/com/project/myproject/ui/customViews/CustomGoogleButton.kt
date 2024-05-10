@@ -45,7 +45,7 @@ class CustomGoogleButton @JvmOverloads constructor(
         )
         buttonTextColor = typedArray.getColor(
             R.styleable.CustomGoogleButton_buttonTextColor,
-            ContextCompat.getColor(context, R.color.additional_text_first)
+            ContextCompat.getColor(context, R.color.additional_fifth)
         )
         buttonDrawable = typedArray.getDrawable(R.styleable.CustomGoogleButton_buttonDrawable)
 

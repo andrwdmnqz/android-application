@@ -40,6 +40,7 @@
     <string name="error_email_exists">Електронна пошта вже зайнята.</string>
 
     <string name="contact_photo_desc">contact photo</string>
+    <string name="delete_icon_desc">delete icon</string>
     <string name="contact_removed">Контакт було видалено</string>
     <string name="contact_returned">Контакт було повернено</string>
     <string name="undo_button">Відмінити</string>

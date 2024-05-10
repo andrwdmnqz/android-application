@@ -6,6 +6,7 @@ import android.transition.TransitionInflater
 import android.view.View
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -29,7 +30,8 @@ import kotlin.system.exitProcess
 
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate),
     UserAdapter.OnUserItemClickListener {
-    private val viewModel: UserViewModel by viewModels<UserViewModel>()
+
+    private val viewModel by activityViewModels<UserViewModel>()
 
     private lateinit var adapter: UserAdapter
 

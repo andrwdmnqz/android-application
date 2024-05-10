@@ -40,6 +40,7 @@
     <string name="error_email_exists">Email is already taken.</string>
 
     <string name="contact_photo_desc">contact photo</string>
+    <string name="delete_icon_desc">delete icon</string>
     <string name="contact_removed">Contact has been removed</string>
     <string name="contact_returned">Contact has been returned</string>
     <string name="undo_button">Undo</string>

@@ -63,7 +63,7 @@ class AddContactDialogFragment : DialogFragment() {
             dialog.findViewById<TextView>(android.R.id.message)?.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.additional_text_first
+                    R.color.additional_fifth
                 )
             )
 

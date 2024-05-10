@@ -15,8 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        custom:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph"
+        custom:defaultNavHost="true"
         tools:layout="@layout/fragment_my_profile" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

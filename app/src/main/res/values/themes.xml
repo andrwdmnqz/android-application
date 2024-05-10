@@ -11,7 +11,7 @@
         <item name="android:windowSharedElementEnterTransition">@transition/change_bounds</item>
         <item name="android:windowSharedElementExitTransition">@transition/change_bounds</item>
         <!-- Specify hint text color -->
-        <item name="android:textColorHint">@color/additional_text_second</item>
+        <item name="android:textColorHint">@color/additional_six</item>
     </style>
     <style name="Theme.MyProject" parent="Base.Theme.MyProject" />
 </resources>

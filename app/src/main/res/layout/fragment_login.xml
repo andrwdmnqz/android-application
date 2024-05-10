@@ -7,9 +7,9 @@
 
     <View
         android:id="@+id/loginBackground"
+        style="@style/TopBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/rectangle"
         android:transitionName="loginBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +22,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_text"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +34,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/enter_your_email_text"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,14 +42,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilLoginEmail"
+        style="@style/TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/additional_text_second"
-        app:boxBackgroundColor="@color/additional_first"
-        app:cursorColor="@color/default_text_color"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/error_text_style"
-        app:hintTextColor="@color/additional_third"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/email_input_height"
@@ -62,28 +57,24 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tietLoginEmail"
-            style="@style/h2_style"
+            style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email_hint"
             android:inputType="textEmailAddress"
             android:minHeight="@dimen/min_edittext_height"
             android:paddingStart="@dimen/email_input_padding"
-            android:paddingEnd="0dp"
-            android:textColor="@color/default_text_color"
-            app:backgroundTint="@color/additional_text_second" />
+            android:paddingEnd="0dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilLoginPassword"
+        style="@style/TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/additional_text_second"
-        app:cursorColor="@color/default_text_color"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/error_text_style"
-        app:hintTextColor="@color/additional_third"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/email_input_height"
@@ -94,27 +85,23 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tietLoginPassword"
-            style="@style/h2_style"
+            style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
             android:minHeight="@dimen/min_edittext_height"
             android:paddingStart="@dimen/email_input_padding"
-            android:paddingEnd="0dp"
-            android:textColor="@color/default_text_color"
-            app:backgroundTint="@color/additional_text_second" />
+            android:paddingEnd="0dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
-        android:id="@+id/chbRememberMeLogin"
-        style="@style/h3_style"
+        android:id="@+id/checkboxRememberMeLogin"
+        style="@style/Checkbox"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:buttonTint="@color/default_text_color"
         android:text="@string/remember_me"
-        android:textColor="@color/additional_text_third"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/checkbox_height"
@@ -130,7 +117,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/forgot_password_text"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/forgot_password_horizontal"
@@ -146,7 +132,6 @@
         android:background="@drawable/register_button"
         android:letterSpacing="@dimen/button_letter_spacing"
         android:text="@string/login_text"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/register_button_height"
@@ -162,7 +147,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/no_account_text"
-        android:textColor="@color/additional_text_fifth"
+        android:textColor="@color/additional_nine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/already_have_height"
@@ -177,7 +162,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/sign_up_text"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/sign_in_text_hor"
