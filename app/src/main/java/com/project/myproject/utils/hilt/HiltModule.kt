@@ -9,12 +9,11 @@ import com.project.myproject.ui.fragments.RegisterFragment
 import com.project.myproject.data.network.RetrofitService
 import com.project.myproject.utils.TokenAuthenticator
 import com.project.myproject.data.repository.MainRepository
-import com.project.myproject.ui.fragments.BaseFragment
-import com.project.myproject.ui.viewmodels.EditCallbacks
-import com.project.myproject.ui.viewmodels.LoginCallbacks
-import com.project.myproject.ui.viewmodels.TokenCallbacks
-import com.project.myproject.ui.viewmodels.RegistrationCallbacks
-import dagger.Component
+import com.project.myproject.utils.SessionManager
+import com.project.myproject.utils.callbacks.EditCallbacks
+import com.project.myproject.utils.callbacks.LoginCallbacks
+import com.project.myproject.utils.callbacks.RegistrationCallbacks
+import com.project.myproject.utils.callbacks.TokenCallbacks
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -82,4 +81,8 @@ object HiltModule {
     @Provides
     @Singleton
     fun provideEditCallbacks(): EditCallbacks = ProfileDataFragment()
+
+    @Provides
+    @Singleton
+    fun provideTokenManager(): SessionManager = SessionManager()
 }

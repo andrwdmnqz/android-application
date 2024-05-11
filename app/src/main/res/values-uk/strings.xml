@@ -70,6 +70,13 @@
     <string name="mobile_phone_hint">Мобільний телефон</string>
     <string name="forward_button_text">Вперед</string>
     <string name="cancel_button_text">Скасувати</string>
+    <string name="error_name_required">Ім\'я обов\'язкове.</string>
+    <string name="error_name_min_length">Ім\'я має включати мінімум 3 символи.</string>
+    <string name="error_name_max_length">Ім\'я має включати максимум 32 символи.</string>
+    <string name="error_name_symbols">Ім\'я не може включати такі символи.</string>
+    <string name="error_phone_required">Номер телефону обов\'язковий.</string>
+    <string name="error_phone_min_length">Номер телефону має включати мінімум 10 цифр.</string>
+    <string name="error_phone_max_length">Номер телефону має включати максимум 15 цифр.</string>
 
     <string name="invalid_login_data">Неправильна пошта або пароль.</string>
     <string name="login_error_password_min_length">Пароль має включати мінімум 8 символів.</string>

@@ -4,15 +4,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
-import android.transition.Transition
 import android.util.Log
 import android.util.Patterns
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -22,10 +18,12 @@ import com.project.myproject.utils.Constants
 import com.project.myproject.R
 import com.project.myproject.utils.SettingPreference
 import com.project.myproject.databinding.FragmentRegisterBinding
-import com.project.myproject.ui.viewmodels.TokenCallbacks
-import com.project.myproject.ui.viewmodels.RegistrationCallbacks
 import com.project.myproject.ui.viewmodels.UserViewModel
+import com.project.myproject.utils.SessionManager
+import com.project.myproject.utils.callbacks.RegistrationCallbacks
+import com.project.myproject.utils.callbacks.TokenCallbacks
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,6 +36,8 @@ class RegisterFragment :
 
     @Inject
     lateinit var settingPreference: SettingPreference
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     private lateinit var regEmailLayout: TextInputLayout
     private lateinit var regEmailInput: TextInputEditText
@@ -85,11 +85,11 @@ class RegisterFragment :
                 val passwordAllowedSymbolsRegex = Regex(Constants.PASSWORD_REGEX)
                 val password = s.toString()
                 when {
-                    password.isNotEmpty() && password.length < 8 -> {
+                    password.isNotEmpty() && password.length < Constants.MINIMUM_PASSWORD_LENGTH -> {
                         regPasswordLayout.error = getString(R.string.error_password_min_length)
                     }
 
-                    password.isNotEmpty() && password.length > 16 -> {
+                    password.isNotEmpty() && password.length > Constants.MAXIMUM_PASSWORD_LENGTH -> {
                         regPasswordLayout.error = getString(R.string.error_password_max_length)
                     }
 
@@ -188,7 +188,7 @@ class RegisterFragment :
 
         Handler().postDelayed({
             fadeAllViewsExceptBackground()
-        }, 1000)
+        }, Constants.FADE_DELAY)
 
         lifecycleScope.launch {
 
@@ -231,14 +231,26 @@ class RegisterFragment :
             Log.d("DEBUG", "Saved id - $userId, saved access - $accessToken, saved refresh - $refreshToken")
         }
 
+        sessionManager.setId(userId)
+        sessionManager.setAccessToken(accessToken)
+        sessionManager.setRefreshToken(refreshToken)
+        sessionManager.setUserRememberState(rememberMeCheckbox.isChecked)
+
         findNavController().navigate(R.id.action_registerFragment_to_profileDataFragment)
     }
 
     override fun onUserIsRemembered() {
+
+        lifecycleScope.launch {
+            sessionManager.setId(settingPreference.getUserId().first())
+            sessionManager.setAccessToken(settingPreference.getAccessToken().first())
+            sessionManager.setRefreshToken(settingPreference.getRefreshToken().first())
+        }
+
         findNavController().navigate(R.id.viewPagerFragment)
     }
 
     override fun onTokensRefreshFailure() {
-        findNavController().navigate(R.id.registerFragment)
+        findNavController().navigate(R.id.loginFragment)
     }
 }

@@ -1,11 +1,8 @@
 package com.project.myproject.utils
 
-import com.project.myproject.utils.Constants
-import com.project.myproject.utils.SettingPreference
 import com.project.myproject.data.repository.MainRepository
-import com.project.myproject.ui.viewmodels.TokenCallbacks
+import com.project.myproject.utils.callbacks.TokenCallbacks
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -17,7 +14,8 @@ class TokenAuthenticator @Inject constructor(
     private val mainRepository: MainRepository,
     private val preference: SettingPreference,
     private val coroutineScope: CoroutineScope,
-    private val tokenCallbacks: TokenCallbacks
+    private val tokenCallbacks: TokenCallbacks,
+    private val sessionManager: SessionManager
 ): Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
@@ -26,14 +24,19 @@ class TokenAuthenticator @Inject constructor(
         }
 
         coroutineScope.launch {
-            val refreshTokenResponse = mainRepository.refreshTokens(preference.getRefreshToken().first())
+            val refreshTokenResponse = mainRepository.refreshTokens(sessionManager.getRefreshToken())
 
             if (refreshTokenResponse.isSuccessful) {
                 val newAccessToken = refreshTokenResponse.body()!!.data.accessToken
                 val newRefreshToken = refreshTokenResponse.body()!!.data.refreshToken
 
-                preference.saveAccessToken(newAccessToken)
-                preference.saveRefreshToken(newRefreshToken)
+                sessionManager.setAccessToken(newAccessToken)
+                sessionManager.setRefreshToken(newRefreshToken)
+
+                if (sessionManager.getUserRememberState()) {
+                    preference.saveAccessToken(newAccessToken)
+                    preference.saveRefreshToken(newRefreshToken)
+                }
 
                 continueRequestWithNewAccessToken(response, newAccessToken)
             } else {

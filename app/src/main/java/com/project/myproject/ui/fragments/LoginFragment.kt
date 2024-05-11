@@ -16,14 +16,16 @@ import com.project.myproject.utils.Constants
 import com.project.myproject.R
 import com.project.myproject.utils.SettingPreference
 import com.project.myproject.databinding.FragmentLoginBinding
-import com.project.myproject.ui.viewmodels.LoginCallbacks
 import com.project.myproject.ui.viewmodels.UserViewModel
+import com.project.myproject.utils.SessionManager
+import com.project.myproject.utils.callbacks.LoginCallbacks
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate), LoginCallbacks {
+class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate),
+    LoginCallbacks {
 
     private lateinit var loginEmailLayout: TextInputLayout
     private lateinit var loginEmailInput: TextInputEditText
@@ -32,6 +34,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     @Inject
     lateinit var settingPreference: SettingPreference
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     private val viewModel by activityViewModels<UserViewModel>()
 
@@ -110,11 +114,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                 val passwordAllowedSymbolsRegex = Regex(Constants.PASSWORD_REGEX)
                 val password = s.toString()
                 when {
-                    password.isNotEmpty() && password.length < 8 -> {
+                    password.isNotEmpty() && password.length < Constants.MINIMUM_PASSWORD_LENGTH -> {
                         loginPasswordLayout.error = getString(R.string.error_password_min_length)
                     }
 
-                    password.isNotEmpty() && password.length > 16 -> {
+                    password.isNotEmpty() && password.length > Constants.MAXIMUM_PASSWORD_LENGTH -> {
                         loginPasswordLayout.error = getString(R.string.error_password_max_length)
                     }
 
@@ -153,7 +157,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     override fun onSuccess(accessToken: String, refreshToken: String, userId: Int) {
-        val rememberMeCheckbox = binding.chbRememberMeLogin
+        val rememberMeCheckbox = binding.checkboxRememberMeLogin
 
         if (rememberMeCheckbox.isChecked) {
             lifecycleScope.launch {
@@ -165,6 +169,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                 settingPreference.saveUserId(userId)
             }
         }
+
+        sessionManager.setId(userId)
+        sessionManager.setAccessToken(accessToken)
+        sessionManager.setRefreshToken(refreshToken)
+        sessionManager.setUserRememberState(rememberMeCheckbox.isChecked)
 
         findNavController().navigate(R.id.action_loginFragment_to_viewPagerFragment)
     }

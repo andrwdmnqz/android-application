@@ -10,6 +10,10 @@ import com.project.myproject.data.requests.LoginRequest
 import com.project.myproject.data.responces.UserResponse
 import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.data.repository.UserRepository
+import com.project.myproject.utils.callbacks.EditCallbacks
+import com.project.myproject.utils.callbacks.LoginCallbacks
+import com.project.myproject.utils.callbacks.RegistrationCallbacks
+import com.project.myproject.utils.callbacks.TokenCallbacks
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -20,25 +24,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
-interface RegistrationCallbacks {
-    fun onSuccess(accessToken: String, refreshToken: String, userId: Int)
-    fun onEmailTakenError()
-    fun onUserIsRemembered()
-}
-
-interface LoginCallbacks {
-    fun onSuccess(accessToken: String, refreshToken: String, userId: Int)
-    fun onInvalidLoginData()
-}
-
-interface TokenCallbacks {
-    fun onTokensRefreshFailure()
-}
-
-interface EditCallbacks {
-    fun onUserEdited()
-}
 
 @HiltViewModel
 class UserViewModel @Inject constructor(private val mainRepository: MainRepository,
@@ -65,7 +50,7 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     fun registerUser(email: String, password: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "in job $email, $password")
+            Log.d("DEBUG", "register user $email, $password")
 
             val response = mainRepository.createUser(CreateRequest(email, password))
             Log.d("DEBUG", "$response")
@@ -78,6 +63,7 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     val responseBodyData = response.body()!!.data
+
                     currentUser = responseBodyData.user
                     registrationCallbacks?.onSuccess(responseBodyData.accessToken, responseBodyData.refreshToken, currentUser!!.id)
                 } else {
@@ -103,6 +89,7 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     val responseBodyData = response.body()!!.data
+
                     currentUser = responseBodyData.user
                     loginCallbacks?.onSuccess(responseBodyData.accessToken, responseBodyData.refreshToken, currentUser!!.id)
                 } else {
@@ -134,23 +121,19 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
         }
     }
 
-    fun editUser(userId: Int, accessToken: String, userName: String, phoneNumber: String) {
+    fun editUserNameAndPhone(userId: Int, accessToken: String, userName: String, phoneNumber: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             Log.d("DEBUG", "edit user $userId, $accessToken")
             Log.d("DEBUG", "edit user $userName, $phoneNumber")
 
-            val tempName = userName.ifBlank { Constants.DEFAULT_NAME }
-            val tempPhone = phoneNumber.ifBlank { Constants.DEFAULT_PHONE }
-
-            Log.d("DEBUG", "edit user $tempName, $tempPhone")
-            val zxc = EditUserRequest(name = tempName, phone = tempPhone)
+            val zxc = EditUserRequest(userName, phoneNumber)
             val token = Constants.BEARER_TOKEN_START + accessToken
             Log.d("DEBUG", "edit user $zxc $token")
 
             val response = mainRepository.editUser(userId,
                 Constants.BEARER_TOKEN_START + accessToken,
-                EditUserRequest(name = tempName, phone = tempPhone)
+                EditUserRequest(userName, phoneNumber)
             )
 
             Log.d("DEBUG", "$response")

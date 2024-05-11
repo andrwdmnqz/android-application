@@ -116,7 +116,7 @@
             style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="0123456789+"
+            android:digits="0123456789"
             android:hint="@string/mobile_phone_hint"
             android:inputType="phone"
             android:minHeight="@dimen/min_edittext_height"
