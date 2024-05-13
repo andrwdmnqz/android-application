@@ -2,10 +2,11 @@ package com.project.myproject.utils.callbacks
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.project.myproject.ui.adapters.UserAdapter
+import com.project.myproject.data.models.Contact
+import com.project.myproject.ui.adapters.ContactAdapter
 import com.project.myproject.data.models.User
 
-class SwipeToDeleteCallback(private val swipe: (position: Int, user: User) -> Unit) :
+class SwipeToDeleteCallback(private val swipe: (contact: Contact) -> Unit) :
     ItemTouchHelper.SimpleCallback(0,
         ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
@@ -13,13 +14,13 @@ class SwipeToDeleteCallback(private val swipe: (position: Int, user: User) -> Un
         val position = viewHolder.adapterPosition
 
         val user = (viewHolder.itemView.parent as RecyclerView).adapter?.let { adapter ->
-            if (adapter is UserAdapter) {
+            if (adapter is ContactAdapter) {
                 adapter.currentList[position]
             } else {
                 null
             }
         }
-        user?.let { swipe(position, it) }
+        user?.let { swipe(it) }
     }
 
     override fun onMove(

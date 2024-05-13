@@ -4,18 +4,15 @@ import android.os.Bundle
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.project.myproject.R
-import com.project.myproject.databinding.FragmentContactsBinding
 import com.project.myproject.databinding.FragmentDetailViewBinding
+import com.project.myproject.utils.Constants
 import com.project.myproject.utils.extensions.loadImageByGlide
 
 class DetailViewFragment : BaseFragment<FragmentDetailViewBinding>(FragmentDetailViewBinding::inflate) {
@@ -38,7 +35,7 @@ class DetailViewFragment : BaseFragment<FragmentDetailViewBinding>(FragmentDetai
     }
 
     override fun setObservers() {
-        setupTextFields()
+        setupFields()
     }
 
     override fun setListeners() {
@@ -53,15 +50,22 @@ class DetailViewFragment : BaseFragment<FragmentDetailViewBinding>(FragmentDetai
         }
     }
 
-    private fun setupTextFields() {
+    private fun setupFields() {
 
         val contact = DetailViewFragmentArgs.fromBundle(requireArguments()).contact
 
         with (binding) {
-            ivContactProfileImage.loadImageByGlide(contact.photo)
-            tvName.text = contact.name
-            tvCareer.text = contact.career
-            tvAddress.text = contact.address
+            val image = contact.image
+
+            if (image != null) {
+                ivContactProfileImage.loadImageByGlide(image)
+            } else {
+                ivContactProfileImage.setImageResource(R.mipmap.empty_photo_icon)
+            }
+
+            tvName.text = contact.name.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_NAME_VALUE
+            tvCareer.text = contact.career.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_CAREER_VALUE
+            tvAddress.text = contact.address.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_CAREER_VALUE
         }
     }
 

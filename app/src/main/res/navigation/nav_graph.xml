@@ -25,7 +25,7 @@
         tools:layout="@layout/fragment_detail_view" >
         <argument
             android:name="contact"
-            app:argType="com.project.myproject.data.models.User" />
+            app:argType="com.project.myproject.data.models.Contact" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"

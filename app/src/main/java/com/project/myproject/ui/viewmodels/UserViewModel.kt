@@ -2,14 +2,14 @@ package com.project.myproject.ui.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.project.myproject.data.models.Contact
 import com.project.myproject.utils.Constants
 import com.project.myproject.data.models.User
 import com.project.myproject.data.requests.CreateRequest
 import com.project.myproject.data.requests.EditUserRequest
 import com.project.myproject.data.requests.LoginRequest
-import com.project.myproject.data.responces.UserResponse
 import com.project.myproject.data.repository.MainRepository
-import com.project.myproject.data.repository.UserRepository
+import com.project.myproject.data.requests.AddContactRequest
 import com.project.myproject.utils.callbacks.EditCallbacks
 import com.project.myproject.utils.callbacks.LoginCallbacks
 import com.project.myproject.utils.callbacks.RegistrationCallbacks
@@ -32,16 +32,14 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
                                         private var overallCallbacks: TokenCallbacks? = null,
                                         private var editCallbacks: EditCallbacks? = null): ViewModel() {
 
-    private val userRepository = UserRepository()
-
-    private val _users = MutableStateFlow<List<User>>(emptyList())
-    val users = _users.asStateFlow()
+    private val _contacts = MutableStateFlow<List<Contact>>(emptyList())
+    val contacts = _contacts.asStateFlow()
 
     private var job: Job? = null
     private val errorMessage = MutableStateFlow("")
     private val loading = MutableStateFlow(false)
 
-    private var currentUser: UserResponse? = null
+    private var currentUser: User? = null
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         onError("Exception handled: ${throwable.localizedMessage}")
@@ -99,28 +97,6 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
         }
     }
 
-    fun getUser(userId: Int, accessToken: String) {
-
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "get user $userId, $accessToken")
-
-            val response = mainRepository.getUser(userId, Constants.BEARER_TOKEN_START + accessToken)
-            Log.d("DEBUG", "$response")
-            Log.d("DEBUG", "body - ${response.body()}")
-            Log.d("DEBUG", "message - ${response.message()}")
-            Log.d("DEBUG", "code - ${response.code()}")
-            Log.d("DEBUG", "error body - ${response.errorBody()}")
-            Log.d("DEBUG", "headers - ${response.headers()}")
-            Log.d("DEBUG", "raw - ${response.raw()}")
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    currentUser = response.body()?.data?.user
-                    registrationCallbacks?.onUserIsRemembered()
-                }
-            }
-        }
-    }
-
     fun editUserNameAndPhone(userId: Int, accessToken: String, userName: String, phoneNumber: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
@@ -152,32 +128,110 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
         }
     }
 
-    fun init() {
-        fetchUsers()
-    }
+    fun getUser(userId: Int, accessToken: String) {
 
-    private fun fetchUsers() {
-        CoroutineScope(Dispatchers.Main).launch {
-            _users.value = userRepository.addUsersToList()
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            Log.d("DEBUG", "get user $userId, $accessToken")
+
+            val response = mainRepository.getUser(userId, Constants.BEARER_TOKEN_START + accessToken)
+            Log.d("DEBUG", "$response")
+            Log.d("DEBUG", "body - ${response.body()}")
+            Log.d("DEBUG", "message - ${response.message()}")
+            Log.d("DEBUG", "code - ${response.code()}")
+            Log.d("DEBUG", "error body - ${response.errorBody()}")
+            Log.d("DEBUG", "headers - ${response.headers()}")
+            Log.d("DEBUG", "raw - ${response.raw()}")
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    currentUser = response.body()?.data?.user
+                    registrationCallbacks?.onUserIsRemembered()
+                }
+            }
         }
     }
 
-    fun deleteUser(id: Int) {
-        CoroutineScope(Dispatchers.Main).launch {
-            userRepository.deleteUser(id)
+    fun fetchContacts(userId: Int, accessToken: String) {
+
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            Log.d("DEBUG", "get user contacts $userId, access - $accessToken")
+
+            val response = mainRepository.getUserContacts(userId, Constants.BEARER_TOKEN_START + accessToken)
+            Log.d("DEBUG", "$response")
+            Log.d("DEBUG", "body - ${response.body()}")
+            Log.d("DEBUG", "message - ${response.message()}")
+            Log.d("DEBUG", "code - ${response.code()}")
+            Log.d("DEBUG", "error body - ${response.errorBody()}")
+            Log.d("DEBUG", "headers - ${response.headers()}")
+            Log.d("DEBUG", "raw - ${response.raw()}")
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
+                }
+            }
         }
-        _users.value = _users.value.filter { it.id != id }
     }
 
-    fun addUser(position: Int, user: User) {
-        CoroutineScope(Dispatchers.Main).launch {
-            userRepository.addUser(position, user)
+    fun deleteContact(userId: Int, contactId: Int, accessToken: String) {
 
-            val currentList = _users.value.toMutableList()
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            Log.d("DEBUG", "delete user contact $userId, contact id - $contactId, access - $accessToken")
 
-            currentList.add(position, user)
+            val response = mainRepository.deleteUserContact(userId, contactId, Constants.BEARER_TOKEN_START + accessToken)
+            Log.d("DEBUG", "$response")
+            Log.d("DEBUG", "body - ${response.body()}")
+            Log.d("DEBUG", "message - ${response.message()}")
+            Log.d("DEBUG", "code - ${response.code()}")
+            Log.d("DEBUG", "error body - ${response.errorBody()}")
+            Log.d("DEBUG", "headers - ${response.headers()}")
+            Log.d("DEBUG", "raw - ${response.raw()}")
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
+                }
+            }
+        }
+    }
 
-            _users.value = currentList
+    fun addContact(userId: Int, contactId: Int, accessToken: String) {
+
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            Log.d("DEBUG", "add user contact $userId, contact id - $contactId, access - $accessToken")
+
+            val response = mainRepository.addContact(userId, Constants.BEARER_TOKEN_START + accessToken, AddContactRequest(contactId))
+            Log.d("DEBUG", "$response")
+            Log.d("DEBUG", "body - ${response.body()}")
+            Log.d("DEBUG", "message - ${response.message()}")
+            Log.d("DEBUG", "code - ${response.code()}")
+            Log.d("DEBUG", "error body - ${response.errorBody()}")
+            Log.d("DEBUG", "headers - ${response.headers()}")
+            Log.d("DEBUG", "raw - ${response.raw()}")
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
+                }
+            }
+        }
+    }
+
+    private fun convertUsersToContacts(users: List<User>): List<Contact> {
+        return users.map { user ->
+            Contact(
+                id = user.id,
+                name = user.name,
+                email = user.email,
+                phone = user.phone,
+                career = user.career,
+                address = user.address,
+                birthday = user.birthday,
+                facebook = user.facebook,
+                instagram = user.instagram,
+                twitter = user.twitter,
+                linkedin = user.linkedin,
+                image = user.image,
+                createdAt = user.createdAt,
+                updatedAt = user.updatedAt,
+                isSelected = false
+            )
         }
     }
 

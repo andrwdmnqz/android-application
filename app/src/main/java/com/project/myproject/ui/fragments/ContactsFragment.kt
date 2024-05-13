@@ -7,7 +7,6 @@ import android.view.View
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -18,31 +17,39 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.project.myproject.utils.Constants
 import com.project.myproject.R
-import com.project.myproject.ui.adapters.UserAdapter
+import com.project.myproject.data.models.Contact
+import com.project.myproject.ui.adapters.ContactAdapter
 import com.project.myproject.utils.callbacks.SwipeToDeleteCallback
 import com.project.myproject.databinding.FragmentContactsBinding
 import com.project.myproject.utils.UserItemDecorator
 import com.project.myproject.ui.dialogs.AddContactDialogFragment
 import com.project.myproject.data.models.User
 import com.project.myproject.ui.viewmodels.UserViewModel
+import com.project.myproject.utils.SessionManager
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.system.exitProcess
 
+@AndroidEntryPoint
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate),
-    UserAdapter.OnUserItemClickListener {
+    ContactAdapter.OnUserItemClickListener {
 
     private val viewModel by activityViewModels<UserViewModel>()
 
-    private lateinit var adapter: UserAdapter
+    private lateinit var adapter: ContactAdapter
 
     private lateinit var animation: Transition
 
     private lateinit var viewPager: ViewPager2
 
+    @Inject
+    lateinit var sessionManager: SessionManager
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewPager = activity?.findViewById(R.id.viewPager)!!
-        adapter = UserAdapter(requireContext(), this) { show -> showMultiselectDelete(show) }
+        adapter = ContactAdapter(requireContext(), this) { show -> showMultiselectDelete(show) }
 
         setupRecyclerView()
         setListeners()
@@ -97,48 +104,38 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
         childFragmentManager.setFragmentResultListener(
             Constants.CONTACT_INFO_KEY, this) { _, bundle ->
-            val user = User(
-                User.generateId(),
-                Constants.DEFAULT_USER_IMAGE_PATH,
-                bundle.getString(Constants.CONTACT_NAME_KEY)!!,
-                bundle.getString(Constants.CONTACT_CAREER_KEY)!!,
-                bundle.getString(Constants.CONTACT_ADDRESS_KEY)!!,
-                false
-            )
 
-            viewModel.addUser(0, user)
+            //viewModel.addContact(0, user)
 
-            adapter.submitList(viewModel.users.value)
+            adapter.submitList(viewModel.contacts.value)
         }
     }
 
-    override fun onContactItemClicked(user: User) {
+    override fun onContactItemClicked(contact: Contact) {
         val extras = FragmentNavigatorExtras(binding.contactsBackground to "detailBackground")
 
         findNavController().navigate(
             ViewPagerFragmentDirections.actionViewPagerFragmentToDetailViewFragment(
-                user
+                contact
             ), extras
         )
     }
 
-    override fun onDeleteItemClicked(user: User, position: Int) {
-        viewModel.deleteUser(user.id)
+    override fun onDeleteItemClicked(contact: Contact, position: Int) {
+        viewModel.deleteContact(sessionManager.getId(), contact.id, sessionManager.getAccessToken())
 
-        adapter.submitList(viewModel.users.value)
-
-        showDeleteSnackbar(user, position)
-
-        adapter.notifyItemRangeChanged(position, adapter.itemCount)
+        showDeleteSnackbar(contact)
+//
+//        adapter.notifyItemRangeChanged(position, adapter.itemCount)
     }
 
-    private fun showDeleteSnackbar(user: User, position: Int) {
+    private fun showDeleteSnackbar(contact: Contact) {
 
         val snackbar = Snackbar.make(binding.root,
             getString(R.string.contact_removed), Snackbar.LENGTH_LONG)
 
         snackbar.setAction(getString(R.string.undo_button)) {
-            viewModel.addUser(position, user)
+            viewModel.addContact(sessionManager.getId(), contact.id, sessionManager.getAccessToken())
         }
 
         snackbar.show()
@@ -155,19 +152,19 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         contactsRV.addItemDecoration(UserItemDecorator(itemMarginSize))
         contactsRV.layoutManager = LinearLayoutManager(requireContext())
 
-        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback { position, user ->
-            viewModel.deleteUser(user.id)
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback { contact ->
+            viewModel.deleteContact(sessionManager.getId(), contact.id, sessionManager.getAccessToken())
 
-            showDeleteSnackbar(user, position)
+            showDeleteSnackbar(contact)
         })
 
         itemTouchHelper.attachToRecyclerView(contactsRV)
 
-        viewModel.init()
+        viewModel.fetchContacts(sessionManager.getId(), sessionManager.getAccessToken())
 
         lifecycleScope.launch {
-            viewModel.users.collect { users ->
-                adapter.submitList(users)
+            viewModel.contacts.collect { contacts ->
+                adapter.submitList(contacts)
             }
         }
     }
@@ -212,9 +209,10 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         multiselectDeleteIcon.setOnClickListener {
 
             val selectedItems = adapter.getSelectedItems().sortedDescending()
-
+            val userId = sessionManager.getId()
+            val accessToken = sessionManager.getAccessToken()
             selectedItems.forEach {
-                viewModel.deleteUser(viewModel.users.value[it].id)
+                viewModel.deleteContact(userId, viewModel.contacts.value[it].id, accessToken)
             }
 
             adapter.exitMultiselectMode()

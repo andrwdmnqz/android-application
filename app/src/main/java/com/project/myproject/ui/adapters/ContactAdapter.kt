@@ -7,22 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.project.myproject.utils.Constants
 import com.project.myproject.R
+import com.project.myproject.data.models.Contact
 import com.project.myproject.databinding.ContactItemBinding
 import com.project.myproject.utils.extensions.loadImageByGlide
-import com.project.myproject.data.models.User
-import com.project.myproject.utils.callbacks.UserItemDiffCallback
+import com.project.myproject.utils.callbacks.ContactItemDiffCallback
 
-class UserAdapter(
+class ContactAdapter(
     context: Context,
     private val onUserItemClickListener: OnUserItemClickListener,
     private val showMultiselectDelete: (Boolean) -> Unit
     ) :
-    ListAdapter<User, UserAdapter.ViewHolder>(UserItemDiffCallback()) {
+    ListAdapter<Contact, ContactAdapter.ViewHolder>(ContactItemDiffCallback()) {
     private var isMultiselectEnable = false
     private val itemSelectedList = mutableListOf<Int>()
 
@@ -49,25 +48,29 @@ class UserAdapter(
 
         holder.itemView.layoutParams.height = cardHeight
 
-        val user = getItem(position)
+        val contact = getItem(position)
 
         with (holder) {
-            contactNameView.text = user.name
-            contactCareerView.text = user.career
-            contactImageView.loadImageByGlide(user.photo)
+            if (contact.image != null) {
+                contactImageView.loadImageByGlide(contact.image!!)
+            } else {
+                contactImageView.setImageResource(R.mipmap.empty_photo_icon)
+            }
+            contactNameView.text = contact.name.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_NAME_VALUE
+            contactCareerView.text = contact.career.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_CAREER_VALUE
         }
 
         defineItemViewsAppearance(holder, position)
 
         shiftViews(holder, isMultiselectEnable)
 
-        setItemListeners(holder, user)
+        setItemListeners(holder, contact)
     }
 
-    private fun setItemListeners(holder: ViewHolder, user: User) {
+    private fun setItemListeners(holder: ViewHolder, contact: Contact) {
         holder.itemView.setOnLongClickListener {
 
-            selectItem(holder, user, holder.adapterPosition)
+            selectItem(holder, contact, holder.adapterPosition)
             notifyItemRangeChanged(0, this.itemCount)
 
             true
@@ -75,14 +78,14 @@ class UserAdapter(
 
         holder.itemView.setOnClickListener {
             if (isMultiselectEnable) {
-                toggleItemSelection(holder.adapterPosition, holder, user)
+                toggleItemSelection(holder.adapterPosition, holder, contact)
             } else {
-                onUserItemClickListener.onContactItemClicked(user)
+                onUserItemClickListener.onContactItemClicked(contact)
             }
         }
 
         holder.contactDeleteIcon.setOnClickListener {
-            onUserItemClickListener.onDeleteItemClicked(user, holder.adapterPosition)
+            onUserItemClickListener.onDeleteItemClicked(contact, holder.adapterPosition)
         }
     }
 
@@ -128,11 +131,11 @@ class UserAdapter(
         }
     }
 
-    private fun toggleItemSelection(position: Int, holder: ViewHolder, user: User) {
+    private fun toggleItemSelection(position: Int, holder: ViewHolder, contact: Contact) {
         if (itemSelectedList.contains(position)) {
 
             itemSelectedList.remove(position)
-            user.isSelected = false
+            contact.isSelected = false
 
             changeVisibility(holder)
 
@@ -140,15 +143,15 @@ class UserAdapter(
                 exitMultiselectMode()
             }
         } else {
-            selectItem(holder, user, position)
+            selectItem(holder, contact, position)
         }
     }
 
-    private fun selectItem(holder: ViewHolder, user: User, position: Int) {
+    private fun selectItem(holder: ViewHolder, contact: Contact, position: Int) {
         isMultiselectEnable = true
         itemSelectedList.add(position)
 
-        user.isSelected = true
+        contact.isSelected = true
         showMultiselectDelete(true)
 
         changeVisibility(holder)
@@ -172,8 +175,8 @@ class UserAdapter(
     }
 
     interface OnUserItemClickListener {
-        fun onContactItemClicked(user: User)
-        fun onDeleteItemClicked(user: User, position: Int)
+        fun onContactItemClicked(contact: Contact)
+        fun onDeleteItemClicked(contact: Contact, position: Int)
     }
 
     fun getSelectedItems() = itemSelectedList

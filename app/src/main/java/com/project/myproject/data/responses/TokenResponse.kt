@@ -1,4 +1,4 @@
-package com.project.myproject.data.responces
+package com.project.myproject.data.responses
 
 import com.project.myproject.data.models.TokenData
 

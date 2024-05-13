@@ -84,5 +84,5 @@ object HiltModule {
 
     @Provides
     @Singleton
-    fun provideTokenManager(): SessionManager = SessionManager()
+    fun provideSessionManager(): SessionManager = SessionManager()
 }
