@@ -33,17 +33,17 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
     private val viewModel by activityViewModels<UserViewModel>()
 
     private lateinit var dataNameLayout: TextInputLayout
-    private lateinit var dataNameInput: TextInputEditText
+    private lateinit var dataNameEditText: TextInputEditText
     private lateinit var dataPhoneLayout: TextInputLayout
-    private lateinit var dataPhoneInput: TextInputEditText
+    private lateinit var dataPhoneEditText: TextInputEditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.setEditCallbacks(this)
 
-        dataNameLayout = binding.tInputLayoutProfileName
-        dataNameInput = binding.tInputEditProfileName
-        dataPhoneLayout = binding.tInputLayoutMobilePhone
-        dataPhoneInput = binding.tInputEditMobilePhone
+        dataNameLayout = binding.tilProfileName
+        dataNameEditText = binding.etProfileName
+        dataPhoneLayout = binding.tilMobilePhone
+        dataPhoneEditText = binding.etMobilePhone
 
         setListeners()
         setObservers()
@@ -52,7 +52,7 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
     }
 
     private fun initializeCancelButtonListeners() {
-        val cancelButton = binding.buttonCancelProfileData
+        val cancelButton = binding.btnCancelProfileData
 
         cancelButton.setOnClickListener {
             findNavController().navigate(R.id.action_profileDataFragment_to_registerFragment)
@@ -61,9 +61,9 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
 
     private fun initializeForwardButtonListeners() {
 
-        binding.buttonForward.setOnClickListener {
-            val userNameText = dataNameInput.text
-            val phoneNumber = dataPhoneInput.text
+        binding.btnForward.setOnClickListener {
+            val userNameText = dataNameEditText.text
+            val phoneNumber = dataPhoneEditText.text
             Log.d("DEBUG", "name - $userNameText")
             Log.d("DEBUG", "phone - $phoneNumber")
 
@@ -104,7 +104,7 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
     }
 
     private fun setupNameValidation() {
-        dataNameInput.addTextChangedListener(object : TextWatcher {
+        dataNameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -138,7 +138,7 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
     }
 
     private fun setupPhoneValidation() {
-        dataPhoneInput.addTextChangedListener(object : TextWatcher {
+        dataPhoneEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -184,9 +184,9 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
             formattedPhoneNumber.append(phone[i])
         }
 
-        dataPhoneInput.removeTextChangedListener(this)
-        dataPhoneInput.setText(formattedPhoneNumber.toString())
-        dataPhoneInput.setSelection(formattedPhoneNumber.length)
-        dataPhoneInput.addTextChangedListener(this)
+        dataPhoneEditText.removeTextChangedListener(this)
+        dataPhoneEditText.setText(formattedPhoneNumber.toString())
+        dataPhoneEditText.setSelection(formattedPhoneNumber.length)
+        dataPhoneEditText.addTextChangedListener(this)
     }
 }

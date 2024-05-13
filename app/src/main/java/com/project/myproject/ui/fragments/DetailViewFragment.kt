@@ -47,7 +47,7 @@ class DetailViewFragment : BaseFragment<FragmentDetailViewBinding>(FragmentDetai
 
     private fun setupBackActionListeners() {
 
-        binding.toolbarBack.setOnClickListener {
+        binding.ivToolbarBack.setOnClickListener {
             Log.d("DEBUG", "back")
             it.findNavController().popBackStack()
         }
@@ -58,7 +58,7 @@ class DetailViewFragment : BaseFragment<FragmentDetailViewBinding>(FragmentDetai
         val contact = DetailViewFragmentArgs.fromBundle(requireArguments()).contact
 
         with (binding) {
-            profileImage.loadImageByGlide(contact.photo)
+            ivContactProfileImage.loadImageByGlide(contact.photo)
             tvName.text = contact.name
             tvCareer.text = contact.career
             tvAddress.text = contact.address

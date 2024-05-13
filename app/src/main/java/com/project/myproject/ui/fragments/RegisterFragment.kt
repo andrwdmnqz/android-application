@@ -40,9 +40,9 @@ class RegisterFragment :
     lateinit var sessionManager: SessionManager
 
     private lateinit var regEmailLayout: TextInputLayout
-    private lateinit var regEmailInput: TextInputEditText
+    private lateinit var regEmailEditText: TextInputEditText
     private lateinit var regPasswordLayout: TextInputLayout
-    private lateinit var regPasswordInput: TextInputEditText
+    private lateinit var regPasswordEditText: TextInputEditText
 
     private val viewModel by activityViewModels<UserViewModel>()
 
@@ -51,11 +51,11 @@ class RegisterFragment :
         viewModel.setRegistrationCallbacks(this)
         viewModel.setOverallCallbacks(this)
 
-        regEmailLayout = binding.regEmailLayout
-        regEmailInput = binding.regEmailInput
+        regEmailLayout = binding.tilRegisterEmail
+        regEmailEditText = binding.etRegisterEmail
 
-        regPasswordLayout = binding.regPasswordLayout
-        regPasswordInput = binding.regPasswordInput
+        regPasswordLayout = binding.tilRegisterPassword
+        regPasswordEditText = binding.etRegisterPassword
 
         setListeners()
         setObservers()
@@ -64,15 +64,14 @@ class RegisterFragment :
     }
 
     private fun initializeSignInViewListener() {
-        val signInView = binding.tvSignIn
 
-        signInView.setOnClickListener {
+        binding.tvSignInLabel.setOnClickListener {
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
     }
 
     private fun setupPasswordValidation() {
-        regPasswordInput.addTextChangedListener(object : TextWatcher {
+        regPasswordEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -106,7 +105,7 @@ class RegisterFragment :
     }
 
     private fun setupEmailValidation() {
-        regEmailInput.addTextChangedListener(object : TextWatcher {
+        regEmailEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -128,11 +127,11 @@ class RegisterFragment :
     }
 
     private fun initializeRegisterButtonListeners() {
-        val registerButton = binding.registerButton
+        val registerButton = binding.btnRegisterButton
 
         registerButton.setOnClickListener {
-            val email = regEmailInput.text
-            val password = regPasswordInput.text
+            val email = regEmailEditText.text
+            val password = regPasswordEditText.text
 
             if (regEmailLayout.error == null && regPasswordLayout.error == null
                 && !email.isNullOrBlank() && !password.isNullOrBlank()) {
@@ -220,7 +219,7 @@ class RegisterFragment :
     }
 
     override fun onSuccess(accessToken: String, refreshToken: String, userId: Int) {
-        val rememberMeCheckbox = binding.rememberMe
+        val rememberMeCheckbox = binding.chbRememberMeRegister
 
         if (rememberMeCheckbox.isChecked) {
             lifecycleScope.launch {

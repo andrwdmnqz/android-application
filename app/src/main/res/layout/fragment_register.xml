@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/acquainted_text"
+        android:id="@+id/tvAcquaintedLabel"
         style="@style/h1_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         app:layout_constraintVertical_bias="@dimen/acquainted_vertical" />
 
     <TextView
-        android:id="@+id/tvFillTheProfile"
+        android:id="@+id/tvFillOutTheProfileLabel"
         style="@style/h4_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         app:layout_constraintVertical_bias="@dimen/fill_the_profile_vertical" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/reg_email_layout"
+        android:id="@+id/tilRegisterEmail"
         style="@style/TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
         app:layout_constraintWidth_percent="@dimen/user_inputs_width">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/reg_email_input"
+            android:id="@+id/etRegisterEmail"
             style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/reg_password_layout"
+        android:id="@+id/tilRegisterPassword"
         style="@style/TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
         app:layout_constraintWidth_percent="@dimen/user_inputs_width">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/reg_password_input"
+            android:id="@+id/etRegisterPassword"
             style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
-        android:id="@+id/remember_me"
+        android:id="@+id/chbRememberMeRegister"
         style="@style/Checkbox"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -113,7 +113,7 @@
         app:layout_constraintVertical_bias="@dimen/checkbox_vertical" />
 
     <com.project.myproject.ui.customViews.CustomGoogleButton
-        android:id="@+id/google_reg_button"
+        android:id="@+id/btnGoogleRegister"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/google_button"
@@ -132,17 +132,18 @@
         custom:buttonTextSize="@dimen/h2_5_text" />
 
     <TextView
+        android:id="@+id/tvOrLabel"
         style="@style/h2_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/or_text"
-        app:layout_constraintBottom_toTopOf="@id/register_button"
+        app:layout_constraintBottom_toTopOf="@id/btnRegisterButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/google_reg_button" />
+        app:layout_constraintTop_toBottomOf="@id/btnGoogleRegister" />
 
     <Button
-        android:id="@+id/register_button"
+        android:id="@+id/btnRegisterButton"
         style="@style/h2_5_style"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -158,6 +159,7 @@
         app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
 
     <TextView
+        android:id="@+id/tvByClickingRegisterLabel"
         style="@style/h4_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -170,7 +172,7 @@
         app:layout_constraintVertical_bias="@dimen/register_terms_vert" />
 
     <TextView
-        android:id="@+id/already_have_text"
+        android:id="@+id/tvAlreadyHaveLabel"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -185,7 +187,7 @@
         app:layout_constraintVertical_bias="@dimen/already_have_vert" />
 
     <TextView
-        android:id="@+id/tvSignIn"
+        android:id="@+id/tvSignInLabel"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -194,7 +196,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/sign_in_text_hor"
-        app:layout_constraintStart_toEndOf="@id/already_have_text"
+        app:layout_constraintStart_toEndOf="@id/tvAlreadyHaveLabel"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/already_have_vert" />
 

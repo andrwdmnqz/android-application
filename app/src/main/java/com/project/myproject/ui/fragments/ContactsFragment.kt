@@ -75,7 +75,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun setupBackArrowListeners() {
-        binding.toolbarBack.setOnClickListener {
+        binding.ivToolbarBack.setOnClickListener {
             moveToFirstTab()
         }
     }
@@ -88,9 +88,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     private fun isFirstTab() = viewPager.currentItem == Constants.FIRST_TAB_NUMBER
 
     private fun setupAddContactListeners() {
-        val addContactsView = binding.addContactsLabel
 
-        addContactsView.setOnClickListener {
+            binding.tvAddContactsLabel.setOnClickListener {
             AddContactDialogFragment().show(
                 childFragmentManager, AddContactDialogFragment.TAG
             )
@@ -209,7 +208,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun setupMultiselectDeleteListeners() {
-        val multiselectDeleteIcon = binding.ivMultiselectDelete
+        val multiselectDeleteIcon = binding.ivMultiselectDeleteIcon
         multiselectDeleteIcon.setOnClickListener {
 
             val selectedItems = adapter.getSelectedItems().sortedDescending()
@@ -223,6 +222,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun showMultiselectDelete(show: Boolean) {
-        binding.ivMultiselectDelete.isVisible = show
+        binding.ivMultiselectDeleteIcon.isVisible = show
     }
 }

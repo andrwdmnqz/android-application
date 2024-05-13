@@ -20,18 +20,19 @@
         app:layout_constraintVertical_bias="@dimen/top_rectangle_vertical" />
 
     <TextView
+        android:id="@+id/tvSettingsLabel"
         style="@style/h1_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settings"
-        app:layout_constraintBottom_toBottomOf="@id/logout_button"
+        app:layout_constraintBottom_toBottomOf="@id/btnLogout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/settings_horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/logout_button" />
+        app:layout_constraintTop_toTopOf="@id/btnLogout" />
 
     <Button
-        android:id="@+id/logout_button"
+        android:id="@+id/btnLogout"
         style="@style/h3_style"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -101,7 +102,7 @@
         app:layout_constraintVertical_bias="@dimen/address_vertical" />
 
     <ImageView
-        android:id="@+id/facebook_logo"
+        android:id="@+id/ivFacebookLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/facebook_logo_desc"
@@ -116,7 +117,7 @@
         app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
 
     <ImageView
-        android:id="@+id/linkedin_logo"
+        android:id="@+id/ivLinkedinLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/linkedin_logo_desc"
@@ -130,7 +131,7 @@
         app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
 
     <ImageView
-        android:id="@+id/instagram_logo"
+        android:id="@+id/ivInstagramLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/instagram_logo_desc"
@@ -145,7 +146,7 @@
         app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
 
     <Button
-        android:id="@+id/edit_button"
+        android:id="@+id/btnEditProfile"
         style="@style/h2_style"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -162,7 +163,7 @@
         app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
 
     <Button
-        android:id="@+id/contacts_button"
+        android:id="@+id/btnContacts"
         style="@style/h2_5_style"
         android:layout_width="0dp"
         android:layout_height="0dp"

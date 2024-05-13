@@ -29,10 +29,10 @@ class UserAdapter(
     private val shiftAmount = context.resources.getDimensionPixelSize(R.dimen.multiselect_view_shift_right).toFloat()
 
     inner class ViewHolder(private val binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val contactNameView = binding.contactName
-        val contactCareerView = binding.contactCareer
-        val contactImageView = binding.userPhoto
-        val contactDeleteIcon = binding.deleteIcon
+        val contactNameView = binding.tvContactName
+        val contactCareerView = binding.tvContactCareer
+        val contactImageView = binding.ivContactPhoto
+        val contactDeleteIcon = binding.ivContactDeleteIcon
         val contactSelectedIcon = binding.icUserSelected
         val contactUnselectedIcon = binding.icUserUnselected
     }

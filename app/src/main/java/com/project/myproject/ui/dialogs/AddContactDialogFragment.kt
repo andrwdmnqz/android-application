@@ -24,10 +24,10 @@ class AddContactDialogFragment : DialogFragment() {
 
         viewBinding = AddContactDialogBinding.inflate(layoutInflater)
 
-        val newContactName = viewBinding.contactNameInput
-        val newContactCareer = viewBinding.contactCareerInput
-        val newContactAddress = viewBinding.contactAddressInput
-        val newContactNameLayout = viewBinding.contactNameLayout
+        val newContactName = viewBinding.etAddContactName
+        val newContactCareer = viewBinding.etAddContactCareer
+        val newContactAddress = viewBinding.etAddContactAddress
+        val newContactNameLayout = viewBinding.tilAddContactName
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(viewBinding.root)
@@ -37,7 +37,7 @@ class AddContactDialogFragment : DialogFragment() {
 
         setupDialog(dialog, newContactName, newContactCareer, newContactAddress, newContactNameLayout)
 
-        setupNameValidation(viewBinding.contactNameLayout, viewBinding.contactNameInput)
+        setupNameValidation(viewBinding.tilAddContactName, viewBinding.etAddContactName)
 
         return dialog
     }

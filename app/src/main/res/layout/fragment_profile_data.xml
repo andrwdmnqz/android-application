@@ -45,7 +45,7 @@
         app:layout_constraintWidth_percent="@dimen/add_photo_width" />
 
     <TextView
-        android:id="@+id/tvYourProfileDataText"
+        android:id="@+id/tvYourProfileDataLabel"
         style="@style/h1_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
         app:layout_constraintVertical_bias="@dimen/your_profile_data_vertical" />
 
     <TextView
-        android:id="@+id/tvEnterYourPassword"
+        android:id="@+id/tvFillOutTheProfileLabel"
         style="@style/h4_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
         app:layout_constraintVertical_bias="@dimen/filling_profile_text_vertical" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tInputLayoutProfileName"
+        android:id="@+id/tilProfileName"
         style="@style/TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
         app:layout_constraintWidth_percent="@dimen/user_inputs_width">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tInputEditProfileName"
+            android:id="@+id/etProfileName"
             style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tInputLayoutMobilePhone"
+        android:id="@+id/tilMobilePhone"
         style="@style/TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
         app:layout_constraintWidth_percent="@dimen/user_inputs_width">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tInputEditMobilePhone"
+            android:id="@+id/etMobilePhone"
             style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/buttonCancelProfileData"
+        android:id="@+id/btnCancelProfileData"
         style="@style/h2_style"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -142,7 +142,7 @@
         app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
 
     <Button
-        android:id="@+id/buttonForward"
+        android:id="@+id/btnForward"
         style="@style/h2_5_style"
         android:layout_width="0dp"
         android:layout_height="0dp"

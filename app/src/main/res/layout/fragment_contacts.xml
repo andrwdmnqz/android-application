@@ -22,19 +22,19 @@
         app:layout_constraintVertical_bias="@dimen/top_rectangle_vertical" />
 
     <ImageView
-        android:id="@+id/toolbar_back"
+        android:id="@+id/ivToolbarBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/back_button_desc"
         android:src="@drawable/arrow_back_24px"
-        app:layout_constraintBottom_toBottomOf="@id/contacts_label"
+        app:layout_constraintBottom_toBottomOf="@id/tvContactsLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/contacts_tool_bar_start"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/contacts_label" />
+        app:layout_constraintTop_toTopOf="@id/tvContactsLabel" />
 
     <TextView
-        android:id="@+id/contacts_label"
+        android:id="@+id/tvContactsLabel"
         style="@style/h1_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -47,30 +47,30 @@
         app:layout_constraintVertical_bias="@dimen/contacts_label_vertical" />
 
     <ImageView
-        android:id="@+id/toolbar_search"
+        android:id="@+id/ivToolbarSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/back_button_desc"
         android:src="@drawable/search_icon"
-        app:layout_constraintBottom_toBottomOf="@id/contacts_label"
+        app:layout_constraintBottom_toBottomOf="@id/tvContactsLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/contacts_tool_bar_end"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/contacts_label" />
+        app:layout_constraintTop_toTopOf="@id/tvContactsLabel" />
 
     <TextView
-        android:id="@+id/add_contacts_label"
+        android:id="@+id/tvAddContactsLabel"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_contacts_label"
         app:layout_constraintBottom_toBottomOf="@id/contactsBackground"
-        app:layout_constraintStart_toStartOf="@id/toolbar_back"
+        app:layout_constraintStart_toStartOf="@id/ivToolbarBack"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/add_contacts_label_vertical" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_contacts"
+        android:id="@+id/rvContacts"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -79,7 +79,7 @@
         app:layout_constraintTop_toBottomOf="@id/contactsBackground" />
 
     <ImageView
-        android:id="@+id/ivMultiselectDelete"
+        android:id="@+id/ivMultiselectDeleteIcon"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/multiselect_delete_description"

@@ -36,7 +36,7 @@
         app:layout_constraintWidth_percent="@dimen/multiselect_checked_icon_width" />
 
     <ImageView
-        android:id="@+id/user_photo"
+        android:id="@+id/ivContactPhoto"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/contact_photo_desc"
@@ -49,7 +49,7 @@
         app:layout_constraintWidth_percent="@dimen/photo_icon_width" />
 
     <TextView
-        android:id="@+id/contact_name"
+        android:id="@+id/tvContactName"
         style="@style/h2_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,17 +61,17 @@
         app:layout_constraintVertical_bias="@dimen/contact_name_vertical" />
 
     <TextView
-        android:id="@+id/contact_career"
+        android:id="@+id/tvContactCareer"
         style="@style/h4_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/contact_name"
-        app:layout_constraintTop_toBottomOf="@id/contact_name"
+        app:layout_constraintStart_toStartOf="@id/tvContactName"
+        app:layout_constraintTop_toBottomOf="@id/tvContactName"
         app:layout_constraintVertical_bias="0" />
 
     <ImageView
-        android:id="@+id/delete_icon"
+        android:id="@+id/ivContactDeleteIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/delete_icon_desc"

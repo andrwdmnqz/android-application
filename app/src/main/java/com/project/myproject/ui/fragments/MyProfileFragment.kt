@@ -58,7 +58,7 @@ class MyProfileFragment : BaseFragment<FragmentMyProfileBinding>(FragmentMyProfi
 
     private fun initializeLogoutButtonListeners() {
 
-        binding.logoutButton.setOnClickListener {
+        binding.btnLogout.setOnClickListener {
             lifecycleScope.launch {
                 settingPreference.clearData()
 
@@ -69,7 +69,7 @@ class MyProfileFragment : BaseFragment<FragmentMyProfileBinding>(FragmentMyProfi
 
     private fun initializeContactsButtonListeners() {
 
-        binding.contactsButton.setOnClickListener {
+        binding.btnContacts.setOnClickListener {
             val viewPager = activity?.findViewById<ViewPager2>(R.id.viewPager)
             viewPager?.currentItem = Constants.SECOND_TAB_NUMBER
         }

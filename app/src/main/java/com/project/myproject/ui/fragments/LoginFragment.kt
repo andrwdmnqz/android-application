@@ -28,9 +28,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     LoginCallbacks {
 
     private lateinit var loginEmailLayout: TextInputLayout
-    private lateinit var loginEmailInput: TextInputEditText
+    private lateinit var loginEmailEditText: TextInputEditText
     private lateinit var loginPasswordLayout: TextInputLayout
-    private lateinit var loginPasswordInput: TextInputEditText
+    private lateinit var loginPasswordEditText: TextInputEditText
 
     @Inject
     lateinit var settingPreference: SettingPreference
@@ -46,8 +46,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         loginEmailLayout = binding.tilLoginEmail
         loginPasswordLayout = binding.tilLoginPassword
 
-        loginEmailInput = binding.tietLoginEmail
-        loginPasswordInput = binding.tietLoginPassword
+        loginEmailEditText = binding.etLoginEmail
+        loginPasswordEditText = binding.etLoginPassword
 
         setListeners()
         setObservers()
@@ -70,7 +70,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun initializeSignUpViewListener() {
-        val signUpView = binding.tvSignUp
+        val signUpView = binding.tvSignUpLabel
 
         signUpView.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
@@ -78,11 +78,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun initializeLoginButtonListeners() {
-        val registerButton = binding.buttonLogin
+        val registerButton = binding.btnLogin
 
         registerButton.setOnClickListener {
-            val email = loginEmailInput.text
-            val password = loginPasswordInput.text
+            val email = loginEmailEditText.text
+            val password = loginPasswordEditText.text
 
             if (loginEmailLayout.error == null && loginPasswordLayout.error == null
                 && !email.isNullOrBlank() && !password.isNullOrBlank()) {
@@ -101,7 +101,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun setupPasswordValidation() {
-        loginPasswordInput.addTextChangedListener(object : TextWatcher {
+        loginPasswordEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -135,7 +135,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun setupEmailValidation() {
-        loginEmailInput.addTextChangedListener(object : TextWatcher {
+        loginEmailEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -157,7 +157,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     override fun onSuccess(accessToken: String, refreshToken: String, userId: Int) {
-        val rememberMeCheckbox = binding.checkboxRememberMeLogin
+        val rememberMeCheckbox = binding.chbRememberMeLogin
 
         if (rememberMeCheckbox.isChecked) {
             lifecycleScope.launch {

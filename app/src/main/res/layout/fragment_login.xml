@@ -56,7 +56,7 @@
         app:layout_constraintWidth_percent="@dimen/user_inputs_width">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietLoginEmail"
+            android:id="@+id/etLoginEmail"
             style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
         app:layout_constraintWidth_percent="@dimen/user_inputs_width">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietLoginPassword"
+            android:id="@+id/etLoginPassword"
             style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
-        android:id="@+id/checkboxRememberMeLogin"
+        android:id="@+id/chbRememberMeLogin"
         style="@style/Checkbox"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -111,7 +111,7 @@
         app:layout_constraintVertical_bias="@dimen/checkbox_vertical" />
 
     <TextView
-        android:id="@+id/tvForgotPassword"
+        android:id="@+id/tvForgotPasswordLabel"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
         app:layout_constraintVertical_bias="@dimen/checkbox_vertical" />
 
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/btnLogin"
         style="@style/h2_5_style"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -141,7 +141,7 @@
         app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
 
     <TextView
-        android:id="@+id/tvNoAccount"
+        android:id="@+id/tvNoAccountLabel"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
         app:layout_constraintVertical_bias="@dimen/already_have_vert" />
 
     <TextView
-        android:id="@+id/tvSignUp"
+        android:id="@+id/tvSignUpLabel"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/sign_in_text_hor"
-        app:layout_constraintStart_toEndOf="@id/tvNoAccount"
+        app:layout_constraintStart_toEndOf="@id/tvNoAccountLabel"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/already_have_vert" />
 
