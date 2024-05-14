@@ -18,3 +18,7 @@ interface TokenCallbacks {
 interface EditCallbacks {
     fun onUserEdited()
 }
+
+interface AddContactCallbacks {
+    fun onContactAdded()
+}

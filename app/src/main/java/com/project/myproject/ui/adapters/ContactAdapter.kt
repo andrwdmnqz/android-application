@@ -18,7 +18,7 @@ import com.project.myproject.utils.callbacks.ContactItemDiffCallback
 
 class ContactAdapter(
     context: Context,
-    private val onUserItemClickListener: OnUserItemClickListener,
+    private val onContactItemClickListener: OnContactItemClickListener,
     private val showMultiselectDelete: (Boolean) -> Unit
     ) :
     ListAdapter<Contact, ContactAdapter.ViewHolder>(ContactItemDiffCallback()) {
@@ -80,12 +80,14 @@ class ContactAdapter(
             if (isMultiselectEnable) {
                 toggleItemSelection(holder.adapterPosition, holder, contact)
             } else {
-                onUserItemClickListener.onContactItemClicked(contact)
+                onContactItemClickListener.onContactItemClicked(contact)
             }
         }
 
         holder.contactDeleteIcon.setOnClickListener {
-            onUserItemClickListener.onDeleteItemClicked(contact, holder.adapterPosition)
+            // TODO return position if needed
+            // onContactItemClickListener.onDeleteItemClicked(contact, holder.adapterPosition)
+            onContactItemClickListener.onDeleteItemClicked(contact)
         }
     }
 
@@ -174,9 +176,11 @@ class ContactAdapter(
         notifyItemRangeChanged(0, itemCount)
     }
 
-    interface OnUserItemClickListener {
+    interface OnContactItemClickListener {
         fun onContactItemClicked(contact: Contact)
-        fun onDeleteItemClicked(contact: Contact, position: Int)
+        // TODO return position if needed
+        // fun onDeleteItemClicked(contact: Contact, position: Int)
+        fun onDeleteItemClicked(contact: Contact)
     }
 
     fun getSelectedItems() = itemSelectedList

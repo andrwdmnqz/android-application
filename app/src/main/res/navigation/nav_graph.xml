@@ -17,6 +17,9 @@
             app:destination="@id/loginFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_addContactsFragment"
+            app:destination="@id/addContactsFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailViewFragment"
@@ -77,5 +80,23 @@
             app:destination="@id/registerFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/addContactsFragment"
+        android:name="com.project.myproject.ui.fragments.AddContactsFragment"
+        android:label="AddContactsFragment"
+        tools:layout="@layout/fragment_add_contacts" >
+        <action
+            android:id="@+id/action_addContactsFragment_to_contactsProfileFragment"
+            app:destination="@id/contactsProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactsProfileFragment"
+        android:name="com.project.myproject.ui.fragments.ContactsProfileFragment"
+        android:label="ContactsProfileFragment"
+        tools:layout="@layout/fragment_contacts_profile" >
+        <argument
+            android:name="user"
+            app:argType="com.project.myproject.data.models.User" />
     </fragment>
 </navigation>

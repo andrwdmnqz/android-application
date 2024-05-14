@@ -21,9 +21,8 @@ import com.project.myproject.data.models.Contact
 import com.project.myproject.ui.adapters.ContactAdapter
 import com.project.myproject.utils.callbacks.SwipeToDeleteCallback
 import com.project.myproject.databinding.FragmentContactsBinding
-import com.project.myproject.utils.UserItemDecorator
+import com.project.myproject.utils.DefaultItemDecorator
 import com.project.myproject.ui.dialogs.AddContactDialogFragment
-import com.project.myproject.data.models.User
 import com.project.myproject.ui.viewmodels.UserViewModel
 import com.project.myproject.utils.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +32,7 @@ import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate),
-    ContactAdapter.OnUserItemClickListener {
+    ContactAdapter.OnContactItemClickListener {
 
     private val viewModel by activityViewModels<UserViewModel>()
 
@@ -95,19 +94,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     private fun isFirstTab() = viewPager.currentItem == Constants.FIRST_TAB_NUMBER
 
     private fun setupAddContactListeners() {
-
-            binding.tvAddContactsLabel.setOnClickListener {
-            AddContactDialogFragment().show(
-                childFragmentManager, AddContactDialogFragment.TAG
-            )
-        }
-
-        childFragmentManager.setFragmentResultListener(
-            Constants.CONTACT_INFO_KEY, this) { _, bundle ->
-
-            //viewModel.addContact(0, user)
-
-            adapter.submitList(viewModel.contacts.value)
+        binding.tvAddContactsLabel.setOnClickListener {
+            findNavController().navigate(R.id.action_viewPagerFragment_to_addContactsFragment)
         }
     }
 
@@ -121,11 +109,12 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         )
     }
 
-    override fun onDeleteItemClicked(contact: Contact, position: Int) {
+    override fun onDeleteItemClicked(contact: Contact) {
         viewModel.deleteContact(sessionManager.getId(), contact.id, sessionManager.getAccessToken())
 
         showDeleteSnackbar(contact)
-//
+        // TODO if brokes - return with position
+//        override fun onDeleteItemClicked(contact: Contact, position: Int) {
 //        adapter.notifyItemRangeChanged(position, adapter.itemCount)
     }
 
@@ -149,7 +138,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         setupAdapterScroll(contactsRV)
 
         contactsRV.adapter = adapter
-        contactsRV.addItemDecoration(UserItemDecorator(itemMarginSize))
+        contactsRV.addItemDecoration(DefaultItemDecorator(itemMarginSize))
         contactsRV.layoutManager = LinearLayoutManager(requireContext())
 
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback { contact ->

@@ -10,6 +10,7 @@ import com.project.myproject.data.requests.EditUserRequest
 import com.project.myproject.data.requests.LoginRequest
 import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.data.requests.AddContactRequest
+import com.project.myproject.utils.callbacks.AddContactCallbacks
 import com.project.myproject.utils.callbacks.EditCallbacks
 import com.project.myproject.utils.callbacks.LoginCallbacks
 import com.project.myproject.utils.callbacks.RegistrationCallbacks
@@ -26,14 +27,20 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class UserViewModel @Inject constructor(private val mainRepository: MainRepository,
-                                        private var registrationCallbacks: RegistrationCallbacks? = null,
-                                        private var loginCallbacks: LoginCallbacks? = null,
-                                        private var overallCallbacks: TokenCallbacks? = null,
-                                        private var editCallbacks: EditCallbacks? = null): ViewModel() {
+class UserViewModel @Inject constructor(
+    private val mainRepository: MainRepository,
+    private var registrationCallbacks: RegistrationCallbacks? = null,
+    private var loginCallbacks: LoginCallbacks? = null,
+    private var overallCallbacks: TokenCallbacks? = null,
+    private var editCallbacks: EditCallbacks? = null,
+    private var addContactCallbacks: AddContactCallbacks? = null
+) : ViewModel() {
 
     private val _contacts = MutableStateFlow<List<Contact>>(emptyList())
     val contacts = _contacts.asStateFlow()
+
+    private val _users = MutableStateFlow<List<User>>(emptyList())
+    val users = _users.asStateFlow()
 
     private var job: Job? = null
     private val errorMessage = MutableStateFlow("")
@@ -100,7 +107,7 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     fun editUserNameAndPhone(userId: Int, accessToken: String, userName: String, phoneNumber: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "edit user $userId, $accessToken")
+            Log.d("DEBUG", "edit user $userId")
             Log.d("DEBUG", "edit user $userName, $phoneNumber")
 
             val zxc = EditUserRequest(userName, phoneNumber)
@@ -131,7 +138,7 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     fun getUser(userId: Int, accessToken: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "get user $userId, $accessToken")
+            Log.d("DEBUG", "get user $userId")
 
             val response = mainRepository.getUser(userId, Constants.BEARER_TOKEN_START + accessToken)
             Log.d("DEBUG", "$response")
@@ -153,7 +160,7 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     fun fetchContacts(userId: Int, accessToken: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "get user contacts $userId, access - $accessToken")
+            Log.d("DEBUG", "get user contacts $userId")
 
             val response = mainRepository.getUserContacts(userId, Constants.BEARER_TOKEN_START + accessToken)
             Log.d("DEBUG", "$response")
@@ -171,10 +178,31 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
         }
     }
 
+    fun fetchUsers(accessToken: String) {
+
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            Log.d("DEBUG", "get all users")
+
+            val response = mainRepository.getAllUsers(Constants.BEARER_TOKEN_START + accessToken)
+            Log.d("DEBUG", "$response")
+            Log.d("DEBUG", "body - ${response.body()}")
+            Log.d("DEBUG", "message - ${response.message()}")
+            Log.d("DEBUG", "code - ${response.code()}")
+            Log.d("DEBUG", "error body - ${response.errorBody()}")
+            Log.d("DEBUG", "headers - ${response.headers()}")
+            Log.d("DEBUG", "raw - ${response.raw()}")
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    _users.value = response.body()?.data?.users!!
+                }
+            }
+        }
+    }
+
     fun deleteContact(userId: Int, contactId: Int, accessToken: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "delete user contact $userId, contact id - $contactId, access - $accessToken")
+            Log.d("DEBUG", "delete user contact $userId, contact id - $contactId")
 
             val response = mainRepository.deleteUserContact(userId, contactId, Constants.BEARER_TOKEN_START + accessToken)
             Log.d("DEBUG", "$response")
@@ -195,7 +223,7 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     fun addContact(userId: Int, contactId: Int, accessToken: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "add user contact $userId, contact id - $contactId, access - $accessToken")
+            Log.d("DEBUG", "add user contact $userId, contact id - $contactId")
 
             val response = mainRepository.addContact(userId, Constants.BEARER_TOKEN_START + accessToken, AddContactRequest(contactId))
             Log.d("DEBUG", "$response")
@@ -207,6 +235,7 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
             Log.d("DEBUG", "raw - ${response.raw()}")
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
+                    addContactCallbacks?.onContactAdded()
                     _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
                 }
             }
@@ -261,5 +290,9 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
 
     fun setEditCallbacks(editCallbacks: EditCallbacks?) {
         this.editCallbacks = editCallbacks
+    }
+
+    fun setAddContactsCallbacks(addContactCallbacks: AddContactCallbacks?) {
+        this.addContactCallbacks = addContactCallbacks
     }
 }

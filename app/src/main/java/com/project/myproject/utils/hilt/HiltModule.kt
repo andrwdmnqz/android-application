@@ -9,7 +9,9 @@ import com.project.myproject.ui.fragments.RegisterFragment
 import com.project.myproject.data.network.RetrofitService
 import com.project.myproject.utils.TokenAuthenticator
 import com.project.myproject.data.repository.MainRepository
+import com.project.myproject.ui.fragments.AddContactsFragment
 import com.project.myproject.utils.SessionManager
+import com.project.myproject.utils.callbacks.AddContactCallbacks
 import com.project.myproject.utils.callbacks.EditCallbacks
 import com.project.myproject.utils.callbacks.LoginCallbacks
 import com.project.myproject.utils.callbacks.RegistrationCallbacks
@@ -81,6 +83,10 @@ object HiltModule {
     @Provides
     @Singleton
     fun provideEditCallbacks(): EditCallbacks = ProfileDataFragment()
+
+    @Provides
+    @Singleton
+    fun provideAddContactCallbacks(): AddContactCallbacks = AddContactsFragment()
 
     @Provides
     @Singleton

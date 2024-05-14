@@ -72,7 +72,7 @@
     <dimen name="photo_icon_height">0.74</dimen>
     <dimen name="photo_icon_width">0.15</dimen>
     <dimen name="photo_icon_horizontal">0.04</dimen>
-    <dimen name="contact_name_horizontal">0.31</dimen>
+    <dimen name="contact_name_horizontal">20dp</dimen>
     <dimen name="contact_name_vertical">0.33</dimen>
     <dimen name="delete_icon_horizontal">0.96</dimen>
     <dimen name="delete_icon_margin_vertical">26dp</dimen>
@@ -102,4 +102,6 @@
     <dimen name="phone_input_vertical">0.58</dimen>
     <dimen name="forward_button_vertical">0.975</dimen>
     <dimen name="cancel_button_vertical">0.86</dimen>
+
+    <dimen name="add_label_horizontal">0.97</dimen>
 </resources>

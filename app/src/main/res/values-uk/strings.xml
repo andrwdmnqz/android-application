@@ -42,6 +42,7 @@
     <string name="contact_photo_desc">contact photo</string>
     <string name="delete_icon_desc">delete icon</string>
     <string name="contact_removed">Контакт було видалено</string>
+    <string name="contact_added">Контакт було додано</string>
     <string name="contact_returned">Контакт було повернено</string>
     <string name="undo_button">Відмінити</string>
     <string name="add_contact_save">Зберегти</string>
@@ -82,4 +83,9 @@
     <string name="login_error_password_min_length">Пароль має включати мінімум 8 символів.</string>
     <string name="login_error_password_max_length">Пароль має включати максимум 16 символів.</string>
     <string name="login_error_password_symbols">Пароль має включати тільки букви, цифри та символи.</string>
+
+    <string name="users_label">Користувачі</string>
+    <string name="add_label">Додати</string>
+
+    <string name="add_to_my_contacts_button_text">Додати до контактів</string>
 </resources>

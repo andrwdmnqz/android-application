@@ -45,7 +45,6 @@ class DetailViewFragment : BaseFragment<FragmentDetailViewBinding>(FragmentDetai
     private fun setupBackActionListeners() {
 
         binding.ivToolbarBack.setOnClickListener {
-            Log.d("DEBUG", "back")
             it.findNavController().popBackStack()
         }
     }

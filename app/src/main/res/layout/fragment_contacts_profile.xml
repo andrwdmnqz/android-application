@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <View
-        android:id="@+id/detailBackground"
+        android:id="@+id/contactsProfileBackground"
         style="@style/TopBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/name_hint"
-        app:layout_constraintBottom_toBottomOf="@id/detailBackground"
+        app:layout_constraintBottom_toBottomOf="@id/contactsProfileBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivContactProfileImage"
@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:text="@string/career"
         android:textColor="@color/additional_first"
-        app:layout_constraintBottom_toBottomOf="@id/detailBackground"
+        app:layout_constraintBottom_toBottomOf="@id/contactsProfileBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivContactProfileImage"
@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:text="@string/home_address"
         android:textColor="@color/additional_first"
-        app:layout_constraintBottom_toBottomOf="@id/detailBackground"
+        app:layout_constraintBottom_toBottomOf="@id/contactsProfileBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivContactProfileImage"
@@ -106,7 +106,7 @@
         app:layout_constraintHeight_percent="@dimen/networks_logo_height"
         app:layout_constraintHorizontal_bias="@dimen/facebook_logo_hor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailBackground"
+        app:layout_constraintTop_toBottomOf="@id/contactsProfileBackground"
         app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
         app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
 
@@ -120,7 +120,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/networks_logo_height"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailBackground"
+        app:layout_constraintTop_toBottomOf="@id/contactsProfileBackground"
         app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
         app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
 
@@ -135,23 +135,40 @@
         app:layout_constraintHeight_percent="@dimen/networks_logo_height"
         app:layout_constraintHorizontal_bias="@dimen/instagram_logo_hor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailBackground"
+        app:layout_constraintTop_toBottomOf="@id/contactsProfileBackground"
         app:layout_constraintVertical_bias="@dimen/networks_logo_ver"
         app:layout_constraintWidth_percent="@dimen/networks_logo_width" />
 
     <Button
-        android:id="@+id/btnMessageButton"
+        android:id="@+id/btnMessage"
+        style="@style/h2_style"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/edit_button"
+        android:text="@string/message_button_text"
+        android:textAllCaps="false"
+        android:textColor="@color/additional_fifth"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/edit_profile_height"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contactsProfileBackground"
+        app:layout_constraintVertical_bias="@dimen/edit_profile_vertical"
+        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
+
+    <Button
+        android:id="@+id/btnAddToMyContacts"
         style="@style/h2_5_style"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/view_contacts_button"
         android:letterSpacing="@dimen/button_letter_spacing"
-        android:text="@string/message_button_text"
+        android:text="@string/add_to_my_contacts_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/contacts_height"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailBackground"
+        app:layout_constraintTop_toBottomOf="@id/contactsProfileBackground"
         app:layout_constraintVertical_bias="@dimen/contacts_vertical"
         app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
 
