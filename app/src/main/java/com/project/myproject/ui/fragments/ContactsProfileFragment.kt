@@ -51,7 +51,7 @@ class ContactsProfileFragment :
 
             tvName.text = user.name.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_NAME_VALUE
             tvCareer.text = user.career.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_CAREER_VALUE
-            tvAddress.text = user.address.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_CAREER_VALUE
+            tvAddress.text = user.address.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_ADDRESS_VALUE
         }
     }
 

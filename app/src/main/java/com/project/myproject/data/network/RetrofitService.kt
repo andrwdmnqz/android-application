@@ -27,7 +27,7 @@ interface RetrofitService {
     suspend fun loginUser(@Body request: LoginRequest): Response<AuthorizationResponse>
 
     @POST("refresh")
-    suspend fun refreshTokens(@Header("Authorization") refreshToken: String): Response<TokenResponse>
+    suspend fun refreshTokens(@Header("RefreshToken") refreshToken: String): Response<TokenResponse>
 
     @PUT("users/{userId}")
     suspend fun editUser(

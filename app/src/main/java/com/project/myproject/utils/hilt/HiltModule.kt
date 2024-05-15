@@ -7,7 +7,8 @@ import com.project.myproject.ui.fragments.LoginFragment
 import com.project.myproject.ui.fragments.ProfileDataFragment
 import com.project.myproject.ui.fragments.RegisterFragment
 import com.project.myproject.data.network.RetrofitService
-import com.project.myproject.utils.TokenAuthenticator
+import com.project.myproject.data.network.interceptors.AuthInterceptor
+import com.project.myproject.data.network.interceptors.ResponseFixInterceptor
 import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.ui.fragments.AddContactsFragment
 import com.project.myproject.utils.SessionManager
@@ -38,9 +39,13 @@ object HiltModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(tokenAuthenticator: TokenAuthenticator): OkHttpClient =
+    fun provideOkHttpClient(
+        authInterceptor: AuthInterceptor,
+        responseFixInterceptor: ResponseFixInterceptor
+    ): OkHttpClient =
         OkHttpClient.Builder()
-            .authenticator(tokenAuthenticator)
+            .addInterceptor(authInterceptor)
+            .addInterceptor(responseFixInterceptor)
             .build()
 
     @Provides
@@ -50,6 +55,20 @@ object HiltModule {
         .baseUrl(baseUrl)
         .client(OkHttpClient())
         .build()
+
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(
+        mainRepository: MainRepository,
+        sessionManager: SessionManager,
+        tokenCallbacks: TokenCallbacks
+    ): AuthInterceptor =
+        AuthInterceptor(mainRepository, sessionManager, tokenCallbacks)
+
+    @Provides
+    @Singleton
+    fun provideResponseFixInterceptor(): ResponseFixInterceptor = ResponseFixInterceptor()
+
 
     @Provides
     @Singleton
@@ -87,6 +106,10 @@ object HiltModule {
     @Provides
     @Singleton
     fun provideAddContactCallbacks(): AddContactCallbacks = AddContactsFragment()
+
+    @Provides
+    @Singleton
+    fun provideTokenCallbacks(): TokenCallbacks = RegisterFragment()
 
     @Provides
     @Singleton

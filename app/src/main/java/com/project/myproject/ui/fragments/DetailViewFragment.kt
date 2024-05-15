@@ -64,7 +64,7 @@ class DetailViewFragment : BaseFragment<FragmentDetailViewBinding>(FragmentDetai
 
             tvName.text = contact.name.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_NAME_VALUE
             tvCareer.text = contact.career.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_CAREER_VALUE
-            tvAddress.text = contact.address.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_CAREER_VALUE
+            tvAddress.text = contact.address.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_ADDRESS_VALUE
         }
     }
 

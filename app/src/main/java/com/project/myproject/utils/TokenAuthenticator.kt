@@ -1,5 +1,6 @@
 package com.project.myproject.utils
 
+import android.util.Log
 import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.utils.callbacks.TokenCallbacks
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +20,11 @@ class TokenAuthenticator @Inject constructor(
 ): Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
-        if (responseCount(response) >= Constants.RETRY_REQUEST_TIMES) {
+        val responseCount = responseCount(response)
+        Log.d("DEBUG", "In authenticator route $route")
+        Log.d("DEBUG", "In authenticator response $response")
+        Log.d("DEBUG", "In authenticator response count $responseCount")
+        if (responseCount >= Constants.RETRY_REQUEST_TIMES) {
             return null
         }
 

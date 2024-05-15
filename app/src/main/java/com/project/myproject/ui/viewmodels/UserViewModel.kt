@@ -10,6 +10,7 @@ import com.project.myproject.data.requests.EditUserRequest
 import com.project.myproject.data.requests.LoginRequest
 import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.data.requests.AddContactRequest
+import com.project.myproject.data.responses.UserContactsResponse
 import com.project.myproject.utils.callbacks.AddContactCallbacks
 import com.project.myproject.utils.callbacks.EditCallbacks
 import com.project.myproject.utils.callbacks.LoginCallbacks
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -203,7 +205,6 @@ class UserViewModel @Inject constructor(
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             Log.d("DEBUG", "delete user contact $userId, contact id - $contactId")
-
             val response = mainRepository.deleteUserContact(userId, contactId, Constants.BEARER_TOKEN_START + accessToken)
             Log.d("DEBUG", "$response")
             Log.d("DEBUG", "body - ${response.body()}")
@@ -224,15 +225,15 @@ class UserViewModel @Inject constructor(
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             Log.d("DEBUG", "add user contact $userId, contact id - $contactId")
-
             val response = mainRepository.addContact(userId, Constants.BEARER_TOKEN_START + accessToken, AddContactRequest(contactId))
-            Log.d("DEBUG", "$response")
-            Log.d("DEBUG", "body - ${response.body()}")
-            Log.d("DEBUG", "message - ${response.message()}")
-            Log.d("DEBUG", "code - ${response.code()}")
-            Log.d("DEBUG", "error body - ${response.errorBody()}")
-            Log.d("DEBUG", "headers - ${response.headers()}")
-            Log.d("DEBUG", "raw - ${response.raw()}")
+            Log.d("DEBUG", "Just something")
+//            Log.d("DEBUG", "$response")
+//            Log.d("DEBUG", "body - ${response.body()}")
+//            Log.d("DEBUG", "message - ${response.message()}")
+//            Log.d("DEBUG", "code - ${response.code()}")
+//            Log.d("DEBUG", "error body - ${response.errorBody()}")
+//            Log.d("DEBUG", "headers - ${response.headers()}")
+//            Log.d("DEBUG", "raw - ${response.raw()}")
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     addContactCallbacks?.onContactAdded()

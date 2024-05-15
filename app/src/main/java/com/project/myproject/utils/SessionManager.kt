@@ -29,4 +29,11 @@ class SessionManager {
     fun setUserRememberState(state: Boolean) {
         isUserRemembered = state
     }
+
+    fun resetData() {
+        userId = -1
+        accessToken = ""
+        refreshToken = ""
+        isUserRemembered = true
+    }
 }

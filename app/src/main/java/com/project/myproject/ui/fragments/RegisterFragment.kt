@@ -250,6 +250,10 @@ class RegisterFragment :
     }
 
     override fun onTokensRefreshFailure() {
+        sessionManager.resetData()
+        lifecycleScope.launch {
+            settingPreference.clearData()
+        }
         findNavController().navigate(R.id.loginFragment)
     }
 }
