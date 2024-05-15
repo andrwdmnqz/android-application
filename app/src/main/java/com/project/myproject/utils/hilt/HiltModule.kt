@@ -28,6 +28,7 @@ import kotlinx.coroutines.SupervisorJob
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Module
@@ -39,31 +40,36 @@ object HiltModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(
-        authInterceptor: AuthInterceptor,
-        responseFixInterceptor: ResponseFixInterceptor
-    ): OkHttpClient =
-        OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)
-            .addInterceptor(responseFixInterceptor)
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
             .build()
+    }
 
     @Provides
     @Singleton
-    fun provideRetrofit(baseUrl: String): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(
+        baseUrl: String,
+        okHttpClient: OkHttpClient,
+        authInterceptor: AuthInterceptor,
+        responseFixInterceptor: ResponseFixInterceptor
+    ): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(baseUrl)
-        .client(OkHttpClient())
+        .client(okHttpClient.newBuilder()
+            .addInterceptor(authInterceptor)
+            .addInterceptor(responseFixInterceptor)
+            .build())
         .build()
+
 
     @Provides
     @Singleton
     fun provideAuthInterceptor(
-        mainRepository: MainRepository,
+        mainRepositoryProvider: Provider<MainRepository>,
         sessionManager: SessionManager,
         tokenCallbacks: TokenCallbacks
     ): AuthInterceptor =
-        AuthInterceptor(mainRepository, sessionManager, tokenCallbacks)
+        AuthInterceptor(mainRepositoryProvider, sessionManager, tokenCallbacks)
 
     @Provides
     @Singleton
@@ -94,10 +100,6 @@ object HiltModule {
     @Provides
     @Singleton
     fun provideLoginFragment(): LoginCallbacks = LoginFragment()
-
-    @Provides
-    @Singleton
-    fun provideOverallCallbacks(): TokenCallbacks = RegisterFragment()
 
     @Provides
     @Singleton

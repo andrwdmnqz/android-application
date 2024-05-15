@@ -1,6 +1,7 @@
 package com.project.myproject.data.network.interceptors
 
 import com.project.myproject.data.repository.MainRepository
+import com.project.myproject.utils.Constants
 import com.project.myproject.utils.SessionManager
 import com.project.myproject.utils.callbacks.TokenCallbacks
 import kotlinx.coroutines.Dispatchers
@@ -9,9 +10,10 @@ import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
+import javax.inject.Provider
 
 class AuthInterceptor @Inject constructor(
-    private val mainRepository: MainRepository,
+    private val mainRepositoryProvider: Provider<MainRepository>,
     private val sessionManager: SessionManager,
     private val tokenCallbacks: TokenCallbacks
 ) : Interceptor {
@@ -20,7 +22,7 @@ class AuthInterceptor @Inject constructor(
         val request = chain.request()
         val response = chain.proceed(request)
 
-        if (response.code == 401) {
+        if (response.code == Constants.UNAUTHORIZED_CODE) {
             val newToken = runBlocking {
                 refreshAccessToken()
             }
@@ -41,7 +43,7 @@ class AuthInterceptor @Inject constructor(
         val refreshToken = sessionManager.getRefreshToken()
         return try {
             val response = withContext(Dispatchers.IO) {
-                mainRepository.refreshTokens(refreshToken)
+                mainRepositoryProvider.get().refreshTokens(refreshToken)
             }
             if (response.isSuccessful) {
 

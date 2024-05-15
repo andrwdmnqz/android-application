@@ -14,21 +14,25 @@ class ResponseFixInterceptor : Interceptor {
             val originalBodyString = responseBody.string()
             val modifiedBodyString = fixIncompleteJson(originalBodyString)
 
-            if (originalBodyString != modifiedBodyString) {
-                return originalResponse.newBuilder()
-                    .body(modifiedBodyString.toResponseBody(responseBody.contentType()))
-                    .build()
-            }
+            return originalResponse.newBuilder()
+                .body(modifiedBodyString.toResponseBody(responseBody.contentType()))
+                .build()
         }
 
         return originalResponse
     }
 
     private fun fixIncompleteJson(json: String): String {
-        return if (!json.endsWith("}")) {
-            "$json}"
-        } else {
-            json
+
+        val openingBraceCount = json.count { it == '{' }
+        val closingBraceCount = json.count { it == '}' }
+
+        val fixedJson = StringBuilder(json)
+
+        repeat(openingBraceCount - closingBraceCount) {
+            fixedJson.append("}")
         }
+
+        return fixedJson.toString()
     }
 }
