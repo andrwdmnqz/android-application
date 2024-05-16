@@ -47,7 +47,9 @@
             app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_registerFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment" />
+            app:destination="@id/viewPagerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -88,7 +90,14 @@
         tools:layout="@layout/fragment_add_contacts" >
         <action
             android:id="@+id/action_addContactsFragment_to_contactsProfileFragment"
-            app:destination="@id/contactsProfileFragment" />
+            app:destination="@id/contactsProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_addContactsFragment_to_detailViewFragment"
+            app:destination="@id/detailViewFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/contactsProfileFragment"

@@ -2,15 +2,14 @@ package com.project.myproject.ui.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.project.myproject.R
+import com.project.myproject.data.models.Contact
 import com.project.myproject.data.models.User
 import com.project.myproject.databinding.FragmentAddContactsBinding
 import com.project.myproject.ui.adapters.UserAdapter
@@ -19,11 +18,13 @@ import com.project.myproject.utils.DefaultItemDecorator
 import com.project.myproject.utils.SessionManager
 import com.project.myproject.utils.callbacks.AddContactCallbacks
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AddContactsFragment : BaseFragment<FragmentAddContactsBinding>(FragmentAddContactsBinding::inflate),
+class AddContactsFragment :
+    BaseFragment<FragmentAddContactsBinding>(FragmentAddContactsBinding::inflate),
     UserAdapter.OnUserItemCLickListener, AddContactCallbacks {
 
     private val viewModel by activityViewModels<UserViewModel>()
@@ -45,60 +46,63 @@ class AddContactsFragment : BaseFragment<FragmentAddContactsBinding>(FragmentAdd
     }
 
     private fun setupRecyclerView() {
-        val usersRV = binding.rvUsers
+        viewModel.fetchUsers(sessionManager.getAccessToken())
 
+        val usersRV = binding.rvUsers
         val itemMarginSize = resources.getDimensionPixelSize(R.dimen.contacts_item_margin)
-        // TODO - mb not needed
-        //setupAdapterScroll(usersRV)
 
         usersRV.adapter = adapter
         usersRV.addItemDecoration(DefaultItemDecorator(itemMarginSize))
         usersRV.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.fetchUsers(sessionManager.getAccessToken())
-
         lifecycleScope.launch {
-            viewModel.users.collect { users ->
+            viewModel.users.combine(viewModel.contactsId) { users, contactsId ->
+                users to contactsId
+            }.collect { (users, contactsId) ->
                 adapter.submitList(users)
+                adapter.updateContactsIds(contactsId)
             }
         }
-    }
 
-    private fun setupAdapterScroll(contactsRV: RecyclerView) {
-        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
-            override fun onChanged() {
-                // No need to scroll here
-            }
-            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-                // No need to scroll here
-            }
-            override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-                // No need to scroll here
-            }
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (itemCount == 1 && positionStart == 0) {
-                    contactsRV.scrollToPosition(positionStart)
-                }
-            }
-            override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-                // No need to scroll here
-            }
-            override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-                // No need to scroll here
-            }
-        })
     }
 
     override fun onUserItemClicked(user: User) {
-        findNavController().navigate(
-            AddContactsFragmentDirections.actionAddContactsFragmentToContactsProfileFragment(
-                user
+
+        if (user.id !in viewModel.contactsId.value) {
+            findNavController().navigate(
+                AddContactsFragmentDirections.actionAddContactsFragmentToContactsProfileFragment(
+                    user
+                )
             )
-        )
+        } else {
+            findNavController().navigate(
+                AddContactsFragmentDirections.actionAddContactsFragmentToDetailViewFragment(
+                    Contact(
+                        user.id,
+                        user.name,
+                        user.email,
+                        user.phone,
+                        user.career,
+                        user.address,
+                        user.birthday,
+                        user.facebook,
+                        user.instagram,
+                        user.twitter,
+                        user.linkedin,
+                        user.image,
+                        user.createdAt,
+                        user.updatedAt,
+                        false
+                    )
+                )
+            )
+        }
     }
 
-    override fun onAddItemClicked(user: User) {
-        viewModel.addContact(sessionManager.getId(), user.id, sessionManager.getAccessToken())
+    override fun onAddItemClicked(user: User, position: Int) {
+        if (user.id !in viewModel.contactsId.value) {
+            viewModel.addContact(sessionManager.getId(), user.id, sessionManager.getAccessToken())
+        }
     }
 
     override fun setObservers() {

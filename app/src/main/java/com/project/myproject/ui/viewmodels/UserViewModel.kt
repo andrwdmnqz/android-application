@@ -41,6 +41,9 @@ class UserViewModel @Inject constructor(
     private val _contacts = MutableStateFlow<List<Contact>>(emptyList())
     val contacts = _contacts.asStateFlow()
 
+    private val _contactsId = MutableStateFlow<List<Int>>(emptyList())
+    val contactsId = _contactsId.asStateFlow()
+
     private val _users = MutableStateFlow<List<User>>(emptyList())
     val users = _users.asStateFlow()
 
@@ -175,6 +178,8 @@ class UserViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
+                    _contactsId.value = response.body()!!.data.contacts.map { it.id }
+                    Log.d("DEBUG", "Contact ids - ${_contactsId.value}")
                 }
             }
         }
@@ -184,19 +189,23 @@ class UserViewModel @Inject constructor(
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             Log.d("DEBUG", "get all users")
-
-            val response = mainRepository.getAllUsers(Constants.BEARER_TOKEN_START + accessToken)
-            Log.d("DEBUG", "$response")
-            Log.d("DEBUG", "body - ${response.body()}")
-            Log.d("DEBUG", "message - ${response.message()}")
-            Log.d("DEBUG", "code - ${response.code()}")
-            Log.d("DEBUG", "error body - ${response.errorBody()}")
-            Log.d("DEBUG", "headers - ${response.headers()}")
-            Log.d("DEBUG", "raw - ${response.raw()}")
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    _users.value = response.body()?.data?.users!!
+            try {
+                val response = mainRepository.getAllUsers(Constants.BEARER_TOKEN_START + accessToken)
+                Log.d("DEBUG", "$response")
+                Log.d("DEBUG", "body - ${response.body()}")
+                Log.d("DEBUG", "message - ${response.message()}")
+                Log.d("DEBUG", "code - ${response.code()}")
+                Log.d("DEBUG", "error body - ${response.errorBody()}")
+                Log.d("DEBUG", "headers - ${response.headers()}")
+                Log.d("DEBUG", "raw - ${response.raw()}")
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        _users.value = response.body()?.data?.users!!
+                    }
                 }
+            } catch (e: Exception) {
+                Log.d("DEBUG", "$e")
+                Log.d("DEBUG", "${e.message}")
             }
         }
     }
@@ -216,6 +225,8 @@ class UserViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
+                    _contactsId.value = response.body()!!.data.contacts.map { it.id }
+                    Log.d("DEBUG", "Contact ids - ${_contactsId.value}")
                 }
             }
         }
@@ -238,6 +249,8 @@ class UserViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     addContactCallbacks?.onContactAdded()
                     _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
+                    _contactsId.value = response.body()!!.data.contacts.map { it.id }
+                    Log.d("DEBUG", "Contact ids - ${_contactsId.value}")
                 }
             }
         }

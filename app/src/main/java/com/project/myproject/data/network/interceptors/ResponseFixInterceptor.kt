@@ -12,7 +12,7 @@ class ResponseFixInterceptor : Interceptor {
 
         if (responseBody != null) {
             val originalBodyString = responseBody.string()
-            val modifiedBodyString = fixIncompleteJson(originalBodyString)
+            val modifiedBodyString = fixJson(originalBodyString)
 
             return originalResponse.newBuilder()
                 .body(modifiedBodyString.toResponseBody(responseBody.contentType()))
@@ -22,10 +22,24 @@ class ResponseFixInterceptor : Interceptor {
         return originalResponse
     }
 
-    private fun fixIncompleteJson(json: String): String {
+    private fun fixJson(json: String): String {
 
         val openingBraceCount = json.count { it == '{' }
         val closingBraceCount = json.count { it == '}' }
+        json.replace("\"id:", "\"id\":")
+            .replace("\"name:", "\"name\":")
+            .replace("\"email:", "\"email\":")
+            .replace("\"phone:", "\"phone\":")
+            .replace("\"career:", "\"career\":")
+            .replace("\"address:", "\"address\":")
+            .replace("\"birthday:", "\"birthday\":")
+            .replace("\"facebook:", "\"facebook\":")
+            .replace("\"instagram:", "\"instagram\":")
+            .replace("\"twitter:", "\"twitter\":")
+            .replace("\"linkedin:", "\"linkedin\":")
+            .replace("\"image:", "\"image\":")
+            .replace("\"created_at:", "\"created_at\":")
+            .replace("\"updated_at:", "\"updated_at\":")
 
         val fixedJson = StringBuilder(json)
 
