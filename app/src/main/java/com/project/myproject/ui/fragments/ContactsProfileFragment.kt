@@ -1,6 +1,7 @@
 package com.project.myproject.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
@@ -52,6 +53,7 @@ class ContactsProfileFragment :
             tvName.text = user.name.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_NAME_VALUE
             tvCareer.text = user.career.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_CAREER_VALUE
             tvAddress.text = user.address.takeUnless { it.isNullOrBlank() } ?: Constants.DEFAULT_ADDRESS_VALUE
+            btnAddToMyContacts.isEnabled = true
         }
     }
 
@@ -70,11 +72,13 @@ class ContactsProfileFragment :
     }
 
     override fun onContactAdded() {
+        Log.d("DEBUG", "Contact added callback")
         binding.btnAddToMyContacts.isEnabled = false
 
         Snackbar.make(
             binding.root,
             getString(R.string.contact_added), Snackbar.LENGTH_LONG
         ).show()
+        Log.d("DEBUG", "After snackbar")
     }
 }

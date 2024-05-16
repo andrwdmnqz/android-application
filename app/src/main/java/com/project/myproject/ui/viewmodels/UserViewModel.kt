@@ -54,6 +54,7 @@ class UserViewModel @Inject constructor(
     private var currentUser: User? = null
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        Log.d("DEBUG", "Exception handled: ${throwable.localizedMessage}")
         onError("Exception handled: ${throwable.localizedMessage}")
     }
 
@@ -70,7 +71,7 @@ class UserViewModel @Inject constructor(
             Log.d("DEBUG", "error body - ${response.errorBody()}")
             Log.d("DEBUG", "headers - ${response.headers()}")
             Log.d("DEBUG", "raw - ${response.raw()}")
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
                 if (response.isSuccessful) {
                     val responseBodyData = response.body()!!.data
 
@@ -86,25 +87,29 @@ class UserViewModel @Inject constructor(
     fun loginUser(email: String, password: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "in job $email, $password")
+            Log.d("DEBUG", "login user $email, $password")
+            try {
+                val response = mainRepository.loginUser(LoginRequest(email, password))
+                Log.d("DEBUG", "$response")
+                Log.d("DEBUG", "body - ${response.body()}")
+                Log.d("DEBUG", "message - ${response.message()}")
+                Log.d("DEBUG", "code - ${response.code()}")
+                Log.d("DEBUG", "error body - ${response.errorBody()}")
+                Log.d("DEBUG", "headers - ${response.headers()}")
+                Log.d("DEBUG", "raw - ${response.raw()}")
+                withContext(Dispatchers.IO) {
+                    if (response.isSuccessful) {
+                        val responseBodyData = response.body()!!.data
 
-            val response = mainRepository.loginUser(LoginRequest(email, password))
-            Log.d("DEBUG", "$response")
-            Log.d("DEBUG", "body - ${response.body()}")
-            Log.d("DEBUG", "message - ${response.message()}")
-            Log.d("DEBUG", "code - ${response.code()}")
-            Log.d("DEBUG", "error body - ${response.errorBody()}")
-            Log.d("DEBUG", "headers - ${response.headers()}")
-            Log.d("DEBUG", "raw - ${response.raw()}")
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    val responseBodyData = response.body()!!.data
-
-                    currentUser = responseBodyData.user
-                    loginCallbacks?.onSuccess(responseBodyData.accessToken, responseBodyData.refreshToken, currentUser!!.id)
-                } else {
-                    loginCallbacks?.onInvalidLoginData()
+                        currentUser = responseBodyData.user
+                        loginCallbacks?.onSuccess(responseBodyData.accessToken, responseBodyData.refreshToken, currentUser!!.id)
+                    } else {
+                        loginCallbacks?.onInvalidLoginData()
+                    }
                 }
+            } catch (e: Exception) {
+                Log.d("DEBUG", "$e")
+                Log.d("DEBUG", "${e.message}")
             }
         }
     }
@@ -131,7 +136,7 @@ class UserViewModel @Inject constructor(
             Log.d("DEBUG", "error body - ${response.errorBody()}")
             Log.d("DEBUG", "headers - ${response.headers()}")
             Log.d("DEBUG", "raw - ${response.raw()}")
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
                 if (response.isSuccessful) {
                     currentUser = response.body()?.data?.user
                     editCallbacks?.onUserEdited()
@@ -144,20 +149,24 @@ class UserViewModel @Inject constructor(
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             Log.d("DEBUG", "get user $userId")
-
-            val response = mainRepository.getUser(userId, Constants.BEARER_TOKEN_START + accessToken)
-            Log.d("DEBUG", "$response")
-            Log.d("DEBUG", "body - ${response.body()}")
-            Log.d("DEBUG", "message - ${response.message()}")
-            Log.d("DEBUG", "code - ${response.code()}")
-            Log.d("DEBUG", "error body - ${response.errorBody()}")
-            Log.d("DEBUG", "headers - ${response.headers()}")
-            Log.d("DEBUG", "raw - ${response.raw()}")
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    currentUser = response.body()?.data?.user
-                    registrationCallbacks?.onUserIsRemembered()
+            try {
+                val response = mainRepository.getUser(userId, Constants.BEARER_TOKEN_START + accessToken)
+                Log.d("DEBUG", "$response")
+                Log.d("DEBUG", "body - ${response.body()}")
+                Log.d("DEBUG", "message - ${response.message()}")
+                Log.d("DEBUG", "code - ${response.code()}")
+                Log.d("DEBUG", "error body - ${response.errorBody()}")
+                Log.d("DEBUG", "headers - ${response.headers()}")
+                Log.d("DEBUG", "raw - ${response.raw()}")
+                withContext(Dispatchers.IO) {
+                    if (response.isSuccessful) {
+                        currentUser = response.body()?.data?.user
+                        registrationCallbacks?.onUserIsRemembered()
+                    }
                 }
+            } catch (e: Exception) {
+                Log.d("DEBUG", "$e")
+                Log.d("DEBUG", "${e.message}")
             }
         }
     }
@@ -175,7 +184,7 @@ class UserViewModel @Inject constructor(
             Log.d("DEBUG", "error body - ${response.errorBody()}")
             Log.d("DEBUG", "headers - ${response.headers()}")
             Log.d("DEBUG", "raw - ${response.raw()}")
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
                 if (response.isSuccessful) {
                     _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
                     _contactsId.value = response.body()!!.data.contacts.map { it.id }
@@ -198,7 +207,7 @@ class UserViewModel @Inject constructor(
                 Log.d("DEBUG", "error body - ${response.errorBody()}")
                 Log.d("DEBUG", "headers - ${response.headers()}")
                 Log.d("DEBUG", "raw - ${response.raw()}")
-                withContext(Dispatchers.Main) {
+                withContext(Dispatchers.IO) {
                     if (response.isSuccessful) {
                         _users.value = response.body()?.data?.users!!
                     }
@@ -222,7 +231,7 @@ class UserViewModel @Inject constructor(
             Log.d("DEBUG", "error body - ${response.errorBody()}")
             Log.d("DEBUG", "headers - ${response.headers()}")
             Log.d("DEBUG", "raw - ${response.raw()}")
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
                 if (response.isSuccessful) {
                     _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
                     _contactsId.value = response.body()!!.data.contacts.map { it.id }
@@ -237,20 +246,25 @@ class UserViewModel @Inject constructor(
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             Log.d("DEBUG", "add user contact $userId, contact id - $contactId")
             val response = mainRepository.addContact(userId, Constants.BEARER_TOKEN_START + accessToken, AddContactRequest(contactId))
+
             Log.d("DEBUG", "Just something")
-//            Log.d("DEBUG", "$response")
-//            Log.d("DEBUG", "body - ${response.body()}")
-//            Log.d("DEBUG", "message - ${response.message()}")
-//            Log.d("DEBUG", "code - ${response.code()}")
-//            Log.d("DEBUG", "error body - ${response.errorBody()}")
-//            Log.d("DEBUG", "headers - ${response.headers()}")
-//            Log.d("DEBUG", "raw - ${response.raw()}")
+            Log.d("DEBUG", "$response")
+            Log.d("DEBUG", "body - ${response.body()}")
+            Log.d("DEBUG", "message - ${response.message()}")
+            Log.d("DEBUG", "code - ${response.code()}")
+            Log.d("DEBUG", "error body - ${response.errorBody()}")
+            Log.d("DEBUG", "headers - ${response.headers()}")
+            Log.d("DEBUG", "raw - ${response.raw()}")
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
-                    addContactCallbacks?.onContactAdded()
+                    Log.d("DEBUG", "Successful response")
+                    Log.d("DEBUG", "Successful response continue")
                     _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
+                    Log.d("DEBUG", "Successful response continue2")
                     _contactsId.value = response.body()!!.data.contacts.map { it.id }
+                    Log.d("DEBUG", "Successful response continue3")
                     Log.d("DEBUG", "Contact ids - ${_contactsId.value}")
+                    addContactCallbacks?.onContactAdded()
                 }
             }
         }

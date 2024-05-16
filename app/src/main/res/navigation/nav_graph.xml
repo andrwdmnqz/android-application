@@ -47,9 +47,7 @@
             app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_registerFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:destination="@id/viewPagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
