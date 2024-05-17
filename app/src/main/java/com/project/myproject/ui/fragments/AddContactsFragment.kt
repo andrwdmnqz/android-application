@@ -18,6 +18,7 @@ import com.project.myproject.utils.DefaultItemDecorator
 import com.project.myproject.utils.SessionManager
 import com.project.myproject.utils.callbacks.AddContactCallbacks
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -41,6 +42,7 @@ class AddContactsFragment :
 
         setupRecyclerView()
         setListeners()
+        setObservers()
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -106,7 +108,11 @@ class AddContactsFragment :
     }
 
     override fun setObservers() {
-        // Not used
+        lifecycleScope.launch {
+            viewModel.loading.collect { isLoading ->
+                binding.pbAddContacts.visibility = if (isLoading) View.VISIBLE else View.GONE
+            }
+        }
     }
 
     override fun setListeners() {

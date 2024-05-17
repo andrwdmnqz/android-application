@@ -10,7 +10,6 @@ import com.project.myproject.data.requests.EditUserRequest
 import com.project.myproject.data.requests.LoginRequest
 import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.data.requests.AddContactRequest
-import com.project.myproject.data.responses.UserContactsResponse
 import com.project.myproject.utils.callbacks.AddContactCallbacks
 import com.project.myproject.utils.callbacks.EditCallbacks
 import com.project.myproject.utils.callbacks.LoginCallbacks
@@ -25,7 +24,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -49,7 +47,8 @@ class UserViewModel @Inject constructor(
 
     private var job: Job? = null
     private val errorMessage = MutableStateFlow("")
-    private val loading = MutableStateFlow(false)
+    private val _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
 
     private var currentUser: User? = null
 
@@ -71,7 +70,7 @@ class UserViewModel @Inject constructor(
             Log.d("DEBUG", "error body - ${response.errorBody()}")
             Log.d("DEBUG", "headers - ${response.headers()}")
             Log.d("DEBUG", "raw - ${response.raw()}")
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     val responseBodyData = response.body()!!.data
 
@@ -97,7 +96,7 @@ class UserViewModel @Inject constructor(
                 Log.d("DEBUG", "error body - ${response.errorBody()}")
                 Log.d("DEBUG", "headers - ${response.headers()}")
                 Log.d("DEBUG", "raw - ${response.raw()}")
-                withContext(Dispatchers.IO) {
+                withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         val responseBodyData = response.body()!!.data
 
@@ -136,7 +135,7 @@ class UserViewModel @Inject constructor(
             Log.d("DEBUG", "error body - ${response.errorBody()}")
             Log.d("DEBUG", "headers - ${response.headers()}")
             Log.d("DEBUG", "raw - ${response.raw()}")
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     currentUser = response.body()?.data?.user
                     editCallbacks?.onUserEdited()
@@ -158,7 +157,7 @@ class UserViewModel @Inject constructor(
                 Log.d("DEBUG", "error body - ${response.errorBody()}")
                 Log.d("DEBUG", "headers - ${response.headers()}")
                 Log.d("DEBUG", "raw - ${response.raw()}")
-                withContext(Dispatchers.IO) {
+                withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         currentUser = response.body()?.data?.user
                         registrationCallbacks?.onUserIsRemembered()
@@ -174,6 +173,7 @@ class UserViewModel @Inject constructor(
     fun fetchContacts(userId: Int, accessToken: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            _loading.value = true
             Log.d("DEBUG", "get user contacts $userId")
 
             val response = mainRepository.getUserContacts(userId, Constants.BEARER_TOKEN_START + accessToken)
@@ -184,7 +184,8 @@ class UserViewModel @Inject constructor(
             Log.d("DEBUG", "error body - ${response.errorBody()}")
             Log.d("DEBUG", "headers - ${response.headers()}")
             Log.d("DEBUG", "raw - ${response.raw()}")
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
+                _loading.value = false
                 if (response.isSuccessful) {
                     _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
                     _contactsId.value = response.body()!!.data.contacts.map { it.id }
@@ -197,6 +198,7 @@ class UserViewModel @Inject constructor(
     fun fetchUsers(accessToken: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            _loading.value = true
             Log.d("DEBUG", "get all users")
             try {
                 val response = mainRepository.getAllUsers(Constants.BEARER_TOKEN_START + accessToken)
@@ -207,7 +209,8 @@ class UserViewModel @Inject constructor(
                 Log.d("DEBUG", "error body - ${response.errorBody()}")
                 Log.d("DEBUG", "headers - ${response.headers()}")
                 Log.d("DEBUG", "raw - ${response.raw()}")
-                withContext(Dispatchers.IO) {
+                withContext(Dispatchers.Main) {
+                    _loading.value = false
                     if (response.isSuccessful) {
                         _users.value = response.body()?.data?.users!!
                     }
@@ -231,7 +234,7 @@ class UserViewModel @Inject constructor(
             Log.d("DEBUG", "error body - ${response.errorBody()}")
             Log.d("DEBUG", "headers - ${response.headers()}")
             Log.d("DEBUG", "raw - ${response.raw()}")
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
                     _contactsId.value = response.body()!!.data.contacts.map { it.id }
@@ -244,6 +247,7 @@ class UserViewModel @Inject constructor(
     fun addContact(userId: Int, contactId: Int, accessToken: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            _loading.value = true
             Log.d("DEBUG", "add user contact $userId, contact id - $contactId")
             val response = mainRepository.addContact(userId, Constants.BEARER_TOKEN_START + accessToken, AddContactRequest(contactId))
 
@@ -256,6 +260,7 @@ class UserViewModel @Inject constructor(
             Log.d("DEBUG", "headers - ${response.headers()}")
             Log.d("DEBUG", "raw - ${response.raw()}")
             withContext(Dispatchers.Main) {
+                _loading.value = false
                 if (response.isSuccessful) {
                     Log.d("DEBUG", "Successful response")
                     Log.d("DEBUG", "Successful response continue")
@@ -294,7 +299,7 @@ class UserViewModel @Inject constructor(
 
     private fun onError(message: String) {
         errorMessage.value = message
-        loading.value = false
+        _loading.value = false
     }
 
     override fun onCleared() {

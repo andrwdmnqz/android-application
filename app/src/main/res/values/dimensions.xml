@@ -104,4 +104,6 @@
     <dimen name="cancel_button_vertical">0.86</dimen>
 
     <dimen name="add_label_horizontal">0.97</dimen>
+
+    <dimen name="default_progress_bar_vertical">0.3</dimen>
 </resources>

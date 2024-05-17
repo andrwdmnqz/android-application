@@ -52,6 +52,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
         setupRecyclerView()
         setListeners()
+        setObservers()
         setupAnimation()
 
         super.onViewCreated(view, savedInstanceState)
@@ -71,7 +72,11 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     override fun setObservers() {
-        // Not used
+        lifecycleScope.launch {
+            viewModel.loading.collect { isLoading ->
+                binding.pbContactsList.visibility = if (isLoading) View.VISIBLE else View.GONE
+            }
+        }
     }
 
     override fun setListeners() {
@@ -113,9 +118,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         viewModel.deleteContact(sessionManager.getId(), contact.id, sessionManager.getAccessToken())
 
         showDeleteSnackbar(contact)
-        // TODO if brokes - return with position
-//        override fun onDeleteItemClicked(contact: Contact, position: Int) {
-//        adapter.notifyItemRangeChanged(position, adapter.itemCount)
     }
 
     private fun showDeleteSnackbar(contact: Contact) {
