@@ -36,7 +36,7 @@
     <TextView
         android:id="@+id/tvUsersLabel"
         style="@style/h1_style"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/users_label"
@@ -57,6 +57,18 @@
         app:layout_constraintHorizontal_bias="@dimen/contacts_tool_bar_end"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvUsersLabel" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchViewUsers"
+        style="@style/search_view_style"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvUsersLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/search_view_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvUsersLabel"
+        app:layout_constraintWidth_percent="@dimen/search_view_width" />
 
     <ProgressBar
         android:id="@+id/pbAddContacts"

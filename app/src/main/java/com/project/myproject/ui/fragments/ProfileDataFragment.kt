@@ -175,9 +175,9 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
         for (i in phone.indices) {
             when (i) {
                 0 -> formattedPhoneNumber.append("(")
-                3 -> formattedPhoneNumber.append(")-")
-                6 -> formattedPhoneNumber.append("-")
-                10 -> formattedPhoneNumber.append("-")
+                3 -> formattedPhoneNumber.append(") - ")
+                6 -> formattedPhoneNumber.append(" - ")
+                10 -> formattedPhoneNumber.append(" - ")
                 else -> {
                 }
             }

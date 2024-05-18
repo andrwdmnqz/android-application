@@ -56,9 +56,11 @@ val fragmentVersion = "1.7.1"
 val retrofitVersion = "2.11.0"
 val okHttpVersion = "4.12.0"
 val hiltVersion = "2.49"
+val appCompatVersion = "1.6.1"
 
 dependencies {
 
+    implementation("androidx.appcompat:appcompat:$appCompatVersion")
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")

@@ -3,8 +3,13 @@ package com.project.myproject.ui.fragments
 import android.os.Bundle
 import android.transition.Transition
 import android.transition.TransitionInflater
+import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.activity.addCallback
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -72,6 +77,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     override fun setObservers() {
+        setupSearchView()
+
         lifecycleScope.launch {
             viewModel.loading.collect { isLoading ->
                 binding.pbContactsList.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -83,6 +90,33 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         setupBackArrowListeners()
         setupAddContactListeners()
         setupMultiselectDeleteListeners()
+        setupSearchButtonListeners()
+    }
+
+    private fun setupSearchButtonListeners() {
+        val searchButton = binding.ivToolbarSearch
+        val searchView = binding.searchViewContacts
+
+        searchButton.setOnClickListener {
+
+            val searchIconId = R.drawable.search_icon
+            val clearIconId = R.drawable.search_clear_icon
+            val currentIconId = searchButton.tag as? Int ?: R.drawable.search_icon
+
+            when (currentIconId) {
+                searchIconId -> {
+                    searchView.visibility = View.VISIBLE
+                    searchButton.setImageResource(R.drawable.search_clear_icon)
+                    searchButton.tag = clearIconId
+                }
+                else -> {
+                    searchView.visibility = View.GONE
+                    searchButton.setImageResource(R.drawable.search_icon)
+                    searchButton.tag = searchIconId
+                    searchView.setQuery("", false)
+                }
+            }
+        }
     }
 
     private fun setupBackArrowListeners() {
@@ -157,6 +191,38 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             viewModel.contacts.collect { contacts ->
                 adapter.submitList(contacts)
             }
+        }
+    }
+
+    private fun setupSearchView() {
+        val searchView = binding.searchViewContacts
+
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    filter(newText)
+                }
+                return true
+            }
+        })
+    }
+
+    private fun filter(text: String) {
+        if (text == "") {
+            adapter.submitList(viewModel.contacts.value)
+        } else {
+            val filteredList = viewModel.contacts.value.filter {
+                (it.name?.contains(text, true) == true ||
+                        it.career?.contains(text, true) == true) ||
+                        (it.name == null && Constants.DEFAULT_NAME_VALUE.contains(text, true) ||
+                                it.career == null && Constants.DEFAULT_CAREER_VALUE.contains(text, true))
+            }
+            adapter.submitList(filteredList)
         }
     }
 
