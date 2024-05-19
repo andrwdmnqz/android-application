@@ -1,16 +1,17 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.MyProject" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<resources>
+    <style name="Base.Theme.MyProject" parent="Theme.AppCompat.Light.NoActionBar">
+
         <item name="android:windowActivityTransitions">true</item>
-        <!-- Specify enter and exit transitions -->
+
         <item name="android:windowEnterTransition">@transition/slide_left</item>
         <item name="android:windowExitTransition">@transition/slide_right</item>
-        <!-- Specify shared element transitions -->
+
         <item name="android:windowSharedElementEnterTransition">@transition/change_bounds</item>
         <item name="android:windowSharedElementExitTransition">@transition/change_bounds</item>
-        <!-- Specify hint text color -->
-        <item name="android:textColorHint">@color/additional_six</item>
+
+        <item name="colorControlActivated">@color/default_text_color</item>
+        <item name="searchViewStyle">@style/search_view_style</item>
+        <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
     </style>
+    <style name="Theme.MyProject" parent="Base.Theme.MyProject" />
 </resources>

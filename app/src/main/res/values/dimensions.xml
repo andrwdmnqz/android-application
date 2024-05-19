@@ -109,5 +109,6 @@
     <dimen name="search_view_horizontal">0.25</dimen>
     <dimen name="search_view_height">0.045</dimen>
     <dimen name="search_view_width">0.82</dimen>
+    <dimen name="search_view_search_icon_margin_end">10dp</dimen>
     <dimen name="default_progress_bar_vertical">0.3</dimen>
 </resources>

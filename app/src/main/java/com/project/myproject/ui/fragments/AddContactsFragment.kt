@@ -72,6 +72,7 @@ class AddContactsFragment :
     private fun setupSearchButtonListeners() {
         val searchButton = binding.ivToolbarSearch
         val searchView = binding.searchViewUsers
+        val searchViewSearchIcon = binding.ivSearchViewSearchIcon
 
         searchButton.setOnClickListener {
 
@@ -82,11 +83,13 @@ class AddContactsFragment :
             when (currentIconId) {
                 searchIconId -> {
                     searchView.visibility = View.VISIBLE
+                    searchViewSearchIcon.visibility = View.VISIBLE
                     searchButton.setImageResource(R.drawable.search_clear_icon)
                     searchButton.tag = clearIconId
                 }
                 else -> {
                     searchView.visibility = View.GONE
+                    searchViewSearchIcon.visibility = View.GONE
                     searchButton.setImageResource(R.drawable.search_icon)
                     searchButton.tag = searchIconId
                     searchView.setQuery("", false)

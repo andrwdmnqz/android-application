@@ -74,12 +74,25 @@
         style="@style/search_view_style"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:theme="@style/Base.Theme.MyProject"
         app:layout_constraintBottom_toBottomOf="@id/tvContactsLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/search_view_horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvContactsLabel"
         app:layout_constraintWidth_percent="@dimen/search_view_width" />
+
+    <ImageView
+        android:id="@+id/ivSearchViewSearchIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/search_view_search_icon_margin_end"
+        android:contentDescription="@string/search_view_search_icon_description"
+        android:src="@drawable/search_view_search_icon"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/searchViewContacts"
+        app:layout_constraintEnd_toEndOf="@id/searchViewContacts"
+        app:layout_constraintTop_toTopOf="@id/searchViewContacts" />
 
     <ProgressBar
         android:id="@+id/pbContactsList"

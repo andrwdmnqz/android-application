@@ -88,4 +88,5 @@
     <string name="add_label">Add</string>
 
     <string name="add_to_my_contacts_button_text">Add to my contacts</string>
+    <string name="search_view_search_icon_description">seach_icon</string>
 </resources>
