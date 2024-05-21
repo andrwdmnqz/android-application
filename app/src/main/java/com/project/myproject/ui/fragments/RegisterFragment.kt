@@ -239,6 +239,7 @@ class RegisterFragment :
             sessionManager.setId(settingPreference.getUserId().first())
             sessionManager.setAccessToken(settingPreference.getAccessToken().first())
             sessionManager.setRefreshToken(settingPreference.getRefreshToken().first())
+            sessionManager.setUserRememberState(true)
         }
 
         findNavController().navigate(R.id.viewPagerFragment)

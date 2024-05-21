@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -171,9 +173,11 @@ class AddContactsFragment :
     override fun setObservers() {
         setupSearchView()
 
-        lifecycleScope.launch {
-            viewModel.loading.collect { isLoading ->
-                binding.pbAddContacts.visibility = if (isLoading) View.VISIBLE else View.GONE
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.loading.collect { isLoading ->
+                    binding.pbAddContacts.visibility = if (isLoading) View.VISIBLE else View.GONE
+                }
             }
         }
     }

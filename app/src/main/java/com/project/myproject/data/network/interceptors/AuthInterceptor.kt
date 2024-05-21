@@ -3,6 +3,7 @@ package com.project.myproject.data.network.interceptors
 import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.utils.Constants
 import com.project.myproject.utils.SessionManager
+import com.project.myproject.utils.SettingPreference
 import com.project.myproject.utils.callbacks.TokenCallbacks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -15,7 +16,8 @@ import javax.inject.Provider
 class AuthInterceptor @Inject constructor(
     private val mainRepositoryProvider: Provider<MainRepository>,
     private val sessionManager: SessionManager,
-    private val tokenCallbacks: TokenCallbacks
+    private val tokenCallbacks: TokenCallbacks,
+    private val settingPreference: SettingPreference
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -51,6 +53,11 @@ class AuthInterceptor @Inject constructor(
 
                 sessionManager.setAccessToken(tokenResponse?.data?.accessToken!!)
                 sessionManager.setRefreshToken(tokenResponse.data.refreshToken)
+
+                if (sessionManager.getUserRememberState()) {
+                    settingPreference.saveAccessToken(tokenResponse.data.accessToken)
+                    settingPreference.saveRefreshToken(tokenResponse.data.refreshToken)
+                }
 
                 tokenResponse.data.accessToken
             } else {

@@ -67,9 +67,10 @@ object HiltModule {
     fun provideAuthInterceptor(
         mainRepositoryProvider: Provider<MainRepository>,
         sessionManager: SessionManager,
-        tokenCallbacks: TokenCallbacks
+        tokenCallbacks: TokenCallbacks,
+        settingPreference: SettingPreference
     ): AuthInterceptor =
-        AuthInterceptor(mainRepositoryProvider, sessionManager, tokenCallbacks)
+        AuthInterceptor(mainRepositoryProvider, sessionManager, tokenCallbacks, settingPreference)
 
     @Provides
     @Singleton
