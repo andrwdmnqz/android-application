@@ -29,8 +29,8 @@ class UserViewModel : ViewModel() {
     fun deleteUser(id: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             userRepository.deleteUser(id)
-            _users.value = _users.value.filter { it.id != id }
         }
+        _users.value = _users.value.filter { it.id != id }
     }
 
     fun addUser(position: Int, user: User) {

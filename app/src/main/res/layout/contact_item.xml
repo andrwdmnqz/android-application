@@ -6,9 +6,40 @@
     android:background="@drawable/contact_card">
 
     <ImageView
+        android:id="@+id/icUserSelected"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/contact_selected_description"
+        android:src="@drawable/multiselect_selected"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/multiselect_checked_icon_height"
+        app:layout_constraintHorizontal_bias="@dimen/multiselect_checked_icon_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="@dimen/multiselect_checked_icon_width" />
+
+    <ImageView
+        android:id="@+id/icUserUnselected"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/contact_unselected_description"
+        android:src="@drawable/multiselect_unselected"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/multiselect_checked_icon_height"
+        app:layout_constraintHorizontal_bias="@dimen/multiselect_checked_icon_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="@dimen/multiselect_checked_icon_width" />
+
+    <ImageView
         android:id="@+id/user_photo"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:contentDescription="@string/contact_photo_desc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/photo_icon_height"

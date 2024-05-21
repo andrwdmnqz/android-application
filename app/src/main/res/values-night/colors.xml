@@ -17,4 +17,5 @@
     <color name="transparent_color">#00000000</color>
     <color name="second_main">#1481AF</color>
     <color name="error_color">#F93E3E</color>
+    <color name="selected_background">#2D2D30</color>
 </resources>

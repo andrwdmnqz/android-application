@@ -3,14 +3,16 @@ package com.project.myproject.fragments
 import android.os.Bundle
 import android.transition.Transition
 import android.transition.TransitionInflater
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import com.project.myproject.R
 import com.project.myproject.databinding.FragmentDetailViewBinding
 import com.project.myproject.extensions.loadImageByGlide
@@ -32,7 +34,7 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        setupBackArrowListeners()
+        setupBackActionListeners()
 
         setupTextFields()
 
@@ -41,14 +43,23 @@ class DetailViewFragment : Fragment(R.layout.fragment_detail_view) {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun onStart() {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().popBackStack()
+        }
+
+        super.onStart()
+    }
+
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
     }
 
-    private fun setupBackArrowListeners() {
+    private fun setupBackActionListeners() {
 
         binding.toolbarBack.setOnClickListener {
+            Log.d("DEBUG", "back")
             it.findNavController().popBackStack()
         }
     }

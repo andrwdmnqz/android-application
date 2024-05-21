@@ -1,9 +1,11 @@
 package com.project.myproject.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.transition.Transition
 import android.transition.TransitionInflater
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,16 +13,21 @@ import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.viewpager2.widget.ViewPager2
+import com.project.myproject.Constants
 import com.project.myproject.R
+import com.project.myproject.RegisterActivity
 import com.project.myproject.SettingPreference
-import com.project.myproject.databinding.FragmentMainBinding
+import com.project.myproject.databinding.FragmentMyProfileBinding
 import kotlinx.coroutines.launch
 
-class MainFragment : Fragment(R.layout.fragment_main) {
+class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
 
-    private var _binding: FragmentMainBinding? = null
+    private var _binding: FragmentMyProfileBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var settingPreference: SettingPreference
@@ -32,7 +39,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentMyProfileBinding.inflate(layoutInflater, container, false)
 
         settingPreference = SettingPreference(requireContext())
 
@@ -50,19 +57,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         setupAnimation()
 
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        hideAllViewsExceptBackground()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        Handler().postDelayed({
-            fadeAllViewsExceptBackground()
-        }, animation.duration)
     }
 
     private fun hideAllViewsExceptBackground() {
@@ -113,9 +107,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             lifecycleScope.launch {
                 settingPreference.clearData()
 
-                val extras = FragmentNavigatorExtras(binding.mainBackground to "registerBackground")
-                it.findNavController().navigate(
-                    MainFragmentDirections.actionMainFragmentToRegisterFragment(), extras)
+                val navController = it.findNavController()
+
+                navController.popBackStack(navController.graph.startDestinationId, true)
+
+                val intent = Intent(requireContext(), RegisterActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
             }
         }
     }
@@ -123,14 +121,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun initializeContactsButtonListeners() {
 
         binding.contactsButton.setOnClickListener {
-            val extras = FragmentNavigatorExtras(binding.mainBackground to "contactsBackground")
-            it.findNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToContactsFragment(), extras)
+            val viewPager = activity?.findViewById<ViewPager2>(R.id.viewPager)
+            viewPager?.currentItem = Constants.SECOND_TAB_NUMBER
         }
     }
 
     private fun parseName() {
-        var name = MainFragmentArgs.fromBundle(requireArguments()).email
+        var name = activity?.intent?.extras?.getString(Constants.EMAIL_KEY)
+        name = name!!
         val nameField = binding.name
 
         name = name.substringBefore('@')

@@ -1,7 +1,6 @@
 package com.project.myproject.fragments
 
 import android.os.Bundle
-import android.os.Handler
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.util.Log
@@ -9,16 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.project.myproject.Constants
 import com.project.myproject.R
@@ -30,6 +31,7 @@ import com.project.myproject.dialogs.AddContactDialogFragment
 import com.project.myproject.models.User
 import com.project.myproject.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
+import kotlin.system.exitProcess
 
 class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUserItemClickListener {
     private val viewModel: UserViewModel by viewModels<UserViewModel>()
@@ -41,6 +43,8 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
 
     private lateinit var animation: Transition
 
+    private lateinit var viewPager: ViewPager2
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,30 +52,51 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
     ): View {
         _binding = FragmentContactsBinding.inflate(layoutInflater, container, false)
 
+        viewPager = activity?.findViewById(R.id.viewPager)!!
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        adapter = UserAdapter(this)
+        adapter = UserAdapter(requireContext(), this) { show -> showMultiselectDelete(show) }
 
         setupRecyclerView()
-
         setupBackArrowListeners()
-
         setupAddContactListeners()
-
         setupAnimation()
+        setupMultiselectDeleteListeners()
 
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onStart() {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if (isFirstTab()) {
+                activity?.finish()
+                exitProcess(0)
+            } else {
+                moveToFirstTab()
+            }
+        }
+
+        super.onStart()
     }
 
     private fun setupBackArrowListeners() {
 
         binding.toolbarBack.setOnClickListener {
-            it.findNavController().popBackStack()
+//            it.findNavController().popBackStack()
+            moveToFirstTab()
         }
     }
+
+    private fun moveToFirstTab() {
+        val viewPager = activity?.findViewById<ViewPager2>(R.id.viewPager)
+        viewPager?.currentItem = Constants.FIRST_TAB_NUMBER
+    }
+
+    private fun isFirstTab() = viewPager.currentItem == Constants.FIRST_TAB_NUMBER
 
     private fun setupAddContactListeners() {
         val addContactsView = binding.addContactsLabel
@@ -89,7 +114,8 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
                 Constants.DEFAULT_USER_IMAGE_PATH,
                 bundle.getString(Constants.CONTACT_NAME_KEY)!!,
                 bundle.getString(Constants.CONTACT_CAREER_KEY)!!,
-                bundle.getString(Constants.CONTACT_ADDRESS_KEY)!!
+                bundle.getString(Constants.CONTACT_ADDRESS_KEY)!!,
+                false
             )
 
             viewModel.addUser(0, user)
@@ -102,7 +128,7 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
         val extras = FragmentNavigatorExtras(binding.contactsBackground to "detailBackground")
 
         findNavController().navigate(
-            ContactsFragmentDirections.actionContactsFragmentToDetailViewFragment(
+            ViewPagerFragmentDirections.actionViewPagerFragmentToDetailViewFragment(
                 user.photo, user.name,
                 user.career, user.address
             ), extras
@@ -112,7 +138,11 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
     override fun onDeleteItemClicked(user: User, position: Int) {
         viewModel.deleteUser(user.id)
 
+        adapter.submitList(viewModel.users.value)
+
         showDeleteSnackbar(user, position)
+
+        adapter.notifyItemRangeChanged(position, adapter.itemCount)
     }
 
     private fun showDeleteSnackbar(user: User, position: Int) {
@@ -122,8 +152,6 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
 
         snackbar.setAction(getString(R.string.undo_button)) {
             viewModel.addUser(position, user)
-
-            adapter.submitList(viewModel.users.value)
         }
 
         snackbar.show()
@@ -210,19 +238,6 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        hideAllViewsExceptBackground()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        Handler().postDelayed({
-            fadeAllViewsExceptBackground()
-        }, animation.duration)
-    }
-
     private fun setupAnimation() {
 
         animation = TransitionInflater.from(requireContext()).inflateTransition(
@@ -231,5 +246,23 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts), UserAdapter.OnUse
 
         sharedElementEnterTransition = animation
         sharedElementReturnTransition = animation
+    }
+
+    private fun setupMultiselectDeleteListeners() {
+        val multiselectDeleteIcon = binding.ivMultiselectDelete
+        multiselectDeleteIcon.setOnClickListener {
+
+            val selectedItems = adapter.getSelectedItems().sortedDescending()
+
+            selectedItems.forEach {
+                viewModel.deleteUser(viewModel.users.value[it].id)
+            }
+
+            adapter.exitMultiselectMode()
+        }
+    }
+
+    private fun showMultiselectDelete(show: Boolean) {
+        binding.ivMultiselectDelete.isVisible = show
     }
 }
