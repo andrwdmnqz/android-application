@@ -4,7 +4,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.project.myproject.data.models.Contact
 import com.project.myproject.ui.adapters.ContactAdapter
-import com.project.myproject.data.models.User
 
 class SwipeToDeleteCallback(private val swipe: (contact: Contact) -> Unit) :
     ItemTouchHelper.SimpleCallback(0,

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -194,9 +193,6 @@ class RegisterFragment :
             val accessToken = settingPreference.getAccessToken().firstOrNull()
             val refreshToken = settingPreference.getRefreshToken().firstOrNull()
             val userId = settingPreference.getUserId().firstOrNull()
-            Log.d("DEBUG", "refresh token - $refreshToken")
-            Log.d("DEBUG", "access token - $accessToken")
-            Log.d("DEBUG", "user id - $userId")
 
             if (!accessToken.isNullOrBlank() && !refreshToken.isNullOrBlank() && userId != null) {
                 viewModel.getUser(userId, accessToken)
@@ -227,7 +223,6 @@ class RegisterFragment :
                 settingPreference.saveRefreshToken(refreshToken)
                 settingPreference.saveUserId(userId)
             }
-            Log.d("DEBUG", "Saved id - $userId, saved access - $accessToken, saved refresh - $refreshToken")
         }
 
         sessionManager.setId(userId)

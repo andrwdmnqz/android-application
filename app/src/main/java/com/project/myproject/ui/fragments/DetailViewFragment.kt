@@ -3,7 +3,6 @@ package com.project.myproject.ui.fragments
 import android.os.Bundle
 import android.transition.Transition
 import android.transition.TransitionInflater
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.activity.addCallback

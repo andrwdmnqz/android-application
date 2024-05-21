@@ -1,7 +1,6 @@
 package com.project.myproject.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
@@ -72,13 +71,11 @@ class ContactsProfileFragment :
     }
 
     override fun onContactAdded() {
-        Log.d("DEBUG", "Contact added callback")
         binding.btnAddToMyContacts.isEnabled = false
 
         Snackbar.make(
             binding.root,
             getString(R.string.contact_added), Snackbar.LENGTH_LONG
         ).show()
-        Log.d("DEBUG", "After snackbar")
     }
 }

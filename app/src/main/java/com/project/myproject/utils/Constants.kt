@@ -32,7 +32,6 @@ class Constants {
         const val DEFAULT_ADDRESS_VALUE = "Address"
         const val UNAUTHORIZED_CODE = 401
 
-        const val DEFAULT_USER_IMAGE_PATH = "https://i.pinimg.com/564x/61/f7/5e/61f75ea9a680def2ed1c6929fe75aeee.jpg"
         const val BASE_URL = "http://178.63.9.114:7777/api/"
     }
 }

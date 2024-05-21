@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -161,9 +160,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
         if (rememberMeCheckbox.isChecked) {
             lifecycleScope.launch {
-                Log.d("DEBUG", "saving access token $accessToken")
-                Log.d("DEBUG", "saving refresh token $refreshToken")
-                Log.d("DEBUG", "saving id $userId")
+
                 settingPreference.saveAccessToken(accessToken)
                 settingPreference.saveRefreshToken(refreshToken)
                 settingPreference.saveUserId(userId)

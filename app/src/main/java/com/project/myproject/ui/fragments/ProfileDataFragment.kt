@@ -3,7 +3,6 @@ package com.project.myproject.ui.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -64,15 +63,12 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
         binding.btnForward.setOnClickListener {
             val userNameText = dataNameEditText.text
             val phoneNumber = dataPhoneEditText.text
-            Log.d("DEBUG", "name - $userNameText")
-            Log.d("DEBUG", "phone - $phoneNumber")
 
             if (dataNameLayout.error == null && dataPhoneLayout.error == null
                 && !userNameText.isNullOrBlank() && !phoneNumber.isNullOrBlank()) {
                 lifecycleScope.launch {
                     val userId = sessionManager.getId()
                     val accessToken = sessionManager.getAccessToken()
-                    Log.d("DEBUG", "Getted id - $userId, getted access - $accessToken")
                     viewModel.editUserNameAndPhone(userId,
                         accessToken,
                         userNameText.toString(), phoneNumber.toString())

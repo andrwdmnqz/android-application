@@ -3,13 +3,9 @@ package com.project.myproject.ui.fragments
 import android.os.Bundle
 import android.transition.Transition
 import android.transition.TransitionInflater
-import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.activity.addCallback
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +23,6 @@ import com.project.myproject.ui.adapters.ContactAdapter
 import com.project.myproject.utils.callbacks.SwipeToDeleteCallback
 import com.project.myproject.databinding.FragmentContactsBinding
 import com.project.myproject.utils.DefaultItemDecorator
-import com.project.myproject.ui.dialogs.AddContactDialogFragment
 import com.project.myproject.ui.viewmodels.UserViewModel
 import com.project.myproject.utils.SessionManager
 import dagger.hilt.android.AndroidEntryPoint

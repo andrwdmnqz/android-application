@@ -20,7 +20,6 @@ import com.project.myproject.utils.DefaultItemDecorator
 import com.project.myproject.utils.SessionManager
 import com.project.myproject.utils.callbacks.AddContactCallbacks
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject

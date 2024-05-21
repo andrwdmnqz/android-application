@@ -1,9 +1,7 @@
 package com.project.myproject.ui.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayoutMediator
 import com.project.myproject.utils.Constants
 import com.project.myproject.ui.adapters.ViewPagerAdapter

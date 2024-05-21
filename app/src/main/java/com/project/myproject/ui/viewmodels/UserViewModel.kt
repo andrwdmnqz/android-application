@@ -1,6 +1,5 @@
 package com.project.myproject.ui.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.project.myproject.data.models.Contact
 import com.project.myproject.utils.Constants
@@ -53,23 +52,15 @@ class UserViewModel @Inject constructor(
     private var currentUser: User? = null
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        Log.d("DEBUG", "Exception handled: ${throwable.localizedMessage}")
         onError("Exception handled: ${throwable.localizedMessage}")
     }
 
     fun registerUser(email: String, password: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "register user $email, $password")
 
             val response = mainRepository.createUser(CreateRequest(email, password))
-            Log.d("DEBUG", "$response")
-            Log.d("DEBUG", "body - ${response.body()}")
-            Log.d("DEBUG", "message - ${response.message()}")
-            Log.d("DEBUG", "code - ${response.code()}")
-            Log.d("DEBUG", "error body - ${response.errorBody()}")
-            Log.d("DEBUG", "headers - ${response.headers()}")
-            Log.d("DEBUG", "raw - ${response.raw()}")
+
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     val responseBodyData = response.body()!!.data
@@ -86,29 +77,22 @@ class UserViewModel @Inject constructor(
     fun loginUser(email: String, password: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "login user $email, $password")
-            try {
-                val response = mainRepository.loginUser(LoginRequest(email, password))
-                Log.d("DEBUG", "$response")
-                Log.d("DEBUG", "body - ${response.body()}")
-                Log.d("DEBUG", "message - ${response.message()}")
-                Log.d("DEBUG", "code - ${response.code()}")
-                Log.d("DEBUG", "error body - ${response.errorBody()}")
-                Log.d("DEBUG", "headers - ${response.headers()}")
-                Log.d("DEBUG", "raw - ${response.raw()}")
-                withContext(Dispatchers.Main) {
-                    if (response.isSuccessful) {
-                        val responseBodyData = response.body()!!.data
 
-                        currentUser = responseBodyData.user
-                        loginCallbacks?.onSuccess(responseBodyData.accessToken, responseBodyData.refreshToken, currentUser!!.id)
-                    } else {
-                        loginCallbacks?.onInvalidLoginData()
-                    }
+            val response = mainRepository.loginUser(LoginRequest(email, password))
+
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    val responseBodyData = response.body()!!.data
+
+                    currentUser = responseBodyData.user
+                    loginCallbacks?.onSuccess(
+                        responseBodyData.accessToken,
+                        responseBodyData.refreshToken,
+                        currentUser!!.id
+                    )
+                } else {
+                    loginCallbacks?.onInvalidLoginData()
                 }
-            } catch (e: Exception) {
-                Log.d("DEBUG", "$e")
-                Log.d("DEBUG", "${e.message}")
             }
         }
     }
@@ -116,25 +100,12 @@ class UserViewModel @Inject constructor(
     fun editUserNameAndPhone(userId: Int, accessToken: String, userName: String, phoneNumber: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "edit user $userId")
-            Log.d("DEBUG", "edit user $userName, $phoneNumber")
-
-            val zxc = EditUserRequest(userName, phoneNumber)
-            val token = Constants.BEARER_TOKEN_START + accessToken
-            Log.d("DEBUG", "edit user $zxc $token")
 
             val response = mainRepository.editUser(userId,
                 Constants.BEARER_TOKEN_START + accessToken,
                 EditUserRequest(userName, phoneNumber)
             )
 
-            Log.d("DEBUG", "$response")
-            Log.d("DEBUG", "body - ${response.body()}")
-            Log.d("DEBUG", "message - ${response.message()}")
-            Log.d("DEBUG", "code - ${response.code()}")
-            Log.d("DEBUG", "error body - ${response.errorBody()}")
-            Log.d("DEBUG", "headers - ${response.headers()}")
-            Log.d("DEBUG", "raw - ${response.raw()}")
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     currentUser = response.body()?.data?.user
@@ -147,25 +118,14 @@ class UserViewModel @Inject constructor(
     fun getUser(userId: Int, accessToken: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "get user $userId")
-            try {
-                val response = mainRepository.getUser(userId, Constants.BEARER_TOKEN_START + accessToken)
-                Log.d("DEBUG", "$response")
-                Log.d("DEBUG", "body - ${response.body()}")
-                Log.d("DEBUG", "message - ${response.message()}")
-                Log.d("DEBUG", "code - ${response.code()}")
-                Log.d("DEBUG", "error body - ${response.errorBody()}")
-                Log.d("DEBUG", "headers - ${response.headers()}")
-                Log.d("DEBUG", "raw - ${response.raw()}")
-                withContext(Dispatchers.Main) {
-                    if (response.isSuccessful) {
-                        currentUser = response.body()?.data?.user
-                        registrationCallbacks?.onUserIsRemembered()
-                    }
+
+            val response = mainRepository.getUser(userId, Constants.BEARER_TOKEN_START + accessToken)
+
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    currentUser = response.body()?.data?.user
+                    registrationCallbacks?.onUserIsRemembered()
                 }
-            } catch (e: Exception) {
-                Log.d("DEBUG", "$e")
-                Log.d("DEBUG", "${e.message}")
             }
         }
     }
@@ -174,22 +134,14 @@ class UserViewModel @Inject constructor(
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             _loading.value = true
-            Log.d("DEBUG", "get user contacts $userId")
 
             val response = mainRepository.getUserContacts(userId, Constants.BEARER_TOKEN_START + accessToken)
-            Log.d("DEBUG", "$response")
-            Log.d("DEBUG", "body - ${response.body()}")
-            Log.d("DEBUG", "message - ${response.message()}")
-            Log.d("DEBUG", "code - ${response.code()}")
-            Log.d("DEBUG", "error body - ${response.errorBody()}")
-            Log.d("DEBUG", "headers - ${response.headers()}")
-            Log.d("DEBUG", "raw - ${response.raw()}")
+
             withContext(Dispatchers.Main) {
                 _loading.value = false
                 if (response.isSuccessful) {
                     _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
                     _contactsId.value = response.body()!!.data.contacts.map { it.id }
-                    Log.d("DEBUG", "Contact ids - ${_contactsId.value}")
                 }
             }
         }
@@ -199,25 +151,14 @@ class UserViewModel @Inject constructor(
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             _loading.value = true
-            Log.d("DEBUG", "get all users")
-            try {
-                val response = mainRepository.getAllUsers(Constants.BEARER_TOKEN_START + accessToken)
-                Log.d("DEBUG", "$response")
-                Log.d("DEBUG", "body - ${response.body()}")
-                Log.d("DEBUG", "message - ${response.message()}")
-                Log.d("DEBUG", "code - ${response.code()}")
-                Log.d("DEBUG", "error body - ${response.errorBody()}")
-                Log.d("DEBUG", "headers - ${response.headers()}")
-                Log.d("DEBUG", "raw - ${response.raw()}")
-                withContext(Dispatchers.Main) {
-                    _loading.value = false
-                    if (response.isSuccessful) {
-                        _users.value = response.body()?.data?.users!!
-                    }
+
+            val response = mainRepository.getAllUsers(Constants.BEARER_TOKEN_START + accessToken)
+
+            withContext(Dispatchers.Main) {
+                _loading.value = false
+                if (response.isSuccessful) {
+                    _users.value = response.body()?.data?.users!!
                 }
-            } catch (e: Exception) {
-                Log.d("DEBUG", "$e")
-                Log.d("DEBUG", "${e.message}")
             }
         }
     }
@@ -225,20 +166,13 @@ class UserViewModel @Inject constructor(
     fun deleteContact(userId: Int, contactId: Int, accessToken: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            Log.d("DEBUG", "delete user contact $userId, contact id - $contactId")
+
             val response = mainRepository.deleteUserContact(userId, contactId, Constants.BEARER_TOKEN_START + accessToken)
-            Log.d("DEBUG", "$response")
-            Log.d("DEBUG", "body - ${response.body()}")
-            Log.d("DEBUG", "message - ${response.message()}")
-            Log.d("DEBUG", "code - ${response.code()}")
-            Log.d("DEBUG", "error body - ${response.errorBody()}")
-            Log.d("DEBUG", "headers - ${response.headers()}")
-            Log.d("DEBUG", "raw - ${response.raw()}")
+
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
                     _contactsId.value = response.body()!!.data.contacts.map { it.id }
-                    Log.d("DEBUG", "Contact ids - ${_contactsId.value}")
                 }
             }
         }
@@ -248,27 +182,14 @@ class UserViewModel @Inject constructor(
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             _loading.value = true
-            Log.d("DEBUG", "add user contact $userId, contact id - $contactId")
+
             val response = mainRepository.addContact(userId, Constants.BEARER_TOKEN_START + accessToken, AddContactRequest(contactId))
 
-            Log.d("DEBUG", "Just something")
-            Log.d("DEBUG", "$response")
-            Log.d("DEBUG", "body - ${response.body()}")
-            Log.d("DEBUG", "message - ${response.message()}")
-            Log.d("DEBUG", "code - ${response.code()}")
-            Log.d("DEBUG", "error body - ${response.errorBody()}")
-            Log.d("DEBUG", "headers - ${response.headers()}")
-            Log.d("DEBUG", "raw - ${response.raw()}")
             withContext(Dispatchers.Main) {
                 _loading.value = false
                 if (response.isSuccessful) {
-                    Log.d("DEBUG", "Successful response")
-                    Log.d("DEBUG", "Successful response continue")
                     _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
-                    Log.d("DEBUG", "Successful response continue2")
                     _contactsId.value = response.body()!!.data.contacts.map { it.id }
-                    Log.d("DEBUG", "Successful response continue3")
-                    Log.d("DEBUG", "Contact ids - ${_contactsId.value}")
                     addContactCallbacks?.onContactAdded()
                 }
             }

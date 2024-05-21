@@ -85,8 +85,6 @@ class ContactAdapter(
         }
 
         holder.contactDeleteIcon.setOnClickListener {
-            // TODO return position if needed
-            // onContactItemClickListener.onDeleteItemClicked(contact, holder.adapterPosition)
             onContactItemClickListener.onDeleteItemClicked(contact)
         }
     }
@@ -178,8 +176,7 @@ class ContactAdapter(
 
     interface OnContactItemClickListener {
         fun onContactItemClicked(contact: Contact)
-        // TODO return position if needed
-        // fun onDeleteItemClicked(contact: Contact, position: Int)
+
         fun onDeleteItemClicked(contact: Contact)
     }
 
