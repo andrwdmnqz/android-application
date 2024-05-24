@@ -15,7 +15,7 @@ class ViewPagerFragment : BaseFragment<FragmentViewPagerBinding>(FragmentViewPag
 
         val fragmentList = arrayListOf<BaseFragment<*>>(MyProfileFragment(), ContactsFragment())
 
-        val adapter = ViewPagerAdapter(fragmentList, requireActivity().supportFragmentManager, lifecycle)
+        val adapter = ViewPagerAdapter(fragmentList, childFragmentManager, lifecycle)
 
         viewPager.adapter = adapter
 
