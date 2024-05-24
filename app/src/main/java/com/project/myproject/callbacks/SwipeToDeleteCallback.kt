@@ -11,6 +11,7 @@ class SwipeToDeleteCallback(private val swipe: (position: Int, user: User) -> Un
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
+
         val user = (viewHolder.itemView.parent as RecyclerView).adapter?.let { adapter ->
             if (adapter is UserAdapter) {
                 adapter.currentList[position]

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background"
@@ -12,6 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/rectangle"
+        android:transitionName="contactsBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/contacts_tool_bar_height"
@@ -64,7 +66,7 @@
         android:layout_height="wrap_content"
         android:text="@string/add_contacts_label"
         android:textColor="@color/default_text_color"
-        app:layout_constraintBottom_toBottomOf="@+id/mainBackground"
+        app:layout_constraintBottom_toBottomOf="@+id/contactsBackground"
         app:layout_constraintStart_toStartOf="@+id/toolbar_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/add_contacts_label_vertical" />
@@ -76,6 +78,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainBackground" />
+        app:layout_constraintTop_toBottomOf="@+id/contactsBackground" />
+
+    <ImageView
+        android:id="@+id/ivMultiselectDelete"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/multiselect_delete_description"
+        android:src="@drawable/multiselect_delete_icon"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/multiselect_delete_icon_height"
+        app:layout_constraintHorizontal_bias="@dimen/multiselect_delete_icon_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/multiselect_delete_icon_vertical"
+        app:layout_constraintWidth_percent="@dimen/multiselect_delete_icon_width" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

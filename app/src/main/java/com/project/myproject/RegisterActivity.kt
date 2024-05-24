@@ -101,7 +101,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun initializeRegisterButton(regEmailLayout: TextInputLayout,
-        regPasswordLayout: TextInputLayout) {
+                                         regPasswordLayout: TextInputLayout) {
 
         val registerButton = viewBinding.registerButton
         val rememberMeCheckbox = viewBinding.rememberMe

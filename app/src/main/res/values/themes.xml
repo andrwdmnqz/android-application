@@ -8,8 +8,8 @@
         <item name="android:windowEnterTransition">@transition/slide_left</item>
         <item name="android:windowExitTransition">@transition/slide_right</item>
         <!-- Specify shared element transitions -->
-        <item name="android:windowSharedElementEnterTransition">@transition/change_image_transform</item>
-        <item name="android:windowSharedElementExitTransition">@transition/change_image_transform</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/change_bounds</item>
+        <item name="android:windowSharedElementExitTransition">@transition/change_bounds</item>
         <!-- Specify hint text color -->
         <item name="android:textColorHint">@color/additional_text_second</item>
     </style>

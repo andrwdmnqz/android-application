@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -9,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.project.myproject"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -47,6 +48,7 @@ val coreKtxVersion = "1.12.0"
 val glideVersion = "4.14.2"
 val viewModelVersion = "2.7.0"
 val activityVersion = "1.8.2"
+val navVersion = "2.7.7"
 val fragmentVersion = "1.6.2"
 
 dependencies {
@@ -54,6 +56,8 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
     implementation("androidx.activity:activity-ktx:$activityVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion")
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("com.github.bumptech.glide:glide:$glideVersion")
     implementation("androidx.datastore:datastore-preferences:$dataStoreVersion")
     implementation("androidx.core:core-ktx:$coreKtxVersion")
