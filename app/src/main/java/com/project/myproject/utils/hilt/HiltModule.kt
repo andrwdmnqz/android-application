@@ -1,17 +1,17 @@
 package com.project.myproject.utils.hilt
 
 import android.content.Context
-import com.project.myproject.utils.Constants
-import com.project.myproject.utils.SettingPreference
-import com.project.myproject.ui.fragments.LoginFragment
-import com.project.myproject.ui.fragments.ProfileDataFragment
-import com.project.myproject.ui.fragments.RegisterFragment
+import com.project.myproject.BuildConfig
 import com.project.myproject.data.network.RetrofitService
 import com.project.myproject.data.network.interceptors.AuthInterceptor
 import com.project.myproject.data.network.interceptors.ResponseFixInterceptor
 import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.ui.fragments.AddContactsFragment
+import com.project.myproject.ui.fragments.LoginFragment
+import com.project.myproject.ui.fragments.ProfileDataFragment
+import com.project.myproject.ui.fragments.RegisterFragment
 import com.project.myproject.utils.SessionManager
+import com.project.myproject.utils.SettingPreference
 import com.project.myproject.utils.callbacks.AddContactCallbacks
 import com.project.myproject.utils.callbacks.EditCallbacks
 import com.project.myproject.utils.callbacks.LoginCallbacks
@@ -36,29 +36,17 @@ import javax.inject.Singleton
 object HiltModule {
 
     @Provides
-    fun providesBaseUrl(): String = Constants.BASE_URL
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder()
-            .build()
-    }
+    fun providesBaseUrl(): String = BuildConfig.BASE_URL
 
     @Provides
     @Singleton
     fun provideRetrofit(
         baseUrl: String,
         okHttpClient: OkHttpClient,
-        authInterceptor: AuthInterceptor,
-        responseFixInterceptor: ResponseFixInterceptor
     ): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(baseUrl)
-        .client(okHttpClient.newBuilder()
-            .addInterceptor(authInterceptor)
-            .addInterceptor(responseFixInterceptor)
-            .build())
+        .client(okHttpClient)
         .build()
 
 
@@ -79,16 +67,19 @@ object HiltModule {
 
     @Provides
     @Singleton
-    fun provideRetrofitService(retrofit : Retrofit) : RetrofitService = retrofit.create(
-        RetrofitService::class.java)
+    fun provideRetrofitService(retrofit: Retrofit): RetrofitService = retrofit.create(
+        RetrofitService::class.java
+    )
 
     @Provides
     @Singleton
-    fun provideMainRepository(retrofitService: RetrofitService): MainRepository = MainRepository(retrofitService)
+    fun provideMainRepository(retrofitService: RetrofitService): MainRepository =
+        MainRepository(retrofitService)
 
     @Provides
     @Singleton
-    fun provideSettingPreferences(@ApplicationContext context: Context): SettingPreference = SettingPreference(context)
+    fun provideSettingPreferences(@ApplicationContext context: Context): SettingPreference =
+        SettingPreference(context)
 
     @Provides
     @Singleton
