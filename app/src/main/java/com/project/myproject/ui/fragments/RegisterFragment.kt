@@ -5,20 +5,34 @@ import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Text
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.project.myproject.utils.Constants
 import com.project.myproject.R
-import com.project.myproject.utils.SettingPreference
 import com.project.myproject.databinding.FragmentRegisterBinding
 import com.project.myproject.ui.viewmodels.UserViewModel
+import com.project.myproject.utils.Constants
 import com.project.myproject.utils.SessionManager
+import com.project.myproject.utils.SettingPreference
 import com.project.myproject.utils.callbacks.RegistrationCallbacks
 import com.project.myproject.utils.callbacks.TokenCallbacks
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,6 +58,37 @@ class RegisterFragment :
     private lateinit var regPasswordEditText: TextInputEditText
 
     private val viewModel by activityViewModels<UserViewModel>()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState).also {
+            binding.btnGoogleRegister.setContent {
+                Button(
+                    onClick = { /*TODO*/ },
+                    shape = RoundedCornerShape(6.dp),
+                    colors = ButtonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.White,
+                        disabledContainerColor = Color.White,
+                        disabledContentColor = Color.White,
+                    )
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.google_logo),
+                        contentDescription = "google logo"
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(
+                        text = stringResource(id = R.string.google_text),
+                        color = Color.Black
+                    )
+                }
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 

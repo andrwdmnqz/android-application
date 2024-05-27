@@ -112,24 +112,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/checkbox_vertical" />
 
-    <com.project.myproject.ui.customViews.CustomGoogleButton
+    <androidx.compose.ui.platform.ComposeView
         android:id="@+id/btnGoogleRegister"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/google_button"
-        android:fontFamily="@font/open_sans"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/google_button_height"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/google_button_vertical"
-        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"
-        custom:buttonDrawable="@drawable/google_logo"
-        custom:buttonLetterSpacing="@dimen/button_letter_spacing"
-        custom:buttonText="@string/google_text"
-        custom:buttonTextColor="@color/additional_fifth"
-        custom:buttonTextSize="@dimen/h2_5_text" />
+        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"/>
 
     <TextView
         android:id="@+id/tvOrLabel"

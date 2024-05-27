@@ -1,5 +1,7 @@
 <resources>
     <style name="Base.Theme.MyProject" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/main_background</item>
+        <item name="android:navigationBarColor">@color/main_background</item>
 
         <item name="android:windowActivityTransitions">true</item>
 
@@ -13,5 +15,6 @@
         <item name="searchViewStyle">@style/search_view_style</item>
         <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
     </style>
+
     <style name="Theme.MyProject" parent="Base.Theme.MyProject" />
 </resources>
