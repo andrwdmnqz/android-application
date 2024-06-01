@@ -97,12 +97,11 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun editUserNameAndPhone(userId: Int, accessToken: String, userName: String, phoneNumber: String) {
+    fun editUserNameAndPhone(userId: Int, userName: String, phoneNumber: String) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
             val response = mainRepository.editUser(userId,
-                Constants.BEARER_TOKEN_START + accessToken,
                 EditUserRequest(userName, phoneNumber)
             )
 
@@ -115,11 +114,11 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun getUser(userId: Int, accessToken: String) {
+    fun getUser(userId: Int) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val response = mainRepository.getUser(userId, Constants.BEARER_TOKEN_START + accessToken)
+            val response = mainRepository.getUser(userId)
 
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
@@ -130,12 +129,12 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun fetchContacts(userId: Int, accessToken: String) {
+    fun fetchContacts(userId: Int) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             _loading.value = true
 
-            val response = mainRepository.getUserContacts(userId, Constants.BEARER_TOKEN_START + accessToken)
+            val response = mainRepository.getUserContacts(userId)
 
             withContext(Dispatchers.Main) {
                 _loading.value = false
@@ -147,12 +146,12 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun fetchUsers(accessToken: String) {
+    fun fetchUsers() {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             _loading.value = true
 
-            val response = mainRepository.getAllUsers(Constants.BEARER_TOKEN_START + accessToken)
+            val response = mainRepository.getAllUsers()
 
             withContext(Dispatchers.Main) {
                 _loading.value = false
@@ -163,11 +162,11 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun deleteContact(userId: Int, contactId: Int, accessToken: String) {
+    fun deleteContact(userId: Int, contactId: Int) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val response = mainRepository.deleteUserContact(userId, contactId, Constants.BEARER_TOKEN_START + accessToken)
+            val response = mainRepository.deleteUserContact(userId, contactId)
 
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
@@ -178,12 +177,12 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun addContact(userId: Int, contactId: Int, accessToken: String) {
+    fun addContact(userId: Int, contactId: Int) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             _loading.value = true
 
-            val response = mainRepository.addContact(userId, Constants.BEARER_TOKEN_START + accessToken, AddContactRequest(contactId))
+            val response = mainRepository.addContact(userId, AddContactRequest(contactId))
 
             withContext(Dispatchers.Main) {
                 _loading.value = false

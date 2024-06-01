@@ -26,41 +26,39 @@ class MainRepository @Inject constructor(private val retrofitService: RetrofitSe
         return retrofitService.loginUser(loginRequest)
     }
 
-    suspend fun refreshTokens(refreshToken: String): Response <TokenResponse> {
-        return retrofitService.refreshTokens(refreshToken)
+    suspend fun refreshTokens(): Response <TokenResponse> {
+        return retrofitService.refreshTokens()
     }
 
-    suspend fun editUser(userId: Int, accessToken: String, request: EditUserRequest):
+    suspend fun editUser(userId: Int, request: EditUserRequest):
             Response <GetUserResponse> {
 
-        return retrofitService.editUser(userId, accessToken, Constants.APPLICATION_JSON_TYPE, request)
+        return retrofitService.editUser(userId, request)
     }
 
     suspend fun addContact(
         userId: Int,
-        accessToken: String,
         request: AddContactRequest
     ): Response<UserContactsResponse> {
-        return retrofitService.addContact(userId, accessToken, Constants.APPLICATION_JSON_TYPE, request)
+        return retrofitService.addContact(userId, request)
     }
 
-    suspend fun getUser(userId: Int, accessToken: String): Response<GetUserResponse> {
-        return retrofitService.getUser(userId, accessToken)
+    suspend fun getUser(userId: Int): Response<GetUserResponse> {
+        return retrofitService.getUser(userId)
     }
 
-    suspend fun getUserContacts(userId: Int, accessToken: String): Response<UserContactsResponse> {
-        return retrofitService.getUserContacts(userId, accessToken, Constants.APPLICATION_JSON_TYPE)
+    suspend fun getUserContacts(userId: Int): Response<UserContactsResponse> {
+        return retrofitService.getUserContacts(userId)
     }
 
-    suspend fun getAllUsers(accessToken: String): Response<AllUsersResponse> {
-        return retrofitService.getAllUsers(accessToken)
+    suspend fun getAllUsers(): Response<AllUsersResponse> {
+        return retrofitService.getAllUsers()
     }
 
     suspend fun deleteUserContact(
         userId: Int,
-        contactId: Int,
-        accessToken: String
+        contactId: Int
     ): Response<UserContactsResponse> {
-        return retrofitService.deleteUserContact(userId, contactId, accessToken)
+        return retrofitService.deleteUserContact(userId, contactId)
     }
 }

@@ -54,7 +54,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/profile_image_desc"
-        android:src="@mipmap/mock_icon"
+        android:src="@mipmap/empty_photo_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/photo_height"

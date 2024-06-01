@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
+import okhttp3.Request
 import okhttp3.Response
 import javax.inject.Inject
 import javax.inject.Provider
@@ -21,8 +22,14 @@ class AuthInterceptor @Inject constructor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request()
-        val response = chain.proceed(request)
+        val originalRequest = chain.request()
+
+        val isTokenRefreshRequest = originalRequest.url.encodedPath.endsWith("/refresh")
+
+        val headersRequestBuilder = newRequestBuilder(originalRequest, isTokenRefreshRequest,
+                                                    sessionManager.getAccessToken())
+
+        val response = chain.proceed(headersRequestBuilder.build())
 
         if (response.code == Constants.UNAUTHORIZED_CODE) {
             val newToken = runBlocking {
@@ -30,22 +37,39 @@ class AuthInterceptor @Inject constructor(
             }
 
             if (newToken != null) {
-                val newRequest = request.newBuilder()
-                    .header("Authorization", "Bearer $newToken")
-                    .build()
+                val retryRequest = newRequestBuilder(originalRequest, isTokenRefreshRequest, newToken)
 
-                return chain.proceed(newRequest)
+                return chain.proceed(retryRequest.build())
             }
         }
 
         return response
     }
 
+    private fun newRequestBuilder(
+        originalRequest: Request,
+        isTokenRefreshRequest: Boolean,
+        accessToken: String?
+    ): Request.Builder {
+        val retryRequest = originalRequest.newBuilder()
+
+        if (isTokenRefreshRequest) {
+            retryRequest.addHeader("RefreshToken", sessionManager.getRefreshToken())
+        } else {
+            retryRequest.addHeader("Authorization", Constants.BEARER_TOKEN_START + accessToken)
+        }
+
+        if (originalRequest.body != null) {
+            retryRequest.addHeader("Content-type", Constants.APPLICATION_JSON_TYPE)
+        }
+        return retryRequest
+    }
+
     private suspend fun refreshAccessToken(): String? {
         val refreshToken = sessionManager.getRefreshToken()
         return try {
             val response = withContext(Dispatchers.IO) {
-                mainRepositoryProvider.get().refreshTokens(refreshToken)
+                mainRepositoryProvider.get().refreshTokens()
             }
             if (response.isSuccessful) {
 

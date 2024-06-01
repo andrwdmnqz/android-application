@@ -74,7 +74,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     override fun setObservers() {
         setupSearchView()
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.loading.collect { isLoading ->
                 binding.pbContactsList.visibility = if (isLoading) View.VISIBLE else View.GONE
             }
@@ -147,7 +147,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     override fun onDeleteItemClicked(contact: Contact) {
-        viewModel.deleteContact(sessionManager.getId(), contact.id, sessionManager.getAccessToken())
+        viewModel.deleteContact(sessionManager.getId(), contact.id)
 
         showDeleteSnackbar(contact)
     }
@@ -158,7 +158,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             getString(R.string.contact_removed), Snackbar.LENGTH_LONG)
 
         snackbar.setAction(getString(R.string.undo_button)) {
-            viewModel.addContact(sessionManager.getId(), contact.id, sessionManager.getAccessToken())
+            viewModel.addContact(sessionManager.getId(), contact.id)
         }
 
         snackbar.show()
@@ -176,16 +176,16 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         contactsRV.layoutManager = LinearLayoutManager(requireContext())
 
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback { contact ->
-            viewModel.deleteContact(sessionManager.getId(), contact.id, sessionManager.getAccessToken())
+            viewModel.deleteContact(sessionManager.getId(), contact.id)
 
             showDeleteSnackbar(contact)
         })
 
         itemTouchHelper.attachToRecyclerView(contactsRV)
 
-        viewModel.fetchContacts(sessionManager.getId(), sessionManager.getAccessToken())
+        viewModel.fetchContacts(sessionManager.getId())
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.contacts.collect { contacts ->
                 adapter.submitList(contacts)
             }
@@ -267,7 +267,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             val userId = sessionManager.getId()
             val accessToken = sessionManager.getAccessToken()
             selectedItems.forEach {
-                viewModel.deleteContact(userId, viewModel.contacts.value[it].id, accessToken)
+                viewModel.deleteContact(userId, viewModel.contacts.value[it].id)
             }
 
             adapter.exitMultiselectMode()

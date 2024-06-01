@@ -27,46 +27,36 @@ interface RetrofitService {
     suspend fun loginUser(@Body request: LoginRequest): Response<AuthorizationResponse>
 
     @POST("refresh")
-    suspend fun refreshTokens(@Header("RefreshToken") refreshToken: String): Response<TokenResponse>
+    suspend fun refreshTokens(): Response<TokenResponse>
 
     @PUT("users/{userId}")
     suspend fun editUser(
         @Path("userId") userId: Int,
-        @Header("Authorization") accessToken: String,
-        @Header("Content-type") contentType: String,
         @Body request: EditUserRequest
     ): Response<GetUserResponse>
 
     @PUT("users/{userId}/contacts")
     suspend fun addContact(
         @Path("userId") userId: Int,
-        @Header("Authorization") accessToken: String,
-        @Header("Content-type") contentType: String,
         @Body request: AddContactRequest
     ): Response<UserContactsResponse>
 
     @GET("users/{userId}")
     suspend fun getUser(
-        @Path("userId") userId: Int,
-        @Header("Authorization") accessToken: String
+        @Path("userId") userId: Int
     ): Response<GetUserResponse>
 
     @GET("users/{userId}/contacts")
     suspend fun getUserContacts(
-        @Path("userId") userId: Int,
-        @Header("Authorization") accessToken: String,
-        @Header("Content-type") contentType: String
+        @Path("userId") userId: Int
     ): Response<UserContactsResponse>
 
     @GET("users")
-    suspend fun getAllUsers(
-        @Header("Authorization") accessToken: String
-    ): Response<AllUsersResponse>
+    suspend fun getAllUsers(): Response<AllUsersResponse>
 
     @DELETE("users/{userId}/contacts/{contactId}")
     suspend fun deleteUserContact(
         @Path("userId") userId: Int,
-        @Path("contactId") contactId: Int,
-        @Header("Authorization") accessToken: String
+        @Path("contactId") contactId: Int
     ): Response<UserContactsResponse>
 }

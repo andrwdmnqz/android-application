@@ -70,7 +70,6 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
                     val userId = sessionManager.getId()
                     val accessToken = sessionManager.getAccessToken()
                     viewModel.editUserNameAndPhone(userId,
-                        accessToken,
                         userNameText.toString(), phoneNumber.toString())
                 }
             }

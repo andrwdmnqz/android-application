@@ -240,7 +240,7 @@ class RegisterFragment :
             val userId = settingPreference.getUserId().firstOrNull()
 
             if (!accessToken.isNullOrBlank() && !refreshToken.isNullOrBlank() && userId != null) {
-                viewModel.getUser(userId, accessToken)
+                viewModel.getUser(userId)
             }
         }
     }

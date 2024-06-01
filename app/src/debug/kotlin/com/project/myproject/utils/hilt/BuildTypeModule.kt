@@ -12,7 +12,8 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class BuildTypeModule {
+object DebugBuildTypeModule {
+
     @Provides
     @Singleton
     fun provideOkHttpClient(

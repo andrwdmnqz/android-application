@@ -64,8 +64,7 @@ class ContactsProfileFragment :
         binding.btnAddToMyContacts.setOnClickListener {
             viewModel.addContact(
                 sessionManager.getId(),
-                ContactsProfileFragmentArgs.fromBundle(requireArguments()).user.id,
-                sessionManager.getAccessToken()
+                ContactsProfileFragmentArgs.fromBundle(requireArguments()).user.id
             )
         }
     }

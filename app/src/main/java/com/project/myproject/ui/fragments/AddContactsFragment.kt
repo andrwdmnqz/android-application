@@ -51,7 +51,7 @@ class AddContactsFragment :
     }
 
     private fun setupRecyclerView() {
-        viewModel.fetchUsers(sessionManager.getAccessToken())
+        viewModel.fetchUsers()
 
         val usersRV = binding.rvUsers
         val itemMarginSize = resources.getDimensionPixelSize(R.dimen.contacts_item_margin)
@@ -166,7 +166,7 @@ class AddContactsFragment :
 
     override fun onAddItemClicked(user: User, position: Int) {
         if (user.id !in viewModel.contactsId.value) {
-            viewModel.addContact(sessionManager.getId(), user.id, sessionManager.getAccessToken())
+            viewModel.addContact(sessionManager.getId(), user.id)
         }
     }
 

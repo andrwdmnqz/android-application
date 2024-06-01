@@ -1,5 +1,5 @@
 package com.project.myproject.data.models
 
-data class UserData (
+class UserData (
     val user: User
 )
