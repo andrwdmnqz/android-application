@@ -265,7 +265,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
             val selectedItems = adapter.getSelectedItems().sortedDescending()
             val userId = sessionManager.getId()
-            val accessToken = sessionManager.getAccessToken()
             selectedItems.forEach {
                 viewModel.deleteContact(userId, viewModel.contacts.value[it].id)
             }

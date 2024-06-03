@@ -2,7 +2,7 @@ package com.project.myproject.data.responses
 
 import com.project.myproject.data.models.UserWithTokensData
 
-data class AuthorizationResponse(
+class AuthorizationResponse(
     val status: String,
     val code: Int,
     val message: String,

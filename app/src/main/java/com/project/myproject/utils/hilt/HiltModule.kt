@@ -49,16 +49,12 @@ object HiltModule {
         .client(okHttpClient)
         .build()
 
-
     @Provides
     @Singleton
     fun provideAuthInterceptor(
-        mainRepositoryProvider: Provider<MainRepository>,
         sessionManager: SessionManager,
-        tokenCallbacks: TokenCallbacks,
-        settingPreference: SettingPreference
     ): AuthInterceptor =
-        AuthInterceptor(mainRepositoryProvider, sessionManager, tokenCallbacks, settingPreference)
+        AuthInterceptor(sessionManager)
 
     @Provides
     @Singleton
@@ -107,5 +103,9 @@ object HiltModule {
 
     @Provides
     @Singleton
-    fun provideSessionManager(): SessionManager = SessionManager()
+    fun provideSessionManager(
+        settingPreference: SettingPreference,
+        mainRepositoryProvider: Provider<MainRepository>,
+        tokenCallbacks: TokenCallbacks
+    ): SessionManager = SessionManager(settingPreference, mainRepositoryProvider, tokenCallbacks)
 }

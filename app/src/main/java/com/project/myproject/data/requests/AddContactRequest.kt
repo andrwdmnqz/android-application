@@ -1,5 +1,4 @@
 package com.project.myproject.data.requests
-
-data class AddContactRequest (
+ class AddContactRequest (
     val contactId: Int
 )

@@ -27,15 +27,6 @@ class ContactAdapter(
 
     private val shiftAmount = context.resources.getDimensionPixelSize(R.dimen.multiselect_view_shift_right).toFloat()
 
-    inner class ViewHolder(private val binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val contactNameView = binding.tvContactName
-        val contactCareerView = binding.tvContactCareer
-        val contactImageView = binding.ivContactPhoto
-        val contactDeleteIcon = binding.ivContactDeleteIcon
-        val contactSelectedIcon = binding.icUserSelected
-        val contactUnselectedIcon = binding.icUserUnselected
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ContactItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
@@ -174,11 +165,20 @@ class ContactAdapter(
         notifyItemRangeChanged(0, itemCount)
     }
 
+    fun getSelectedItems() = itemSelectedList
+
     interface OnContactItemClickListener {
         fun onContactItemClicked(contact: Contact)
 
         fun onDeleteItemClicked(contact: Contact)
     }
 
-    fun getSelectedItems() = itemSelectedList
+    inner class ViewHolder(private val binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val contactNameView = binding.tvContactName
+        val contactCareerView = binding.tvContactCareer
+        val contactImageView = binding.ivContactPhoto
+        val contactDeleteIcon = binding.ivContactDeleteIcon
+        val contactSelectedIcon = binding.icUserSelected
+        val contactUnselectedIcon = binding.icUserUnselected
+    }
 }

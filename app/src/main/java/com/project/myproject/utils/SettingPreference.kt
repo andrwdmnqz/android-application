@@ -12,13 +12,6 @@ import kotlinx.coroutines.flow.map
 
 class SettingPreference(private val context: Context) {
 
-    companion object {
-        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Constants.DATA_STORE_NAME)
-        private val ACCESS_TOKEN_KEY = stringPreferencesKey(Constants.ACCESS_TOKEN_KEY)
-        private val REFRESH_TOKEN_KEY = stringPreferencesKey(Constants.REFRESH_TOKEN_KEY)
-        private val USER_ID_KEY = intPreferencesKey(Constants.USER_ID_KEY)
-    }
-
     fun getAccessToken(): Flow<String> {
         return context.dataStore.data.map { it[ACCESS_TOKEN_KEY] ?: ""}
     }
@@ -45,5 +38,17 @@ class SettingPreference(private val context: Context) {
 
     suspend fun clearData() {
         context.dataStore.edit { it.clear() }
+    }
+
+    companion object {
+        private const val ACCESS_TOKEN_KEY_NAME = "accessToken"
+        private const val REFRESH_TOKEN_KEY_NAME = "refreshToken"
+        private const val USER_ID_KEY_NAME = "userId"
+        private const val DATA_STORE_NAME = "MyPreferences"
+
+        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATA_STORE_NAME)
+        private val ACCESS_TOKEN_KEY = stringPreferencesKey(ACCESS_TOKEN_KEY_NAME)
+        private val REFRESH_TOKEN_KEY = stringPreferencesKey(REFRESH_TOKEN_KEY_NAME)
+        private val USER_ID_KEY = intPreferencesKey(USER_ID_KEY_NAME)
     }
 }

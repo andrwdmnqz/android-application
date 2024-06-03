@@ -21,8 +21,8 @@ class ViewPagerFragment : BaseFragment<FragmentViewPagerBinding>(FragmentViewPag
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
-                Constants.FIRST_TAB_NUMBER -> Constants.FIRST_TAB_TEXT
-                Constants.SECOND_TAB_NUMBER -> Constants.SECOND_TAB_TEXT
+                Constants.FIRST_TAB_NUMBER -> FIRST_TAB_TEXT
+                Constants.SECOND_TAB_NUMBER -> SECOND_TAB_TEXT
                 else -> throw IllegalStateException()
             }
         }.attach()
@@ -39,5 +39,10 @@ class ViewPagerFragment : BaseFragment<FragmentViewPagerBinding>(FragmentViewPag
 
     override fun setListeners() {
         // Not used
+    }
+
+    companion object {
+        private const val FIRST_TAB_TEXT = "My profile"
+        private const val SECOND_TAB_TEXT = "Contacts"
     }
 }

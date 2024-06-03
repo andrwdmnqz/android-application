@@ -231,7 +231,7 @@ class RegisterFragment :
 
         Handler().postDelayed({
             fadeAllViewsExceptBackground()
-        }, Constants.FADE_DELAY)
+        }, FADE_DELAY)
 
         lifecycleScope.launch {
 
@@ -296,5 +296,9 @@ class RegisterFragment :
             settingPreference.clearData()
         }
         findNavController().navigate(R.id.loginFragment)
+    }
+
+    companion object {
+        private const val FADE_DELAY = 1000L
     }
 }

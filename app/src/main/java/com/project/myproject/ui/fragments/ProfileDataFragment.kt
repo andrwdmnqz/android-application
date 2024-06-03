@@ -68,7 +68,6 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
                 && !userNameText.isNullOrBlank() && !phoneNumber.isNullOrBlank()) {
                 lifecycleScope.launch {
                     val userId = sessionManager.getId()
-                    val accessToken = sessionManager.getAccessToken()
                     viewModel.editUserNameAndPhone(userId,
                         userNameText.toString(), phoneNumber.toString())
                 }
@@ -109,14 +108,14 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
             }
 
             override fun afterTextChanged(s: Editable?) {
-                val nameAllowedSymbolsRegex = Regex(Constants.NAME_REGEX)
+                val nameAllowedSymbolsRegex = Regex(NAME_REGEX)
                 val name = s.toString()
                 when {
-                    name.isNotEmpty() && name.length < Constants.MINIMUM_NAME_LENGTH -> {
+                    name.isNotEmpty() && name.length < MINIMUM_NAME_LENGTH -> {
                         dataNameLayout.error = getString(R.string.error_name_min_length)
                     }
 
-                    name.isNotEmpty() && name.length > Constants.MAXIMUM_NAME_LENGTH -> {
+                    name.isNotEmpty() && name.length > MAXIMUM_NAME_LENGTH -> {
                         dataNameLayout.error = getString(R.string.error_name_max_length)
                     }
 
@@ -143,14 +142,14 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
             }
 
             override fun afterTextChanged(s: Editable?) {
-                val phone = s.toString().replace("[^\\d]".toRegex(), "")
+                val phone = s.toString().replace("\\D".toRegex(), "")
 
                 when {
-                    phone.isNotEmpty() && !Regex(Constants.MINIMUM_PHONE_LENGTH_REGEX).matches(phone) -> {
+                    phone.isNotEmpty() && !Regex(MINIMUM_PHONE_LENGTH_REGEX).matches(phone) -> {
                         dataPhoneLayout.error = getString(R.string.error_phone_min_length)
                     }
 
-                    phone.isNotEmpty() && !Regex(Constants.MAXIMUM_PHONE_LENGTH_REGEX).matches(phone) -> {
+                    phone.isNotEmpty() && !Regex(MAXIMUM_PHONE_LENGTH_REGEX).matches(phone) -> {
                         dataPhoneLayout.error = getString(R.string.error_phone_max_length)
                     }
 
@@ -183,5 +182,13 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
         dataPhoneEditText.setText(formattedPhoneNumber.toString())
         dataPhoneEditText.setSelection(formattedPhoneNumber.length)
         dataPhoneEditText.addTextChangedListener(this)
+    }
+
+    companion object {
+        const val MINIMUM_NAME_LENGTH = 3
+        const val MAXIMUM_NAME_LENGTH = 32
+        const val MINIMUM_PHONE_LENGTH_REGEX = "^\\d{10,}\$"
+        const val MAXIMUM_PHONE_LENGTH_REGEX = "^\\d{1,15}\$"
+        const val NAME_REGEX = "^[\\p{L}\\p{M}'\\- .]*\$"
     }
 }
