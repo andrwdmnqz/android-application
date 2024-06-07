@@ -4,6 +4,7 @@ interface RegistrationCallbacks {
     fun onSuccess(accessToken: String, refreshToken: String, userId: Int)
     fun onEmailTakenError()
     fun onUserIsRemembered()
+    fun onUserIsNotRemembered()
 }
 
 interface LoginCallbacks {

@@ -1,20 +1,17 @@
 package com.project.myproject.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Patterns
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.project.myproject.utils.Constants
 import com.project.myproject.R
 import com.project.myproject.utils.SettingPreference
 import com.project.myproject.databinding.FragmentLoginBinding
+import com.project.myproject.ui.fragments.watchers.EmailTextWatcher
+import com.project.myproject.ui.fragments.watchers.PasswordTextWatcher
 import com.project.myproject.ui.viewmodels.UserViewModel
 import com.project.myproject.utils.SessionManager
 import com.project.myproject.utils.callbacks.LoginCallbacks
@@ -64,10 +61,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         initializeSignUpViewListener()
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
-
     private fun initializeSignUpViewListener() {
         val signUpView = binding.tvSignUpLabel
 
@@ -100,66 +93,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun setupPasswordValidation() {
-        loginPasswordEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not used
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Not used
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                val passwordAllowedSymbolsRegex = Regex(Constants.PASSWORD_REGEX)
-                val password = s.toString()
-                when {
-                    password.isNotEmpty() && password.length < Constants.MINIMUM_PASSWORD_LENGTH -> {
-                        loginPasswordLayout.error = getString(R.string.error_password_min_length)
-                    }
-
-                    password.isNotEmpty() && password.length > Constants.MAXIMUM_PASSWORD_LENGTH -> {
-                        loginPasswordLayout.error = getString(R.string.error_password_max_length)
-                    }
-
-                    password.isNotEmpty() && !passwordAllowedSymbolsRegex.matches(password) -> {
-                        loginPasswordLayout.error = getString(R.string.error_password_symbols)
-                    }
-
-                    else -> {
-                        loginPasswordLayout.error = null
-                    }
-                }
-            }
-        })
+        loginPasswordEditText.addTextChangedListener(PasswordTextWatcher(loginPasswordLayout, requireContext()))
     }
 
     private fun setupEmailValidation() {
-        loginEmailEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not used
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Not used
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                val email = s.toString()
-
-                if (email.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    loginEmailLayout.error = getString(R.string.error_invalid_email)
-                } else {
-                    loginEmailLayout.error = null
-                }
-            }
-        })
+        loginEmailEditText.addTextChangedListener(EmailTextWatcher(loginEmailLayout, requireContext()))
     }
 
     override fun onSuccess(accessToken: String, refreshToken: String, userId: Int) {
         val rememberMeCheckbox = binding.chbRememberMeLogin
 
         if (rememberMeCheckbox.isChecked) {
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
 
                 settingPreference.saveAccessToken(accessToken)
                 settingPreference.saveRefreshToken(refreshToken)
@@ -167,10 +112,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             }
         }
 
-        sessionManager.setId(userId)
-        sessionManager.setAccessToken(accessToken)
-        sessionManager.setRefreshToken(refreshToken)
-        sessionManager.setUserRememberState(rememberMeCheckbox.isChecked)
+        sessionManager.setupData(userId, accessToken, refreshToken, rememberMeCheckbox.isChecked)
 
         findNavController().navigate(R.id.action_loginFragment_to_viewPagerFragment)
     }

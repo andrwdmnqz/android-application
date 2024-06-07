@@ -1,6 +1,6 @@
 package com.project.myproject.data.network.interceptors
 
-import com.project.myproject.utils.Constants
+import android.util.Log
 import com.project.myproject.utils.SessionManager
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -15,7 +15,7 @@ class AuthInterceptor @Inject constructor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
 
-        val isTokenRefreshRequest = originalRequest.url.encodedPath.endsWith("/refresh")
+        val isTokenRefreshRequest = originalRequest.url.encodedPath.endsWith(REFRESH_TOKEN_PATH)
 
         val headersRequestBuilder = newRequestBuilder(originalRequest, isTokenRefreshRequest,
                                                     sessionManager.getAccessToken())
@@ -45,18 +45,22 @@ class AuthInterceptor @Inject constructor(
         val retryRequest = originalRequest.newBuilder()
 
         if (isTokenRefreshRequest) {
-            retryRequest.addHeader("RefreshToken", sessionManager.getRefreshToken())
+            retryRequest.addHeader(REFRESH_TOKEN, sessionManager.getRefreshToken())
         } else {
-            retryRequest.addHeader("Authorization", BEARER_TOKEN_START + accessToken)
+            retryRequest.addHeader(AUTHORIZATION, BEARER_TOKEN_START + accessToken)
         }
 
         if (originalRequest.body != null) {
-            retryRequest.addHeader("Content-type", APPLICATION_JSON_TYPE)
+            retryRequest.addHeader(CONTENT_TYPE, APPLICATION_JSON_TYPE)
         }
         return retryRequest
     }
 
     companion object {
+        private const val REFRESH_TOKEN_PATH = "/refresh"
+        private const val REFRESH_TOKEN = "RefreshToken"
+        private const val AUTHORIZATION = "Authorization"
+        private const val CONTENT_TYPE = "Content-type"
         private const val BEARER_TOKEN_START = "Bearer "
         private const val APPLICATION_JSON_TYPE = "application/json"
         private const val UNAUTHORIZED_CODE = 401

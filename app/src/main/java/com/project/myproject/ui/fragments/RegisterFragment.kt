@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.project.myproject.R
 import com.project.myproject.databinding.FragmentRegisterBinding
+import com.project.myproject.ui.fragments.watchers.EmailTextWatcher
+import com.project.myproject.ui.fragments.watchers.PasswordTextWatcher
 import com.project.myproject.ui.viewmodels.UserViewModel
 import com.project.myproject.utils.Constants
 import com.project.myproject.utils.SessionManager
@@ -104,6 +107,8 @@ class RegisterFragment :
         setListeners()
         setObservers()
 
+        hideAllViewsExceptBackground()
+
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -115,59 +120,11 @@ class RegisterFragment :
     }
 
     private fun setupPasswordValidation() {
-        regPasswordEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not used
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Not used
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                val passwordAllowedSymbolsRegex = Regex(Constants.PASSWORD_REGEX)
-                val password = s.toString()
-                when {
-                    password.isNotEmpty() && password.length < Constants.MINIMUM_PASSWORD_LENGTH -> {
-                        regPasswordLayout.error = getString(R.string.error_password_min_length)
-                    }
-
-                    password.isNotEmpty() && password.length > Constants.MAXIMUM_PASSWORD_LENGTH -> {
-                        regPasswordLayout.error = getString(R.string.error_password_max_length)
-                    }
-
-                    password.isNotEmpty() && !passwordAllowedSymbolsRegex.matches(password) -> {
-                        regPasswordLayout.error = getString(R.string.error_password_symbols)
-                    }
-
-                    else -> {
-                        regPasswordLayout.error = null
-                    }
-                }
-            }
-        })
+        regPasswordEditText.addTextChangedListener(PasswordTextWatcher(regPasswordLayout, requireContext()))
     }
 
     private fun setupEmailValidation() {
-        regEmailEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not used
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Not used
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                val email = s.toString()
-
-                if (email.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    regEmailLayout.error = getString(R.string.error_invalid_email)
-                } else {
-                    regEmailLayout.error = null
-                }
-            }
-        })
+        regEmailEditText.addTextChangedListener(EmailTextWatcher(regEmailLayout, requireContext()))
     }
 
     private fun initializeRegisterButtonListeners() {
@@ -205,7 +162,7 @@ class RegisterFragment :
     }
 
     private fun fadeAllViewsExceptBackground() {
-        try {
+        viewLifecycleOwner.lifecycleScope.launch {
             val mainLayout: ConstraintLayout = binding.clMain
 
             for (i in 0 until mainLayout.childCount) {
@@ -217,29 +174,30 @@ class RegisterFragment :
 
                 view.visibility = View.VISIBLE
 
-                val fadeInAnimation = AnimationUtils.loadAnimation(context, androidx.appcompat.R.anim.abc_fade_in)
+                val fadeInAnimation =
+                    AnimationUtils.loadAnimation(context, androidx.appcompat.R.anim.abc_fade_in)
                 view.startAnimation(fadeInAnimation)
             }
-        } catch (e: NullPointerException) {
-            // Ignore the exception
         }
     }
 
     override fun onStart() {
         super.onStart()
-        hideAllViewsExceptBackground()
 
         Handler().postDelayed({
-            fadeAllViewsExceptBackground()
+            if (view != null) {
+                fadeAllViewsExceptBackground()
+            }
         }, FADE_DELAY)
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
 
             val accessToken = settingPreference.getAccessToken().firstOrNull()
             val refreshToken = settingPreference.getRefreshToken().firstOrNull()
             val userId = settingPreference.getUserId().firstOrNull()
 
-            if (!accessToken.isNullOrBlank() && !refreshToken.isNullOrBlank() && userId != null) {
+            if (!accessToken.isNullOrBlank() && !refreshToken.isNullOrBlank() && userId != null && userId != -1) {
+                sessionManager.setupData(userId, accessToken, refreshToken, true)
                 viewModel.getUser(userId)
             }
         }
@@ -263,24 +221,21 @@ class RegisterFragment :
         val rememberMeCheckbox = binding.chbRememberMeRegister
 
         if (rememberMeCheckbox.isChecked) {
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 settingPreference.saveAccessToken(accessToken)
                 settingPreference.saveRefreshToken(refreshToken)
                 settingPreference.saveUserId(userId)
             }
         }
 
-        sessionManager.setId(userId)
-        sessionManager.setAccessToken(accessToken)
-        sessionManager.setRefreshToken(refreshToken)
-        sessionManager.setUserRememberState(rememberMeCheckbox.isChecked)
+        sessionManager.setupData(userId, accessToken, refreshToken, rememberMeCheckbox.isChecked)
 
         findNavController().navigate(R.id.action_registerFragment_to_profileDataFragment)
     }
 
     override fun onUserIsRemembered() {
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             sessionManager.setId(settingPreference.getUserId().first())
             sessionManager.setAccessToken(settingPreference.getAccessToken().first())
             sessionManager.setRefreshToken(settingPreference.getRefreshToken().first())
@@ -288,6 +243,10 @@ class RegisterFragment :
         }
 
         findNavController().navigate(R.id.viewPagerFragment)
+    }
+
+    override fun onUserIsNotRemembered() {
+        sessionManager.resetData()
     }
 
     override fun onTokensRefreshFailure() {
@@ -299,6 +258,6 @@ class RegisterFragment :
     }
 
     companion object {
-        private const val FADE_DELAY = 1000L
+        private const val FADE_DELAY = 1500L
     }
 }

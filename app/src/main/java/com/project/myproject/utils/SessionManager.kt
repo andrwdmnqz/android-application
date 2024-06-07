@@ -48,24 +48,29 @@ class SessionManager @Inject constructor(
         isUserRemembered = true
     }
 
+    fun setupData(id: Int, accessToken: String, refreshToken: String, isUserRememberState: Boolean) {
+        setId(id)
+        setAccessToken(accessToken)
+        setRefreshToken(refreshToken)
+        setUserRememberState(isUserRememberState)
+    }
+
     suspend fun refreshAccessToken(): String? {
         return try {
-            val response = withContext(Dispatchers.IO) {
+            val result = withContext(Dispatchers.IO) {
                 mainRepositoryProvider.get().refreshTokens()
             }
-            if (response.isSuccessful) {
+            if (result != null) {
 
-                val tokenResponse = response.body()
-
-                setAccessToken(tokenResponse?.data?.accessToken!!)
-                setRefreshToken(tokenResponse.data.refreshToken)
+                setAccessToken(result.data.accessToken)
+                setRefreshToken(result.data.refreshToken)
 
                 if (getUserRememberState()) {
-                    settingPreference.saveAccessToken(tokenResponse.data.accessToken)
-                    settingPreference.saveRefreshToken(tokenResponse.data.refreshToken)
+                    settingPreference.saveAccessToken(result.data.accessToken)
+                    settingPreference.saveRefreshToken(result.data.refreshToken)
                 }
 
-                tokenResponse.data.accessToken
+                result.data.accessToken
             } else {
                 tokenCallbacks.onTokensRefreshFailure()
                 null

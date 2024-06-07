@@ -12,6 +12,8 @@ import com.google.android.material.textfield.TextInputLayout
 import com.project.myproject.R
 import com.project.myproject.utils.SettingPreference
 import com.project.myproject.databinding.FragmentProfileDataBinding
+import com.project.myproject.ui.fragments.watchers.NameTextWatcher
+import com.project.myproject.ui.fragments.watchers.PhoneTextWatcher
 import com.project.myproject.ui.viewmodels.UserViewModel
 import com.project.myproject.utils.Constants
 import com.project.myproject.utils.SessionManager
@@ -21,11 +23,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentProfileDataBinding::inflate),
+class ProfileDataFragment :
+    BaseFragment<FragmentProfileDataBinding>(FragmentProfileDataBinding::inflate),
     EditCallbacks {
 
     @Inject
     lateinit var settingPreference: SettingPreference
+
     @Inject
     lateinit var sessionManager: SessionManager
 
@@ -65,11 +69,14 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
             val phoneNumber = dataPhoneEditText.text
 
             if (dataNameLayout.error == null && dataPhoneLayout.error == null
-                && !userNameText.isNullOrBlank() && !phoneNumber.isNullOrBlank()) {
+                && !userNameText.isNullOrBlank() && !phoneNumber.isNullOrBlank()
+            ) {
                 lifecycleScope.launch {
                     val userId = sessionManager.getId()
-                    viewModel.editUserNameAndPhone(userId,
-                        userNameText.toString(), phoneNumber.toString())
+                    viewModel.editUserNameAndPhone(
+                        userId,
+                        userNameText.toString(), phoneNumber.toString()
+                    )
                 }
             }
 
@@ -98,97 +105,16 @@ class ProfileDataFragment : BaseFragment<FragmentProfileDataBinding>(FragmentPro
     }
 
     private fun setupNameValidation() {
-        dataNameEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not used
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Not used
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                val nameAllowedSymbolsRegex = Regex(NAME_REGEX)
-                val name = s.toString()
-                when {
-                    name.isNotEmpty() && name.length < MINIMUM_NAME_LENGTH -> {
-                        dataNameLayout.error = getString(R.string.error_name_min_length)
-                    }
-
-                    name.isNotEmpty() && name.length > MAXIMUM_NAME_LENGTH -> {
-                        dataNameLayout.error = getString(R.string.error_name_max_length)
-                    }
-
-                    name.isNotEmpty() && !nameAllowedSymbolsRegex.matches(name) -> {
-                        dataNameLayout.error = getString(R.string.error_name_symbols)
-                    }
-
-                    else -> {
-                        dataNameLayout.error = null
-                    }
-                }
-            }
-        })
+        dataNameEditText.addTextChangedListener(NameTextWatcher(dataNameLayout, requireContext()))
     }
 
     private fun setupPhoneValidation() {
-        dataPhoneEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not used
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Not used
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                val phone = s.toString().replace("\\D".toRegex(), "")
-
-                when {
-                    phone.isNotEmpty() && !Regex(MINIMUM_PHONE_LENGTH_REGEX).matches(phone) -> {
-                        dataPhoneLayout.error = getString(R.string.error_phone_min_length)
-                    }
-
-                    phone.isNotEmpty() && !Regex(MAXIMUM_PHONE_LENGTH_REGEX).matches(phone) -> {
-                        dataPhoneLayout.error = getString(R.string.error_phone_max_length)
-                    }
-
-                    else -> {
-                        dataPhoneLayout.error = null
-                    }
-                }
-
-                formatPhoneNumber(phone)
-            }
-        })
-    }
-
-    private fun TextWatcher.formatPhoneNumber(phone: String) {
-        val formattedPhoneNumber = StringBuilder()
-
-        for (i in phone.indices) {
-            when (i) {
-                0 -> formattedPhoneNumber.append("(")
-                3 -> formattedPhoneNumber.append(") - ")
-                6 -> formattedPhoneNumber.append(" - ")
-                10 -> formattedPhoneNumber.append(" - ")
-                else -> {
-                }
-            }
-            formattedPhoneNumber.append(phone[i])
-        }
-
-        dataPhoneEditText.removeTextChangedListener(this)
-        dataPhoneEditText.setText(formattedPhoneNumber.toString())
-        dataPhoneEditText.setSelection(formattedPhoneNumber.length)
-        dataPhoneEditText.addTextChangedListener(this)
-    }
-
-    companion object {
-        const val MINIMUM_NAME_LENGTH = 3
-        const val MAXIMUM_NAME_LENGTH = 32
-        const val MINIMUM_PHONE_LENGTH_REGEX = "^\\d{10,}\$"
-        const val MAXIMUM_PHONE_LENGTH_REGEX = "^\\d{1,15}\$"
-        const val NAME_REGEX = "^[\\p{L}\\p{M}'\\- .]*\$"
+        dataPhoneEditText.addTextChangedListener(
+            PhoneTextWatcher(
+                dataPhoneLayout,
+                dataPhoneEditText,
+                requireContext()
+            )
+        )
     }
 }

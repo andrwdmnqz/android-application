@@ -9,8 +9,9 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class SettingPreference(private val context: Context) {
+class SettingPreference @Inject constructor (private val context: Context) {
 
     fun getAccessToken(): Flow<String> {
         return context.dataStore.data.map { it[ACCESS_TOKEN_KEY] ?: ""}

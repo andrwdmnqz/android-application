@@ -60,7 +60,6 @@ object HiltModule {
     @Singleton
     fun provideResponseFixInterceptor(): ResponseFixInterceptor = ResponseFixInterceptor()
 
-
     @Provides
     @Singleton
     fun provideRetrofitService(retrofit: Retrofit): RetrofitService = retrofit.create(

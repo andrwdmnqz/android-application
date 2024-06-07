@@ -1,5 +1,6 @@
 package com.project.myproject.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.project.myproject.data.models.Contact
 import com.project.myproject.utils.Constants
@@ -59,11 +60,11 @@ class UserViewModel @Inject constructor(
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val response = mainRepository.createUser(CreateRequest(email, password))
+            val result = mainRepository.createUser(CreateRequest(email, password))
 
             withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    val responseBodyData = response.body()!!.data
+                if (result != null) {
+                    val responseBodyData = result.data
 
                     currentUser = responseBodyData.user
                     registrationCallbacks?.onSuccess(responseBodyData.accessToken, responseBodyData.refreshToken, currentUser!!.id)
@@ -78,11 +79,11 @@ class UserViewModel @Inject constructor(
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val response = mainRepository.loginUser(LoginRequest(email, password))
+            val result = mainRepository.loginUser(LoginRequest(email, password))
 
             withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    val responseBodyData = response.body()!!.data
+                if (result != null) {
+                    val responseBodyData = result.data
 
                     currentUser = responseBodyData.user
                     loginCallbacks?.onSuccess(
@@ -101,13 +102,13 @@ class UserViewModel @Inject constructor(
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val response = mainRepository.editUser(userId,
+            val result = mainRepository.editUser(userId,
                 EditUserRequest(userName, phoneNumber)
             )
 
             withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    currentUser = response.body()?.data?.user
+                if (result != null) {
+                    currentUser = result.data.user
                     editCallbacks?.onUserEdited()
                 }
             }
@@ -118,11 +119,12 @@ class UserViewModel @Inject constructor(
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val response = mainRepository.getUser(userId)
+            val result = mainRepository.getUser(userId)
 
             withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    currentUser = response.body()?.data?.user
+                if (result != null) {
+                    currentUser = result.data.user
+                    Log.d("DEBUG", "User - $currentUser")
                     registrationCallbacks?.onUserIsRemembered()
                 }
             }
@@ -134,13 +136,13 @@ class UserViewModel @Inject constructor(
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             _loading.value = true
 
-            val response = mainRepository.getUserContacts(userId)
+            val result = mainRepository.getUserContacts(userId)
 
             withContext(Dispatchers.Main) {
                 _loading.value = false
-                if (response.isSuccessful) {
-                    _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
-                    _contactsId.value = response.body()!!.data.contacts.map { it.id }
+                if (result != null) {
+                    _contacts.value = convertUsersToContacts(result.data.contacts)
+                    _contactsId.value = result.data.contacts.map { it.id }
                 }
             }
         }
@@ -151,12 +153,12 @@ class UserViewModel @Inject constructor(
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             _loading.value = true
 
-            val response = mainRepository.getAllUsers()
+            val result = mainRepository.getAllUsers()
 
             withContext(Dispatchers.Main) {
                 _loading.value = false
-                if (response.isSuccessful) {
-                    _users.value = response.body()?.data?.users!!
+                if (result != null) {
+                    _users.value = result.data.users
                 }
             }
         }
@@ -166,12 +168,12 @@ class UserViewModel @Inject constructor(
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val response = mainRepository.deleteUserContact(userId, contactId)
+            val result = mainRepository.deleteUserContact(userId, contactId)
 
             withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
-                    _contactsId.value = response.body()!!.data.contacts.map { it.id }
+                if (result != null) {
+                    _contacts.value = convertUsersToContacts(result.data.contacts)
+                    _contactsId.value = result.data.contacts.map { it.id }
                 }
             }
         }
@@ -182,13 +184,13 @@ class UserViewModel @Inject constructor(
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             _loading.value = true
 
-            val response = mainRepository.addContact(userId, AddContactRequest(contactId))
+            val result = mainRepository.addContact(userId, AddContactRequest(contactId))
 
             withContext(Dispatchers.Main) {
                 _loading.value = false
-                if (response.isSuccessful) {
-                    _contacts.value = convertUsersToContacts(response.body()?.data?.contacts!!)
-                    _contactsId.value = response.body()!!.data.contacts.map { it.id }
+                if (result != null) {
+                    _contacts.value = convertUsersToContacts(result.data.contacts)
+                    _contactsId.value = result.data.contacts.map { it.id }
                     addContactCallbacks?.onContactAdded()
                 }
             }

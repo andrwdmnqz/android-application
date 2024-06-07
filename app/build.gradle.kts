@@ -62,14 +62,15 @@ val dataStoreVersion = "1.1.1"
 val constraintLayoutVersion = "2.1.4"
 val coreKtxVersion = "1.13.1"
 val glideVersion = "4.14.2"
-val viewModelVersion = "2.8.0"
+val viewModelVersion = "2.8.1"
 val activityVersion = "1.9.0"
 val navVersion = "2.7.7"
 val fragmentVersion = "1.7.1"
 val retrofitVersion = "2.11.0"
 val okHttpVersion = "4.12.0"
 val hiltVersion = "2.49"
-val appCompatVersion = "1.6.1"
+val appCompatVersion = "1.7.0"
+val gsonVersion = "2.11.0"
 
 dependencies {
     implementation(platform("androidx.compose:compose-bom:2024.05.00"))
@@ -78,6 +79,7 @@ dependencies {
     implementation("androidx.compose.foundation:foundation-layout")
     implementation("androidx.compose.material3:material3")
 
+    implementation("com.google.code.gson:gson:$gsonVersion")
     implementation("androidx.appcompat:appcompat:$appCompatVersion")
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
@@ -94,7 +96,7 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:$dataStoreVersion")
     implementation("androidx.core:core-ktx:$coreKtxVersion")
     implementation("androidx.constraintlayout:constraintlayout:$constraintLayoutVersion")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:$materialVersion")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
