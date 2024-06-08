@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.project.myproject.R
+import com.project.myproject.data.mappers.UserToContactMapper
 import com.project.myproject.data.models.Contact
 import com.project.myproject.data.models.User
 import com.project.myproject.databinding.FragmentAddContactsBinding
@@ -142,23 +143,7 @@ class AddContactsFragment :
         } else {
             findNavController().navigate(
                 AddContactsFragmentDirections.actionAddContactsFragmentToDetailViewFragment(
-                    Contact(
-                        user.id,
-                        user.name,
-                        user.email,
-                        user.phone,
-                        user.career,
-                        user.address,
-                        user.birthday,
-                        user.facebook,
-                        user.instagram,
-                        user.twitter,
-                        user.linkedin,
-                        user.image,
-                        user.createdAt,
-                        user.updatedAt,
-                        false
-                    )
+                    UserToContactMapper.map(user)
                 )
             )
         }

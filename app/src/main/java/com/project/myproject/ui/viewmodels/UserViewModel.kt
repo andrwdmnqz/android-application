@@ -2,6 +2,8 @@ package com.project.myproject.ui.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.project.myproject.data.mappers.UserToContactMapper
 import com.project.myproject.data.models.Contact
 import com.project.myproject.data.models.User
 import com.project.myproject.data.requests.CreateRequest
@@ -18,9 +20,7 @@ import com.project.myproject.utils.callbacks.RegistrationCallbacks
 import com.project.myproject.utils.callbacks.TokenCallbacks
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -50,7 +50,6 @@ class UserViewModel @Inject constructor(
     private val _users = MutableStateFlow<List<User>>(emptyList())
     val users = _users.asStateFlow()
 
-    private var job: Job? = null
     private val errorMessage = MutableStateFlow("")
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
@@ -63,7 +62,7 @@ class UserViewModel @Inject constructor(
 
     fun registerUser(email: String, password: String, isUserRemembered: Boolean) {
 
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
             val result = mainRepository.createUser(CreateRequest(email, password))
 
@@ -92,7 +91,7 @@ class UserViewModel @Inject constructor(
 
     fun loginUser(email: String, password: String, isUserRemembered: Boolean) {
 
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
             val result = mainRepository.loginUser(LoginRequest(email, password))
 
@@ -122,7 +121,7 @@ class UserViewModel @Inject constructor(
 
     fun editUserNameAndPhone(userId: Int, userName: String, phoneNumber: String) {
 
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
             val result = mainRepository.editUser(userId,
                 EditUserRequest(userName, phoneNumber)
@@ -139,7 +138,7 @@ class UserViewModel @Inject constructor(
 
     fun getUser() {
 
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
             val accessToken = settingPreference.getAccessToken().firstOrNull()
             val refreshToken = settingPreference.getRefreshToken().firstOrNull()
@@ -159,7 +158,6 @@ class UserViewModel @Inject constructor(
                     if (result != null) {
                         currentUser = result.data.user
 
-                        Log.d("DEBUG", "User - $currentUser")
                         registrationCallbacks?.onUserIsRemembered()
                     }
                 }
@@ -169,7 +167,7 @@ class UserViewModel @Inject constructor(
 
     fun fetchContacts(userId: Int) {
 
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _loading.value = true
 
             val result = mainRepository.getUserContacts(userId)
@@ -177,7 +175,7 @@ class UserViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 _loading.value = false
                 if (result != null) {
-                    _contacts.value = convertUsersToContacts(result.data.contacts)
+                    _contacts.value = UserToContactMapper.map(result.data.contacts)
                     _contactsId.value = result.data.contacts.map { it.id }
                 }
             }
@@ -186,7 +184,7 @@ class UserViewModel @Inject constructor(
 
     fun fetchUsers() {
 
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _loading.value = true
 
             val result = mainRepository.getAllUsers()
@@ -202,13 +200,13 @@ class UserViewModel @Inject constructor(
 
     fun deleteContact(userId: Int, contactId: Int) {
 
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
             val result = mainRepository.deleteUserContact(userId, contactId)
 
             withContext(Dispatchers.Main) {
                 if (result != null) {
-                    _contacts.value = convertUsersToContacts(result.data.contacts)
+                    _contacts.value = UserToContactMapper.map(result.data.contacts)
                     _contactsId.value = result.data.contacts.map { it.id }
                 }
             }
@@ -217,7 +215,7 @@ class UserViewModel @Inject constructor(
 
     fun addContact(userId: Int, contactId: Int) {
 
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _loading.value = true
 
             val result = mainRepository.addContact(userId, AddContactRequest(contactId))
@@ -225,7 +223,7 @@ class UserViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 _loading.value = false
                 if (result != null) {
-                    _contacts.value = convertUsersToContacts(result.data.contacts)
+                    _contacts.value = UserToContactMapper.map(result.data.contacts)
                     _contactsId.value = result.data.contacts.map { it.id }
                     addContactCallbacks?.onContactAdded()
                 }
@@ -233,36 +231,9 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    private fun convertUsersToContacts(users: List<User>): List<Contact> {
-        return users.map { user ->
-            Contact(
-                id = user.id,
-                name = user.name,
-                email = user.email,
-                phone = user.phone,
-                career = user.career,
-                address = user.address,
-                birthday = user.birthday,
-                facebook = user.facebook,
-                instagram = user.instagram,
-                twitter = user.twitter,
-                linkedin = user.linkedin,
-                image = user.image,
-                createdAt = user.createdAt,
-                updatedAt = user.updatedAt,
-                isSelected = false
-            )
-        }
-    }
-
     private fun onError(message: String) {
         errorMessage.value = message
         _loading.value = false
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        job?.cancel()
     }
 
     fun getCurrentUser() = currentUser
