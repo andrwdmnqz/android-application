@@ -137,7 +137,7 @@ class RegisterFragment :
             if (regEmailLayout.error == null && regPasswordLayout.error == null
                 && !email.isNullOrBlank() && !password.isNullOrBlank()) {
 
-                viewModel.registerUser(email.toString(), password.toString())
+                viewModel.registerUser(email.toString(), password.toString(), binding.chbRememberMeRegister.isChecked)
             }
 
             if (email.isNullOrBlank()) {
@@ -191,15 +191,7 @@ class RegisterFragment :
         }, FADE_DELAY)
 
         viewLifecycleOwner.lifecycleScope.launch {
-
-            val accessToken = settingPreference.getAccessToken().firstOrNull()
-            val refreshToken = settingPreference.getRefreshToken().firstOrNull()
-            val userId = settingPreference.getUserId().firstOrNull()
-
-            if (!accessToken.isNullOrBlank() && !refreshToken.isNullOrBlank() && userId != null && userId != -1) {
-                sessionManager.setupData(userId, accessToken, refreshToken, true)
-                viewModel.getUser(userId)
-            }
+            viewModel.getUser()
         }
     }
 
@@ -218,30 +210,10 @@ class RegisterFragment :
     }
 
     override fun onSuccess(accessToken: String, refreshToken: String, userId: Int) {
-        val rememberMeCheckbox = binding.chbRememberMeRegister
-
-        if (rememberMeCheckbox.isChecked) {
-            viewLifecycleOwner.lifecycleScope.launch {
-                settingPreference.saveAccessToken(accessToken)
-                settingPreference.saveRefreshToken(refreshToken)
-                settingPreference.saveUserId(userId)
-            }
-        }
-
-        sessionManager.setupData(userId, accessToken, refreshToken, rememberMeCheckbox.isChecked)
-
         findNavController().navigate(R.id.action_registerFragment_to_profileDataFragment)
     }
 
     override fun onUserIsRemembered() {
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            sessionManager.setId(settingPreference.getUserId().first())
-            sessionManager.setAccessToken(settingPreference.getAccessToken().first())
-            sessionManager.setRefreshToken(settingPreference.getRefreshToken().first())
-            sessionManager.setUserRememberState(true)
-        }
-
         findNavController().navigate(R.id.viewPagerFragment)
     }
 

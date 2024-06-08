@@ -1,8 +1,10 @@
 package com.project.myproject.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.google.android.material.tabs.TabLayoutMediator
+import com.project.myproject.R
 import com.project.myproject.utils.Constants
 import com.project.myproject.ui.adapters.ViewPagerAdapter
 import com.project.myproject.databinding.FragmentViewPagerBinding
@@ -19,10 +21,12 @@ class ViewPagerFragment : BaseFragment<FragmentViewPagerBinding>(FragmentViewPag
 
         viewPager.adapter = adapter
 
+        initializeStrings(requireContext())
+
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
-                Constants.FIRST_TAB_NUMBER -> FIRST_TAB_TEXT
-                Constants.SECOND_TAB_NUMBER -> SECOND_TAB_TEXT
+                Constants.FIRST_TAB_NUMBER -> firstTabText
+                Constants.SECOND_TAB_NUMBER -> secondTabText
                 else -> throw IllegalStateException()
             }
         }.attach()
@@ -42,7 +46,12 @@ class ViewPagerFragment : BaseFragment<FragmentViewPagerBinding>(FragmentViewPag
     }
 
     companion object {
-        private const val FIRST_TAB_TEXT = "My profile"
-        private const val SECOND_TAB_TEXT = "Contacts"
+        private var firstTabText = "My profile"
+        private var secondTabText = "Contacts"
+
+        fun initializeStrings(context: Context) {
+            firstTabText = context.getString(R.string.first_tab_text)
+            secondTabText = context.getString(R.string.second_tab_text)
+        }
     }
 }

@@ -12,6 +12,9 @@
     <string name="facebook_logo_desc">facebook_logo</string>
     <string name="linkedin_logo_desc">linkedin_logo</string>
     <string name="instagram_logo_desc">instagram_logo</string>
+    <string name="first_tab_text">Мій профіль</string>
+    <string name="second_tab_text">Контакти</string>
+
     <string name="acquainted_text">Давайте познайомимося</string>
     <string name="fill_the_profile_text">Заповність профіль та переходьте до застосунку!</string>
     <string name="email_hint">Електронна пошта</string>

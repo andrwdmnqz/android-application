@@ -3,13 +3,14 @@ package com.project.myproject.ui.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.project.myproject.data.models.Contact
-import com.project.myproject.utils.Constants
 import com.project.myproject.data.models.User
 import com.project.myproject.data.requests.CreateRequest
 import com.project.myproject.data.requests.EditUserRequest
 import com.project.myproject.data.requests.LoginRequest
 import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.data.requests.AddContactRequest
+import com.project.myproject.utils.SessionManager
+import com.project.myproject.utils.SettingPreference
 import com.project.myproject.utils.callbacks.AddContactCallbacks
 import com.project.myproject.utils.callbacks.EditCallbacks
 import com.project.myproject.utils.callbacks.LoginCallbacks
@@ -22,6 +23,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -29,6 +32,8 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val mainRepository: MainRepository,
+    private val sessionManager: SessionManager,
+    private val settingPreference: SettingPreference,
     private var registrationCallbacks: RegistrationCallbacks? = null,
     private var loginCallbacks: LoginCallbacks? = null,
     private var overallCallbacks: TokenCallbacks? = null,
@@ -56,7 +61,7 @@ class UserViewModel @Inject constructor(
         onError("Exception handled: ${throwable.localizedMessage}")
     }
 
-    fun registerUser(email: String, password: String) {
+    fun registerUser(email: String, password: String, isUserRemembered: Boolean) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
@@ -66,7 +71,17 @@ class UserViewModel @Inject constructor(
                 if (result != null) {
                     val responseBodyData = result.data
 
+                    val id = responseBodyData.user.id
+                    val accessToken = responseBodyData.accessToken
+                    val refreshToken = responseBodyData.refreshToken
+
                     currentUser = responseBodyData.user
+
+                    if (isUserRemembered) {
+                        settingPreference.setupData(id, accessToken, refreshToken)
+                    }
+                    sessionManager.setupData(id, accessToken, refreshToken, isUserRemembered)
+
                     registrationCallbacks?.onSuccess(responseBodyData.accessToken, responseBodyData.refreshToken, currentUser!!.id)
                 } else {
                     registrationCallbacks?.onEmailTakenError()
@@ -75,7 +90,7 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun loginUser(email: String, password: String) {
+    fun loginUser(email: String, password: String, isUserRemembered: Boolean) {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
@@ -85,12 +100,19 @@ class UserViewModel @Inject constructor(
                 if (result != null) {
                     val responseBodyData = result.data
 
+                    val id = responseBodyData.user.id
+                    val accessToken = responseBodyData.accessToken
+                    val refreshToken = responseBodyData.refreshToken
+
                     currentUser = responseBodyData.user
-                    loginCallbacks?.onSuccess(
-                        responseBodyData.accessToken,
-                        responseBodyData.refreshToken,
-                        currentUser!!.id
-                    )
+
+                    if (isUserRemembered) {
+                        settingPreference.setupData(id, accessToken, refreshToken)
+                    }
+                    sessionManager.setupData(id, accessToken, refreshToken, isUserRemembered)
+
+                    currentUser = responseBodyData.user
+                    loginCallbacks?.onSuccess()
                 } else {
                     loginCallbacks?.onInvalidLoginData()
                 }
@@ -115,17 +137,31 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun getUser(userId: Int) {
+    fun getUser() {
 
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val result = mainRepository.getUser(userId)
+            val accessToken = settingPreference.getAccessToken().firstOrNull()
+            val refreshToken = settingPreference.getRefreshToken().firstOrNull()
+            val userId = settingPreference.getUserId().firstOrNull()
 
-            withContext(Dispatchers.Main) {
-                if (result != null) {
-                    currentUser = result.data.user
-                    Log.d("DEBUG", "User - $currentUser")
-                    registrationCallbacks?.onUserIsRemembered()
+            if (!accessToken.isNullOrBlank() && !refreshToken.isNullOrBlank() && userId != null && userId != -1) {
+                sessionManager.setupData(
+                    userId,
+                    settingPreference.getAccessToken().first(),
+                    settingPreference.getRefreshToken().first(),
+                    true
+                )
+
+                val result = mainRepository.getUser(userId)
+
+                withContext(Dispatchers.Main) {
+                    if (result != null) {
+                        currentUser = result.data.user
+
+                        Log.d("DEBUG", "User - $currentUser")
+                        registrationCallbacks?.onUserIsRemembered()
+                    }
                 }
             }
         }

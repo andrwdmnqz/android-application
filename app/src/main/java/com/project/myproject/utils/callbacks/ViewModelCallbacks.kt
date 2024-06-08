@@ -8,7 +8,7 @@ interface RegistrationCallbacks {
 }
 
 interface LoginCallbacks {
-    fun onSuccess(accessToken: String, refreshToken: String, userId: Int)
+    fun onSuccess()
     fun onInvalidLoginData()
 }
 

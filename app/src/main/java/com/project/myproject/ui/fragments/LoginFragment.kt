@@ -28,11 +28,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private lateinit var loginPasswordLayout: TextInputLayout
     private lateinit var loginPasswordEditText: TextInputEditText
 
-    @Inject
-    lateinit var settingPreference: SettingPreference
-    @Inject
-    lateinit var sessionManager: SessionManager
-
     private val viewModel by activityViewModels<UserViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -79,7 +74,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             if (loginEmailLayout.error == null && loginPasswordLayout.error == null
                 && !email.isNullOrBlank() && !password.isNullOrBlank()) {
 
-                viewModel.loginUser(email.toString(), password.toString())
+                viewModel.loginUser(email.toString(), password.toString(), binding.chbRememberMeLogin.isChecked)
             }
 
             if (email.isNullOrBlank()) {
@@ -100,20 +95,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         loginEmailEditText.addTextChangedListener(EmailTextWatcher(loginEmailLayout, requireContext()))
     }
 
-    override fun onSuccess(accessToken: String, refreshToken: String, userId: Int) {
-        val rememberMeCheckbox = binding.chbRememberMeLogin
-
-        if (rememberMeCheckbox.isChecked) {
-            viewLifecycleOwner.lifecycleScope.launch {
-
-                settingPreference.saveAccessToken(accessToken)
-                settingPreference.saveRefreshToken(refreshToken)
-                settingPreference.saveUserId(userId)
-            }
-        }
-
-        sessionManager.setupData(userId, accessToken, refreshToken, rememberMeCheckbox.isChecked)
-
+    override fun onSuccess() {
         findNavController().navigate(R.id.action_loginFragment_to_viewPagerFragment)
     }
 

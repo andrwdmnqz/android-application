@@ -12,6 +12,9 @@
     <string name="facebook_logo_desc">facebook_logo</string>
     <string name="linkedin_logo_desc">linkedin_logo</string>
     <string name="instagram_logo_desc">instagram_logo</string>
+    <string name="first_tab_text">My profile</string>
+    <string name="second_tab_text">Contacts</string>
+
     <string name="acquainted_text">Let\'s get acquainted</string>
     <string name="fill_the_profile_text">Fill out the profile and go to the application!</string>
     <string name="email_hint">E-mail</string>

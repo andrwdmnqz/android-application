@@ -3,6 +3,8 @@ package com.project.myproject.utils
 import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.utils.callbacks.TokenCallbacks
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Provider
@@ -25,19 +27,19 @@ class SessionManager @Inject constructor(
 
     private fun getUserRememberState() = isUserRemembered
 
-    fun setId(id: Int) {
+    private fun setId(id: Int) {
         userId = id
     }
 
-    fun setAccessToken(token: String) {
+    private fun setAccessToken(token: String) {
         accessToken = token
     }
 
-    fun setRefreshToken(token: String) {
+    private fun setRefreshToken(token: String) {
         refreshToken = token
     }
 
-    fun setUserRememberState(state: Boolean) {
+    private fun setUserRememberState(state: Boolean) {
         isUserRemembered = state
     }
 

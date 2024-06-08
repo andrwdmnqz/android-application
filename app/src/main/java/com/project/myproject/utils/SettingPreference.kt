@@ -37,6 +37,12 @@ class SettingPreference @Inject constructor (private val context: Context) {
         context.dataStore.edit { it[USER_ID_KEY] = userId }
     }
 
+    suspend fun setupData(userId: Int, accessToken: String, refreshToken: String) {
+        saveUserId(userId)
+        saveAccessToken(accessToken)
+        saveRefreshToken(refreshToken)
+    }
+
     suspend fun clearData() {
         context.dataStore.edit { it.clear() }
     }
