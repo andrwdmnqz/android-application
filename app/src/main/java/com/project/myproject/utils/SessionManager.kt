@@ -3,8 +3,6 @@ package com.project.myproject.utils
 import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.utils.callbacks.TokenCallbacks
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Provider

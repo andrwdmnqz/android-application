@@ -2,10 +2,6 @@ package com.project.myproject.ui.fragments
 
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,28 +28,20 @@ import com.project.myproject.R
 import com.project.myproject.databinding.FragmentRegisterBinding
 import com.project.myproject.ui.fragments.watchers.EmailTextWatcher
 import com.project.myproject.ui.fragments.watchers.PasswordTextWatcher
+import com.project.myproject.ui.viewmodels.RegistrationState
 import com.project.myproject.ui.viewmodels.UserViewModel
-import com.project.myproject.utils.Constants
-import com.project.myproject.utils.SessionManager
 import com.project.myproject.utils.SettingPreference
-import com.project.myproject.utils.callbacks.RegistrationCallbacks
 import com.project.myproject.utils.callbacks.TokenCallbacks
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class RegisterFragment :
-    BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate),
-    RegistrationCallbacks,
-    TokenCallbacks {
+    BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate), TokenCallbacks {
 
     @Inject
     lateinit var settingPreference: SettingPreference
-    @Inject
-    lateinit var sessionManager: SessionManager
 
     private lateinit var regEmailLayout: TextInputLayout
     private lateinit var regEmailEditText: TextInputEditText
@@ -94,9 +82,6 @@ class RegisterFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        viewModel.setRegistrationCallbacks(this)
-        viewModel.setOverallCallbacks(this)
 
         regEmailLayout = binding.tilRegisterEmail
         regEmailEditText = binding.etRegisterEmail
@@ -198,6 +183,20 @@ class RegisterFragment :
     override fun setObservers() {
         setupEmailValidation()
         setupPasswordValidation()
+        observeRegisterState()
+    }
+
+    private fun observeRegisterState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.registrationState.collect { state ->
+                when (state) {
+                    is RegistrationState.Success -> onSuccessRegister()
+                    is RegistrationState.InvalidRegisterData -> onEmailTakenError()
+                    is RegistrationState.RememberedUser -> onUserIsRemembered()
+                    is RegistrationState.Idle -> Unit
+                }
+            }
+        }
     }
 
     override fun setListeners() {
@@ -205,26 +204,21 @@ class RegisterFragment :
         initializeSignInViewListener()
     }
 
-    override fun onEmailTakenError() {
+    private fun onEmailTakenError() {
         regEmailLayout.error = getString(R.string.error_email_exists)
     }
 
-    override fun onSuccess(accessToken: String, refreshToken: String, userId: Int) {
+    private fun onSuccessRegister() {
         findNavController().navigate(R.id.action_registerFragment_to_profileDataFragment)
     }
 
-    override fun onUserIsRemembered() {
+    private fun onUserIsRemembered() {
         findNavController().navigate(R.id.viewPagerFragment)
     }
 
-    override fun onUserIsNotRemembered() {
-        sessionManager.resetData()
-    }
-
     override fun onTokensRefreshFailure() {
-        sessionManager.resetData()
-        lifecycleScope.launch {
-            settingPreference.clearData()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.logoutUser()
         }
         findNavController().navigate(R.id.loginFragment)
     }

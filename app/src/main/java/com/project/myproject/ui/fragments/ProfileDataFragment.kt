@@ -1,8 +1,6 @@
 package com.project.myproject.ui.fragments
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -10,28 +8,16 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.project.myproject.R
-import com.project.myproject.utils.SettingPreference
 import com.project.myproject.databinding.FragmentProfileDataBinding
 import com.project.myproject.ui.fragments.watchers.NameTextWatcher
 import com.project.myproject.ui.fragments.watchers.PhoneTextWatcher
 import com.project.myproject.ui.viewmodels.UserViewModel
-import com.project.myproject.utils.Constants
-import com.project.myproject.utils.SessionManager
-import com.project.myproject.utils.callbacks.EditCallbacks
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileDataFragment :
-    BaseFragment<FragmentProfileDataBinding>(FragmentProfileDataBinding::inflate),
-    EditCallbacks {
-
-    @Inject
-    lateinit var settingPreference: SettingPreference
-
-    @Inject
-    lateinit var sessionManager: SessionManager
+    BaseFragment<FragmentProfileDataBinding>(FragmentProfileDataBinding::inflate) {
 
     private val viewModel by activityViewModels<UserViewModel>()
 
@@ -41,7 +27,6 @@ class ProfileDataFragment :
     private lateinit var dataPhoneEditText: TextInputEditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.setEditCallbacks(this)
 
         dataNameLayout = binding.tilProfileName
         dataNameEditText = binding.etProfileName
@@ -71,11 +56,10 @@ class ProfileDataFragment :
             if (dataNameLayout.error == null && dataPhoneLayout.error == null
                 && !userNameText.isNullOrBlank() && !phoneNumber.isNullOrBlank()
             ) {
-                lifecycleScope.launch {
-                    val userId = sessionManager.getId()
+                viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.editUserNameAndPhone(
-                        userId,
-                        userNameText.toString(), phoneNumber.toString()
+                        userNameText.toString(),
+                        phoneNumber.toString()
                     )
                 }
             }
@@ -93,6 +77,17 @@ class ProfileDataFragment :
     override fun setObservers() {
         setupNameValidation()
         setupPhoneValidation()
+        observeOnUserEditedState()
+    }
+
+    private fun observeOnUserEditedState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.userEdited.collect { userEdited ->
+                if (userEdited) {
+                    onUserEdited()
+                }
+            }
+        }
     }
 
     override fun setListeners() {
@@ -100,7 +95,8 @@ class ProfileDataFragment :
         initializeCancelButtonListeners()
     }
 
-    override fun onUserEdited() {
+    private fun onUserEdited() {
+        viewModel.resetUserEdited()
         findNavController().navigate(R.id.action_profileDataFragment_to_viewPagerFragment)
     }
 

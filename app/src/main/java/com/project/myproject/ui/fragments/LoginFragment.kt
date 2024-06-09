@@ -8,20 +8,16 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.project.myproject.R
-import com.project.myproject.utils.SettingPreference
 import com.project.myproject.databinding.FragmentLoginBinding
 import com.project.myproject.ui.fragments.watchers.EmailTextWatcher
 import com.project.myproject.ui.fragments.watchers.PasswordTextWatcher
+import com.project.myproject.ui.viewmodels.LoginState
 import com.project.myproject.ui.viewmodels.UserViewModel
-import com.project.myproject.utils.SessionManager
-import com.project.myproject.utils.callbacks.LoginCallbacks
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate),
-    LoginCallbacks {
+class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
 
     private lateinit var loginEmailLayout: TextInputLayout
     private lateinit var loginEmailEditText: TextInputEditText
@@ -31,8 +27,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private val viewModel by activityViewModels<UserViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        viewModel.setLoginCallbacks(this)
 
         loginEmailLayout = binding.tilLoginEmail
         loginPasswordLayout = binding.tilLoginPassword
@@ -49,6 +43,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     override fun setObservers() {
         setupEmailValidation()
         setupPasswordValidation()
+        observeLoginState()
+    }
+
+    private fun observeLoginState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.loginState.collect { state ->
+                when (state) {
+                    is LoginState.Success -> onSuccessLogin()
+                    is LoginState.InvalidLoginData -> onInvalidLoginData()
+                    else -> Unit
+                }
+            }
+        }
     }
 
     override fun setListeners() {
@@ -95,11 +102,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         loginEmailEditText.addTextChangedListener(EmailTextWatcher(loginEmailLayout, requireContext()))
     }
 
-    override fun onSuccess() {
+    private fun onSuccessLogin() {
         findNavController().navigate(R.id.action_loginFragment_to_viewPagerFragment)
     }
 
-    override fun onInvalidLoginData() {
+    private fun onInvalidLoginData() {
         loginEmailLayout.error = getString(R.string.invalid_login_data)
         loginPasswordLayout.error = " "
     }

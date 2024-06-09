@@ -1,6 +1,5 @@
 package com.project.myproject.ui.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.myproject.data.mappers.UserToContactMapper
@@ -13,11 +12,6 @@ import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.data.requests.AddContactRequest
 import com.project.myproject.utils.SessionManager
 import com.project.myproject.utils.SettingPreference
-import com.project.myproject.utils.callbacks.AddContactCallbacks
-import com.project.myproject.utils.callbacks.EditCallbacks
-import com.project.myproject.utils.callbacks.LoginCallbacks
-import com.project.myproject.utils.callbacks.RegistrationCallbacks
-import com.project.myproject.utils.callbacks.TokenCallbacks
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -33,13 +27,14 @@ import javax.inject.Inject
 class UserViewModel @Inject constructor(
     private val mainRepository: MainRepository,
     private val sessionManager: SessionManager,
-    private val settingPreference: SettingPreference,
-    private var registrationCallbacks: RegistrationCallbacks? = null,
-    private var loginCallbacks: LoginCallbacks? = null,
-    private var overallCallbacks: TokenCallbacks? = null,
-    private var editCallbacks: EditCallbacks? = null,
-    private var addContactCallbacks: AddContactCallbacks? = null
+    private val settingPreference: SettingPreference
 ) : ViewModel() {
+
+    private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
+    val loginState = _loginState.asStateFlow()
+
+    private val _registrationState = MutableStateFlow<RegistrationState>(RegistrationState.Idle)
+    val registrationState = _registrationState.asStateFlow()
 
     private val _contacts = MutableStateFlow<List<Contact>>(emptyList())
     val contacts = _contacts.asStateFlow()
@@ -51,8 +46,15 @@ class UserViewModel @Inject constructor(
     val users = _users.asStateFlow()
 
     private val errorMessage = MutableStateFlow("")
+
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
+
+    private val _contactAdded = MutableStateFlow(false)
+    val contactAdded = _contactAdded.asStateFlow()
+
+    private val _userEdited = MutableStateFlow(false)
+    val userEdited = _userEdited.asStateFlow()
 
     private var currentUser: User? = null
 
@@ -81,10 +83,12 @@ class UserViewModel @Inject constructor(
                     }
                     sessionManager.setupData(id, accessToken, refreshToken, isUserRemembered)
 
-                    registrationCallbacks?.onSuccess(responseBodyData.accessToken, responseBodyData.refreshToken, currentUser!!.id)
+                    _registrationState.value = RegistrationState.Success
                 } else {
-                    registrationCallbacks?.onEmailTakenError()
+                    _registrationState.value = RegistrationState.InvalidRegisterData
                 }
+
+                _registrationState.value = RegistrationState.Idle
             }
         }
     }
@@ -110,30 +114,43 @@ class UserViewModel @Inject constructor(
                     }
                     sessionManager.setupData(id, accessToken, refreshToken, isUserRemembered)
 
-                    currentUser = responseBodyData.user
-                    loginCallbacks?.onSuccess()
+                    _loginState.value = LoginState.Success
                 } else {
-                    loginCallbacks?.onInvalidLoginData()
+                    _loginState.value = LoginState.InvalidLoginData
                 }
             }
         }
     }
 
-    fun editUserNameAndPhone(userId: Int, userName: String, phoneNumber: String) {
+    suspend fun logoutUser() {
+        viewModelScope.launch {
+            sessionManager.resetData()
+            settingPreference.clearData()
+            currentUser = null
+            _loginState.value = LoginState.Idle
+            _registrationState.value = RegistrationState.Idle
+        }
+    }
+
+    fun editUserNameAndPhone(userName: String, phoneNumber: String) {
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-            val result = mainRepository.editUser(userId,
+            val result = mainRepository.editUser(sessionManager.getId(),
                 EditUserRequest(userName, phoneNumber)
             )
 
             withContext(Dispatchers.Main) {
                 if (result != null) {
                     currentUser = result.data.user
-                    editCallbacks?.onUserEdited()
+                    _userEdited.value = true
                 }
             }
         }
+    }
+
+    fun resetUserEdited() {
+        _userEdited.value = false
     }
 
     fun getUser() {
@@ -158,19 +175,20 @@ class UserViewModel @Inject constructor(
                     if (result != null) {
                         currentUser = result.data.user
 
-                        registrationCallbacks?.onUserIsRemembered()
+                        _registrationState.value = RegistrationState.RememberedUser
+                        _loginState.value = LoginState.Success
                     }
                 }
             }
         }
     }
 
-    fun fetchContacts(userId: Int) {
+    fun fetchContacts() {
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _loading.value = true
 
-            val result = mainRepository.getUserContacts(userId)
+            val result = mainRepository.getUserContacts(sessionManager.getId())
 
             withContext(Dispatchers.Main) {
                 _loading.value = false
@@ -198,11 +216,11 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun deleteContact(userId: Int, contactId: Int) {
+    fun deleteContact(contactId: Int) {
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-            val result = mainRepository.deleteUserContact(userId, contactId)
+            val result = mainRepository.deleteUserContact(sessionManager.getId(), contactId)
 
             withContext(Dispatchers.Main) {
                 if (result != null) {
@@ -213,22 +231,26 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun addContact(userId: Int, contactId: Int) {
+    fun addContact(contactId: Int) {
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _loading.value = true
 
-            val result = mainRepository.addContact(userId, AddContactRequest(contactId))
+            val result = mainRepository.addContact(sessionManager.getId(), AddContactRequest(contactId))
 
             withContext(Dispatchers.Main) {
                 _loading.value = false
                 if (result != null) {
                     _contacts.value = UserToContactMapper.map(result.data.contacts)
                     _contactsId.value = result.data.contacts.map { it.id }
-                    addContactCallbacks?.onContactAdded()
+                    _contactAdded.value = true
                 }
             }
         }
+    }
+
+    fun resetContactAdded() {
+        _contactAdded.value = false
     }
 
     private fun onError(message: String) {
@@ -237,24 +259,17 @@ class UserViewModel @Inject constructor(
     }
 
     fun getCurrentUser() = currentUser
+}
 
-    fun setRegistrationCallbacks(registrationCallbacks: RegistrationCallbacks) {
-        this.registrationCallbacks = registrationCallbacks
-    }
+sealed class LoginState {
+    data object Idle : LoginState()
+    data object Success : LoginState()
+    data object InvalidLoginData : LoginState()
+}
 
-    fun setLoginCallbacks(loginCallbacks: LoginCallbacks) {
-        this.loginCallbacks = loginCallbacks
-    }
-
-    fun setOverallCallbacks(overallCallbacks: TokenCallbacks?) {
-        this.overallCallbacks = overallCallbacks
-    }
-
-    fun setEditCallbacks(editCallbacks: EditCallbacks?) {
-        this.editCallbacks = editCallbacks
-    }
-
-    fun setAddContactsCallbacks(addContactCallbacks: AddContactCallbacks?) {
-        this.addContactCallbacks = addContactCallbacks
-    }
+sealed class RegistrationState {
+    data object Idle : RegistrationState()
+    data object Success : RegistrationState()
+    data object InvalidRegisterData : RegistrationState()
+    data object RememberedUser : RegistrationState()
 }

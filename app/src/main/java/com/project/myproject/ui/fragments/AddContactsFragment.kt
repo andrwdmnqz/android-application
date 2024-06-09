@@ -13,35 +13,27 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.project.myproject.R
 import com.project.myproject.data.mappers.UserToContactMapper
-import com.project.myproject.data.models.Contact
 import com.project.myproject.data.models.User
 import com.project.myproject.databinding.FragmentAddContactsBinding
 import com.project.myproject.ui.adapters.UserAdapter
 import com.project.myproject.ui.viewmodels.UserViewModel
 import com.project.myproject.utils.Constants
 import com.project.myproject.utils.DefaultItemDecorator
-import com.project.myproject.utils.SessionManager
-import com.project.myproject.utils.callbacks.AddContactCallbacks
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddContactsFragment :
     BaseFragment<FragmentAddContactsBinding>(FragmentAddContactsBinding::inflate),
-    UserAdapter.OnUserItemCLickListener, AddContactCallbacks {
+    UserAdapter.OnUserItemCLickListener {
 
     private val viewModel by activityViewModels<UserViewModel>()
 
     private lateinit var adapter: UserAdapter
 
-    @Inject
-    lateinit var sessionManager: SessionManager
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        viewModel.setAddContactsCallbacks(this)
         adapter = UserAdapter(this)
 
         setupRecyclerView()
@@ -61,7 +53,7 @@ class AddContactsFragment :
         usersRV.addItemDecoration(DefaultItemDecorator(itemMarginSize))
         usersRV.layoutManager = LinearLayoutManager(requireContext())
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.users.combine(viewModel.contactsId) { users, contactsId ->
                 users to contactsId
             }.collect { (users, contactsId) ->
@@ -151,7 +143,7 @@ class AddContactsFragment :
 
     override fun onAddItemClicked(user: User, position: Int) {
         if (user.id !in viewModel.contactsId.value) {
-            viewModel.addContact(sessionManager.getId(), user.id)
+            viewModel.addContact(user.id)
         }
     }
 
@@ -165,6 +157,18 @@ class AddContactsFragment :
                 }
             }
         }
+
+        observeAddContactState()
+    }
+
+    private fun observeAddContactState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.contactAdded.collect { contactAdded ->
+                if (contactAdded) {
+                    onContactAdded()
+                }
+            }
+        }
     }
 
     override fun setListeners() {
@@ -175,10 +179,11 @@ class AddContactsFragment :
         }
     }
 
-    override fun onContactAdded() {
+    private fun onContactAdded() {
         Snackbar.make(
             binding.root,
             getString(R.string.contact_added), Snackbar.LENGTH_LONG
         ).show()
+        viewModel.resetContactAdded()
     }
 }

@@ -3,30 +3,24 @@ package com.project.myproject.ui.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.project.myproject.R
 import com.project.myproject.databinding.FragmentContactsProfileBinding
 import com.project.myproject.ui.viewmodels.UserViewModel
 import com.project.myproject.utils.Constants
-import com.project.myproject.utils.SessionManager
-import com.project.myproject.utils.callbacks.AddContactCallbacks
 import com.project.myproject.utils.extensions.loadImageByGlide
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ContactsProfileFragment :
-    BaseFragment<FragmentContactsProfileBinding>(FragmentContactsProfileBinding::inflate), AddContactCallbacks {
+    BaseFragment<FragmentContactsProfileBinding>(FragmentContactsProfileBinding::inflate) {
 
     private val viewModel by activityViewModels<UserViewModel>()
 
-    @Inject
-    lateinit var sessionManager: SessionManager
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        viewModel.setAddContactsCallbacks(this)
 
         setObservers()
         setListeners()
@@ -35,6 +29,18 @@ class ContactsProfileFragment :
     }
     override fun setObservers() {
         setupFields()
+
+        observeAddContactState()
+    }
+
+    private fun observeAddContactState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.contactAdded.collect { contactAdded ->
+                if (contactAdded) {
+                    onContactAdded()
+                }
+            }
+        }
     }
 
     private fun setupFields() {
@@ -62,19 +68,17 @@ class ContactsProfileFragment :
         }
 
         binding.btnAddToMyContacts.setOnClickListener {
-            viewModel.addContact(
-                sessionManager.getId(),
-                ContactsProfileFragmentArgs.fromBundle(requireArguments()).user.id
-            )
+            viewModel.addContact(ContactsProfileFragmentArgs.fromBundle(requireArguments()).user.id)
         }
     }
 
-    override fun onContactAdded() {
+    private fun onContactAdded() {
         binding.btnAddToMyContacts.isEnabled = false
 
         Snackbar.make(
             binding.root,
             getString(R.string.contact_added), Snackbar.LENGTH_LONG
         ).show()
+        viewModel.resetContactAdded()
     }
 }

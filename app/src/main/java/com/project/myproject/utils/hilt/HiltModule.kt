@@ -6,16 +6,9 @@ import com.project.myproject.data.network.RetrofitService
 import com.project.myproject.data.network.interceptors.AuthInterceptor
 import com.project.myproject.data.network.interceptors.ResponseFixInterceptor
 import com.project.myproject.data.repository.MainRepository
-import com.project.myproject.ui.fragments.AddContactsFragment
-import com.project.myproject.ui.fragments.LoginFragment
-import com.project.myproject.ui.fragments.ProfileDataFragment
 import com.project.myproject.ui.fragments.RegisterFragment
 import com.project.myproject.utils.SessionManager
 import com.project.myproject.utils.SettingPreference
-import com.project.myproject.utils.callbacks.AddContactCallbacks
-import com.project.myproject.utils.callbacks.EditCallbacks
-import com.project.myproject.utils.callbacks.LoginCallbacks
-import com.project.myproject.utils.callbacks.RegistrationCallbacks
 import com.project.myproject.utils.callbacks.TokenCallbacks
 import dagger.Module
 import dagger.Provides
@@ -79,22 +72,6 @@ object HiltModule {
     @Provides
     @Singleton
     fun provideCoroutineScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-
-    @Provides
-    @Singleton
-    fun provideRegisterFragment(): RegistrationCallbacks = RegisterFragment()
-
-    @Provides
-    @Singleton
-    fun provideLoginFragment(): LoginCallbacks = LoginFragment()
-
-    @Provides
-    @Singleton
-    fun provideEditCallbacks(): EditCallbacks = ProfileDataFragment()
-
-    @Provides
-    @Singleton
-    fun provideAddContactCallbacks(): AddContactCallbacks = AddContactsFragment()
 
     @Provides
     @Singleton
