@@ -46,8 +46,8 @@ class ViewPagerFragment : BaseFragment<FragmentViewPagerBinding>(FragmentViewPag
     }
 
     companion object {
-        private var firstTabText = "My profile"
-        private var secondTabText = "Contacts"
+        private var firstTabText = ""
+        private var secondTabText = ""
 
         fun initializeStrings(context: Context) {
             firstTabText = context.getString(R.string.first_tab_text)
