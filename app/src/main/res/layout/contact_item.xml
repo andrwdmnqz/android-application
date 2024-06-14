@@ -36,7 +36,7 @@
         app:layout_constraintWidth_percent="@dimen/multiselect_checked_icon_width" />
 
     <ImageView
-        android:id="@+id/user_photo"
+        android:id="@+id/ivContactPhoto"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/contact_photo_desc"
@@ -49,31 +49,33 @@
         app:layout_constraintWidth_percent="@dimen/photo_icon_width" />
 
     <TextView
-        android:id="@+id/contact_name"
+        android:id="@+id/tvContactName"
         style="@style/h2_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/contact_name_horizontal"
+        android:textColor="@color/additional_fifth"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="@dimen/contact_name_horizontal"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivContactPhoto"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/contact_name_vertical" />
 
     <TextView
-        android:id="@+id/contact_career"
+        android:id="@+id/tvContactCareer"
         style="@style/h4_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/additional_ten"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/contact_name"
-        app:layout_constraintTop_toBottomOf="@+id/contact_name"
+        app:layout_constraintStart_toStartOf="@id/tvContactName"
+        app:layout_constraintTop_toBottomOf="@id/tvContactName"
         app:layout_constraintVertical_bias="0" />
 
     <ImageView
-        android:id="@+id/delete_icon"
+        android:id="@+id/ivContactDeleteIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/delete_icon_desc"
         android:src="@drawable/delete_contact_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -7,4 +7,5 @@
         <attr name="buttonTextColor" format="color" />
         <attr name="buttonDrawable" format="reference" />
     </declare-styleable>
+    <attr name="background_color" format="color" />
 </resources>

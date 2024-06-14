@@ -3,32 +3,109 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/viewPagerFragment">
+    app:startDestination="@id/registerFragment">
     <fragment
         android:id="@+id/viewPagerFragment"
-        android:name="com.project.myproject.fragments.ViewPagerFragment"
+        android:name="com.project.myproject.ui.fragments.ViewPagerFragment"
         android:label="ViewPagerFragment"
         tools:layout="@layout/fragment_my_profile" >
         <action
             android:id="@+id/action_viewPagerFragment_to_detailViewFragment"
             app:destination="@id/detailViewFragment" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_addContactsFragment"
+            app:destination="@id/addContactsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/detailViewFragment"
-        android:name="com.project.myproject.fragments.DetailViewFragment"
+        android:name="com.project.myproject.ui.fragments.DetailViewFragment"
         android:label="DetailViewFragment"
         tools:layout="@layout/fragment_detail_view" >
         <argument
-            android:name="imageLink"
-            app:argType="string" />
+            android:name="contact"
+            app:argType="com.project.myproject.data.models.Contact" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.project.myproject.ui.fragments.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_profileDataFragment"
+            app:destination="@id/profileDataFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_registerFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.project.myproject.ui.fragments.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileDataFragment"
+        android:name="com.project.myproject.ui.fragments.ProfileDataFragment"
+        android:label="ProfileDataFragment"
+        tools:layout="@layout/fragment_profile_data" >
+        <action
+            android:id="@+id/action_profileDataFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_profileDataFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/addContactsFragment"
+        android:name="com.project.myproject.ui.fragments.AddContactsFragment"
+        android:label="AddContactsFragment"
+        tools:layout="@layout/fragment_add_contacts" >
+        <action
+            android:id="@+id/action_addContactsFragment_to_contactsProfileFragment"
+            app:destination="@id/contactsProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_addContactsFragment_to_detailViewFragment"
+            app:destination="@id/detailViewFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactsProfileFragment"
+        android:name="com.project.myproject.ui.fragments.ContactsProfileFragment"
+        android:label="ContactsProfileFragment"
+        tools:layout="@layout/fragment_contacts_profile" >
         <argument
-            android:name="name"
-            app:argType="string" />
-        <argument
-            android:name="career"
-            app:argType="string" />
-        <argument
-            android:name="address"
-            app:argType="string" />
+            android:name="user"
+            app:argType="com.project.myproject.data.models.User" />
     </fragment>
 </navigation>

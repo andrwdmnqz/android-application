@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/contact_card">
+
+    <ImageView
+        android:id="@+id/ivUserPhoto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/contact_photo_desc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/photo_icon_height"
+        app:layout_constraintHorizontal_bias="@dimen/photo_icon_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="@dimen/photo_icon_width" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        style="@style/h2_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/contact_name_horizontal"
+        android:textColor="@color/additional_fifth"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivUserPhoto"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/contact_name_vertical" />
+
+    <TextView
+        android:id="@+id/tvUserCareer"
+        style="@style/h4_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/additional_ten"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tvUserName"
+        app:layout_constraintTop_toBottomOf="@id/tvUserName"
+        app:layout_constraintVertical_bias="0" />
+
+    <TextView
+        android:id="@+id/tvAddLabel"
+        style="@style/h2_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_label"
+        android:textColor="@color/second_main"
+        app:layout_constraintBottom_toBottomOf="@id/ivAddContactIcon"
+        app:layout_constraintEnd_toStartOf="@id/ivAddContactIcon"
+        app:layout_constraintHorizontal_bias="@dimen/add_label_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivAddContactIcon" />
+
+    <ImageView
+        android:id="@+id/ivAddContactIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/delete_icon_desc"
+        android:src="@drawable/add_contact_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/delete_icon_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/clMain"
+    style="@style/MainContainerStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_background"
-    tools:context=".MyContactsActivity">
+    tools:context=".ui.activities.MainActivity">
 
     <View
         android:id="@+id/contactsBackground"
+        style="@style/TopBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/rectangle"
         android:transitionName="contactsBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,25 +22,24 @@
         app:layout_constraintVertical_bias="@dimen/top_rectangle_vertical" />
 
     <ImageView
-        android:id="@+id/toolbar_back"
+        android:id="@+id/ivToolbarBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/back_button_desc"
         android:src="@drawable/arrow_back_24px"
-        app:layout_constraintBottom_toBottomOf="@+id/contacts_label"
+        app:layout_constraintBottom_toBottomOf="@id/tvContactsLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/contacts_tool_bar_start"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/contacts_label" />
+        app:layout_constraintTop_toTopOf="@id/tvContactsLabel" />
 
     <TextView
-        android:id="@+id/contacts_label"
+        android:id="@+id/tvContactsLabel"
         style="@style/h1_style"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/contacts_label"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,40 +47,76 @@
         app:layout_constraintVertical_bias="@dimen/contacts_label_vertical" />
 
     <ImageView
-        android:id="@+id/toolbar_search"
+        android:id="@+id/ivToolbarSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/back_button_desc"
         android:src="@drawable/search_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/contacts_label"
+        app:layout_constraintBottom_toBottomOf="@id/tvContactsLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/contacts_tool_bar_end"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/contacts_label" />
+        app:layout_constraintTop_toTopOf="@id/tvContactsLabel" />
 
     <TextView
-        android:id="@+id/add_contacts_label"
+        android:id="@+id/tvAddContactsLabel"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_contacts_label"
-        android:textColor="@color/default_text_color"
-        app:layout_constraintBottom_toBottomOf="@+id/contactsBackground"
-        app:layout_constraintStart_toStartOf="@+id/toolbar_back"
+        app:layout_constraintBottom_toBottomOf="@id/contactsBackground"
+        app:layout_constraintStart_toStartOf="@id/ivToolbarBack"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/add_contacts_label_vertical" />
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchViewContacts"
+        style="@style/search_view_style"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:theme="@style/Base.Theme.MyProject"
+        app:layout_constraintBottom_toBottomOf="@id/tvContactsLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/search_view_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvContactsLabel"
+        app:layout_constraintWidth_percent="@dimen/search_view_width" />
+
+    <ImageView
+        android:id="@+id/ivSearchViewSearchIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/search_view_search_icon_margin_end"
+        android:contentDescription="@string/search_view_search_icon_description"
+        android:src="@drawable/search_view_search_icon"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/searchViewContacts"
+        app:layout_constraintEnd_toEndOf="@id/searchViewContacts"
+        app:layout_constraintTop_toTopOf="@id/searchViewContacts" />
+
+    <ProgressBar
+        android:id="@+id/pbContactsList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/main_background"
+        android:indeterminateTintMode="src_in"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/default_progress_bar_vertical" />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_contacts"
+        android:id="@+id/rvContacts"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactsBackground" />
+        app:layout_constraintTop_toBottomOf="@id/contactsBackground" />
 
     <ImageView
-        android:id="@+id/ivMultiselectDelete"
+        android:id="@+id/ivMultiselectDeleteIcon"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/multiselect_delete_description"

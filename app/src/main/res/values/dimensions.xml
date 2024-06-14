@@ -72,7 +72,7 @@
     <dimen name="photo_icon_height">0.74</dimen>
     <dimen name="photo_icon_width">0.15</dimen>
     <dimen name="photo_icon_horizontal">0.04</dimen>
-    <dimen name="contact_name_horizontal">0.31</dimen>
+    <dimen name="contact_name_horizontal">20dp</dimen>
     <dimen name="contact_name_vertical">0.33</dimen>
     <dimen name="delete_icon_horizontal">0.96</dimen>
     <dimen name="delete_icon_margin_vertical">26dp</dimen>
@@ -88,4 +88,27 @@
     <dimen name="multiselect_checked_icon_height">0.3</dimen>
     <dimen name="multiselect_checked_icon_width">0.06</dimen>
     <dimen name="multiselect_view_shift_right">32dp</dimen>
+
+    <dimen name="forgot_password_horizontal">0.92</dimen>
+    <dimen name="login_button_vertical">0.92</dimen>
+
+    <dimen name="add_photo_width">0.155</dimen>
+    <dimen name="add_photo_height">0.083</dimen>
+    <dimen name="add_photo_horizontal">0.81</dimen>
+
+    <dimen name="your_profile_data_vertical">0.315</dimen>
+    <dimen name="filling_profile_text_vertical">0.367</dimen>
+    <dimen name="user_name_input_vertical">0.45</dimen>
+    <dimen name="phone_input_vertical">0.58</dimen>
+    <dimen name="forward_button_vertical">0.975</dimen>
+    <dimen name="cancel_button_vertical">0.86</dimen>
+
+    <dimen name="add_label_horizontal">0.97</dimen>
+
+    <dimen name="search_view_vertical">0.01</dimen>
+    <dimen name="search_view_horizontal">0.25</dimen>
+    <dimen name="search_view_height">0.045</dimen>
+    <dimen name="search_view_width">0.82</dimen>
+    <dimen name="search_view_search_icon_margin_end">10dp</dimen>
+    <dimen name="default_progress_bar_vertical">0.3</dimen>
 </resources>

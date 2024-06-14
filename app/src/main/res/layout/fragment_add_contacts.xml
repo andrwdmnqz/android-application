@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clMain"
+    style="@style/MainContainerStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.MainActivity">
+
+    <View
+        android:id="@+id/usersBackground"
+        style="@style/TopBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:transitionName="contactsBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/contacts_tool_bar_height"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/top_rectangle_vertical" />
+
+    <ImageView
+        android:id="@+id/ivToolbarBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/back_button_desc"
+        android:src="@drawable/arrow_back_24px"
+        app:layout_constraintBottom_toBottomOf="@id/tvUsersLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/contacts_tool_bar_start"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvUsersLabel" />
+
+    <TextView
+        android:id="@+id/tvUsersLabel"
+        style="@style/h1_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/users_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/contacts_label_vertical" />
+
+    <ImageView
+        android:id="@+id/ivToolbarSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/back_button_desc"
+        android:src="@drawable/search_icon"
+        app:layout_constraintBottom_toBottomOf="@id/tvUsersLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/contacts_tool_bar_end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvUsersLabel" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchViewUsers"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:theme="@style/Base.Theme.MyProject"
+        app:layout_constraintBottom_toBottomOf="@id/tvUsersLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/search_view_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvUsersLabel"
+        app:layout_constraintWidth_percent="@dimen/search_view_width" />
+
+    <ImageView
+        android:id="@+id/ivSearchViewSearchIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/search_view_search_icon_margin_end"
+        android:contentDescription="@string/search_view_search_icon_description"
+        android:src="@drawable/search_view_search_icon"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/searchViewUsers"
+        app:layout_constraintEnd_toEndOf="@id/searchViewUsers"
+        app:layout_constraintTop_toTopOf="@id/searchViewUsers" />
+
+    <ProgressBar
+        android:id="@+id/pbAddContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/main_background"
+        android:indeterminateTintMode="src_in"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/default_progress_bar_vertical" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvUsers"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/usersBackground" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

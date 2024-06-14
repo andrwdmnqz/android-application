@@ -8,9 +8,9 @@
 
     <View
         android:id="@+id/registerBackground"
+        style="@style/TopBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/rectangle"
         android:transitionName="registerBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,12 +18,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/acquainted_text"
+        android:id="@+id/tvAcquaintedLabel"
         style="@style/h1_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/acquainted_text"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,12 +30,11 @@
         app:layout_constraintVertical_bias="@dimen/acquainted_vertical" />
 
     <TextView
-        android:id="@+id/tvFillTheProfile"
+        android:id="@+id/tvFillOutTheProfileLabel"
         style="@style/h4_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fill_the_profile_text"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,15 +42,12 @@
         app:layout_constraintVertical_bias="@dimen/fill_the_profile_vertical" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/reg_email_layout"
+        android:id="@+id/tilRegisterEmail"
+        style="@style/TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/additional_text_second"
-        app:boxBackgroundColor="@color/additional_first"
-        app:cursorColor="@color/default_text_color"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/error_text_style"
-        app:hintTextColor="@color/additional_third"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/email_input_height"
@@ -62,29 +57,25 @@
         app:layout_constraintWidth_percent="@dimen/user_inputs_width">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/reg_email_input"
-            style="@style/h2_style"
+            android:id="@+id/etRegisterEmail"
+            style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email_hint"
             android:inputType="textEmailAddress"
             android:minHeight="@dimen/min_edittext_height"
             android:paddingStart="@dimen/email_input_padding"
-            android:paddingEnd="0dp"
-            android:textColor="@color/default_text_color"
-            app:backgroundTint="@color/additional_text_second" />
+            android:paddingEnd="0dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/reg_password_layout"
+        android:id="@+id/tilRegisterPassword"
+        style="@style/TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/additional_text_second"
-        app:cursorColor="@color/default_text_color"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/error_text_style"
-        app:hintTextColor="@color/additional_third"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/email_input_height"
@@ -94,28 +85,25 @@
         app:layout_constraintWidth_percent="@dimen/user_inputs_width">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/reg_password_input"
-            style="@style/h2_style"
+            android:id="@+id/etRegisterPassword"
+            style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
             android:minHeight="@dimen/min_edittext_height"
             android:paddingStart="@dimen/email_input_padding"
-            android:paddingEnd="0dp"
-            android:textColor="@color/default_text_color"
-            app:backgroundTint="@color/additional_text_second" />
+            android:paddingEnd="0dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
-        android:id="@+id/remember_me"
-        style="@style/h3_style"
+        android:id="@+id/chbRememberMeRegister"
+        style="@style/Checkbox"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:buttonTint="@color/default_text_color"
         android:text="@string/remember_me"
-        android:textColor="@color/additional_text_third"
+        android:textColor="@color/additional_seven"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/checkbox_height"
@@ -124,45 +112,37 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/checkbox_vertical" />
 
-    <com.project.myproject.views.CustomGoogleButton
-        android:id="@+id/google_reg_button"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/btnGoogleRegister"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/google_button"
-        android:fontFamily="@font/open_sans"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/google_button_height"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/google_button_vertical"
-        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"
-        custom:buttonDrawable="@drawable/google_logo"
-        custom:buttonLetterSpacing="@dimen/button_letter_spacing"
-        custom:buttonText="@string/google_text"
-        custom:buttonTextColor="@color/additional_text_first"
-        custom:buttonTextSize="@dimen/h2_5_text" />
+        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width"/>
 
     <TextView
+        android:id="@+id/tvOrLabel"
         style="@style/h2_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/or_text"
-        android:textColor="@color/default_text_color"
-        app:layout_constraintBottom_toTopOf="@id/register_button"
+        app:layout_constraintBottom_toTopOf="@id/btnRegisterButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/google_reg_button" />
+        app:layout_constraintTop_toBottomOf="@id/btnGoogleRegister" />
 
     <Button
-        android:id="@+id/register_button"
+        android:id="@+id/btnRegisterButton"
         style="@style/h2_5_style"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/register_button"
         android:letterSpacing="@dimen/button_letter_spacing"
         android:text="@string/register_text"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/register_button_height"
@@ -172,12 +152,12 @@
         app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
 
     <TextView
+        android:id="@+id/tvByClickingRegisterLabel"
         style="@style/h4_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/register_terms_text"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -185,13 +165,13 @@
         app:layout_constraintVertical_bias="@dimen/register_terms_vert" />
 
     <TextView
-        android:id="@+id/already_have_text"
+        android:id="@+id/tvAlreadyHaveLabel"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/already_have_text"
-        android:textColor="@color/additional_text_fifth"
+        android:textColor="@color/additional_nine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="@dimen/already_have_height"
@@ -200,16 +180,16 @@
         app:layout_constraintVertical_bias="@dimen/already_have_vert" />
 
     <TextView
+        android:id="@+id/tvSignInLabel"
         style="@style/h3_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/sign_in_text"
-        android:textColor="@color/default_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="@dimen/sign_in_text_hor"
-        app:layout_constraintStart_toEndOf="@+id/already_have_text"
+        app:layout_constraintStart_toEndOf="@id/tvAlreadyHaveLabel"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="@dimen/already_have_vert" />
 
