@@ -6,7 +6,7 @@
 
     <stroke
         android:width="@dimen/button_border_width"
-        android:color="@color/additional_text_first" />
+        android:color="@color/additional_fifth" />
 
     <corners android:radius="6dp" />
 </shape>

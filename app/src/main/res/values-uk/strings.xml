@@ -12,6 +12,9 @@
     <string name="facebook_logo_desc">facebook_logo</string>
     <string name="linkedin_logo_desc">linkedin_logo</string>
     <string name="instagram_logo_desc">instagram_logo</string>
+    <string name="first_tab_text">Мій профіль</string>
+    <string name="second_tab_text">Контакти</string>
+
     <string name="acquainted_text">Давайте познайомимося</string>
     <string name="fill_the_profile_text">Заповність профіль та переходьте до застосунку!</string>
     <string name="email_hint">Електронна пошта</string>
@@ -36,10 +39,13 @@
     <string name="error_password_min_length">Ваш пароль має включати мінімум 8 символів.</string>
     <string name="error_password_max_length">Ваш пароль має включати максимум 16 символів.</string>
     <string name="error_password_symbols">Ваш пароль має включати тільки букви, цифри та символи.</string>
-    <string name="error_invalid_email">Некоректна електронна адреса.</string>
+    <string name="error_invalid_email">Некоректна електронна пошта.</string>
+    <string name="error_email_exists">Електронна пошта вже зайнята.</string>
 
     <string name="contact_photo_desc">contact photo</string>
+    <string name="delete_icon_desc">delete icon</string>
     <string name="contact_removed">Контакт було видалено</string>
+    <string name="contact_added">Контакт було додано</string>
     <string name="contact_returned">Контакт було повернено</string>
     <string name="undo_button">Відмінити</string>
     <string name="add_contact_save">Зберегти</string>
@@ -53,4 +59,37 @@
     <string name="multiselect_delete_description">multiselect delete icon</string>
     <string name="contact_selected_description">selected icon</string>
     <string name="contact_unselected_description">unselected icon</string>
+
+    <string name="hello_text">Вітаємо!</string>
+    <string name="enter_your_email_text">Введіть свою пошту та пароль нижче</string>
+    <string name="forgot_password_text">Забули свій пароль?</string>
+    <string name="no_account_text">Немає акаунта?</string>
+    <string name="sign_up_text">Зареєструватися</string>
+    <string name="login_text">Увійти</string>
+
+    <string name="selected_photo_desc">selected_photo</string>
+
+    <string name="your_profile_data_text">Дані вашого профілю</string>
+    <string name="user_name_hint">Ім\'я користувача</string>
+    <string name="mobile_phone_hint">Мобільний телефон</string>
+    <string name="forward_button_text">Вперед</string>
+    <string name="cancel_button_text">Скасувати</string>
+    <string name="error_name_required">Ім\'я обов\'язкове.</string>
+    <string name="error_name_min_length">Ім\'я має включати мінімум 3 символи.</string>
+    <string name="error_name_max_length">Ім\'я має включати максимум 32 символи.</string>
+    <string name="error_name_symbols">Ім\'я не може включати такі символи.</string>
+    <string name="error_phone_required">Номер телефону обов\'язковий.</string>
+    <string name="error_phone_min_length">Номер телефону має включати мінімум 10 цифр.</string>
+    <string name="error_phone_max_length">Номер телефону має включати максимум 15 цифр.</string>
+
+    <string name="invalid_login_data">Неправильна пошта або пароль.</string>
+    <string name="login_error_password_min_length">Пароль має включати мінімум 8 символів.</string>
+    <string name="login_error_password_max_length">Пароль має включати максимум 16 символів.</string>
+    <string name="login_error_password_symbols">Пароль має включати тільки букви, цифри та символи.</string>
+
+    <string name="users_label">Користувачі</string>
+    <string name="add_label">Додати</string>
+
+    <string name="add_to_my_contacts_button_text">Додати до контактів</string>
+    <string name="search_view_search_icon_description">seach_icon</string>
 </resources>

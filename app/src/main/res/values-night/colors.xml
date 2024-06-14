@@ -2,20 +2,21 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="main_color">#19181a</color>
+    <color name="main_background">#19181a</color>
+    <color name="second_main">#1481AF</color>
     <color name="default_background">#282829</color>
     <color name="default_text_color">#5694AE</color>
     <color name="additional_first">#4B7587</color>
     <color name="additional_second">#57879C</color>
     <color name="additional_third">#123D50</color>
     <color name="additional_fourth">#123D50</color>
-    <color name="additional_text_first">#3891B8</color>
-    <color name="additional_text_second">#4B7587</color>
-    <color name="additional_text_third">#4B7587</color>
-    <color name="additional_text_fourth">#3891B8</color>
-    <color name="additional_text_fifth">#4B7587</color>
+    <color name="additional_fifth">#3891B8</color>
+    <color name="additional_six">#4B7587</color>
+    <color name="additional_seven">#4B7587</color>
+    <color name="additional_eight">#3891B8</color>
+    <color name="additional_nine">#4B7587</color>
+    <color name="additional_ten">#5694AE</color>
     <color name="transparent_color">#00000000</color>
-    <color name="second_main">#1481AF</color>
     <color name="error_color">#F93E3E</color>
     <color name="selected_background">#2D2D30</color>
 </resources>

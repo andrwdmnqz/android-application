@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/profileDataBackground"
+        style="@style/TopBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:transitionName="loginBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivSelectedPhoto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/selected_photo_desc"
+        android:src="@drawable/empty_photo_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/photo_height"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/photo_vertical"
+        app:layout_constraintWidth_percent="@dimen/photo_width" />
+
+    <ImageView
+        android:id="@+id/ivAddPhoto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/selected_photo_desc"
+        android:src="@drawable/add_photo_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/ivSelectedPhoto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/add_photo_height"
+        app:layout_constraintHorizontal_bias="@dimen/add_photo_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivSelectedPhoto"
+        app:layout_constraintWidth_percent="@dimen/add_photo_width" />
+
+    <TextView
+        android:id="@+id/tvYourProfileDataLabel"
+        style="@style/h1_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/your_profile_data_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/your_profile_data_vertical" />
+
+    <TextView
+        android:id="@+id/tvFillOutTheProfileLabel"
+        style="@style/h4_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fill_the_profile_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/filling_profile_text_vertical" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilProfileName"
+        style="@style/TextInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/error_text_style"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/email_input_height"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/user_name_input_vertical"
+        app:layout_constraintWidth_percent="@dimen/user_inputs_width">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etProfileName"
+            style="@style/TextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/user_name_hint"
+            android:inputType="text"
+            android:minHeight="@dimen/min_edittext_height"
+            android:paddingStart="@dimen/email_input_padding"
+            android:paddingEnd="0dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilMobilePhone"
+        style="@style/TextInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/error_text_style"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/email_input_height"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/phone_input_vertical"
+        app:layout_constraintWidth_percent="@dimen/user_inputs_width">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etMobilePhone"
+            style="@style/TextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="0123456789"
+            android:hint="@string/mobile_phone_hint"
+            android:inputType="phone"
+            android:minHeight="@dimen/min_edittext_height"
+            android:paddingStart="@dimen/email_input_padding"
+            android:paddingEnd="0dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnCancelProfileData"
+        style="@style/h2_style"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/cancel_button"
+        android:text="@string/cancel_button_text"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/edit_profile_height"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/cancel_button_vertical"
+        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
+
+    <Button
+        android:id="@+id/btnForward"
+        style="@style/h2_5_style"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/view_contacts_button"
+        android:letterSpacing="@dimen/button_letter_spacing"
+        android:text="@string/forward_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="@dimen/contacts_height"
+        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/forward_button_vertical"
+        app:layout_constraintWidth_percent="@dimen/bottom_buttons_width" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
