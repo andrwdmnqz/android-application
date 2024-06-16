@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.project.myproject.ui.fragments.BaseFragment
 
 class ViewPagerAdapter(
-    list: ArrayList<BaseFragment<*>>,
+    list: List<BaseFragment<*>>,
     fm: FragmentManager,
     lifecycle: Lifecycle
 ) : FragmentStateAdapter(fm, lifecycle) {

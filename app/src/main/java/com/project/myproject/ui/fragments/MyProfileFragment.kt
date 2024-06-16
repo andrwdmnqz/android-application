@@ -15,28 +15,22 @@ import com.project.myproject.databinding.FragmentMyProfileBinding
 import com.project.myproject.ui.viewmodels.LoginState
 import com.project.myproject.utils.extensions.loadImageByGlide
 import com.project.myproject.ui.viewmodels.UserViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
 class MyProfileFragment : BaseFragment<FragmentMyProfileBinding>(FragmentMyProfileBinding::inflate) {
 
     private lateinit var animation: Transition
-
     private val viewModel by activityViewModels<UserViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        super.onViewCreated(view, savedInstanceState)
         setListeners()
         setObservers()
         setupUserData()
         setupAnimation()
-
-        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun setupAnimation() {
-
         animation = TransitionInflater.from(requireContext()).inflateTransition(
             R.transition.change_bounds
         )
@@ -54,7 +48,6 @@ class MyProfileFragment : BaseFragment<FragmentMyProfileBinding>(FragmentMyProfi
     }
 
     private fun initializeLogoutButtonListeners() {
-
         binding.btnLogout.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.logoutUser()
@@ -73,7 +66,6 @@ class MyProfileFragment : BaseFragment<FragmentMyProfileBinding>(FragmentMyProfi
     }
 
     private fun initializeContactsButtonListeners() {
-
         binding.btnContacts.setOnClickListener {
             val viewPager = activity?.findViewById<ViewPager2>(R.id.viewPager)
             viewPager?.currentItem = Constants.SECOND_TAB_NUMBER
@@ -81,27 +73,26 @@ class MyProfileFragment : BaseFragment<FragmentMyProfileBinding>(FragmentMyProfi
     }
 
     private fun setupUserData() {
-        val photoView = binding.ivProfilePhoto
-        val nameView = binding.tvNameProfile
-        val careerView = binding.tvCareerProfile
-        val addressView = binding.tvAddressProfile
-
         val user = viewModel.getCurrentUser()
+
+        binding.apply {
+            tvNameProfile.text = user?.name ?: DEFAULT_NAME_VALUE
+            tvCareerProfile.text = user?.career ?: DEFAULT_CAREER_VALUE
+            tvAddressProfile.text = user?.address ?: DEFAULT_ADDRESS_VALUE
+        }
+
+        val photoView = binding.ivProfilePhoto
 
         if (user?.image != null) {
             photoView.loadImageByGlide(user.image!!)
         } else {
             photoView.setImageResource(R.mipmap.empty_photo_icon)
         }
-
-        nameView.text = user?.name ?: DEFAULT_NAME_VALUE
-        careerView.text = user?.career ?: DEFAULT_CAREER_VALUE
-        addressView.text = user?.address ?: DEFAULT_ADDRESS_VALUE
     }
 
     companion object {
         private const val DEFAULT_NAME_VALUE = "Name"
-        private const val DEFAULT_CAREER_VALUE = "Name"
-        private const val DEFAULT_ADDRESS_VALUE = "Name"
+        private const val DEFAULT_CAREER_VALUE = "Career"
+        private const val DEFAULT_ADDRESS_VALUE = "Address"
     }
 }

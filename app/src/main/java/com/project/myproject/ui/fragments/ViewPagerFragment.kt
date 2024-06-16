@@ -12,29 +12,38 @@ import com.project.myproject.databinding.FragmentViewPagerBinding
 class ViewPagerFragment : BaseFragment<FragmentViewPagerBinding>(FragmentViewPagerBinding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val viewPager = binding.viewPager
-        val tabLayout = binding.tabLayout
-
-        val fragmentList = arrayListOf<BaseFragment<*>>(MyProfileFragment(), ContactsFragment())
-
-        val adapter = ViewPagerAdapter(fragmentList, childFragmentManager, lifecycle)
-
-        viewPager.adapter = adapter
-
-        initializeStrings(requireContext())
-
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = when (position) {
-                Constants.FIRST_TAB_NUMBER -> firstTabText
-                Constants.SECOND_TAB_NUMBER -> secondTabText
-                else -> throw IllegalStateException()
-            }
-        }.attach()
         super.onViewCreated(view, savedInstanceState)
+
+        setupViewPager()
+        setupTabLayout()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    private fun setupViewPager() {
+        val fragmentsList = listOf<BaseFragment<*>>(MyProfileFragment(), ContactsFragment())
+
+        val adapter = ViewPagerAdapter(fragmentsList, childFragmentManager, lifecycle)
+        binding.viewPager.adapter = adapter
+    }
+
+    private fun setupTabLayout() {
+        initializeTabTitles(requireContext())
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = getTabTitle(position)
+        }.attach()
+    }
+
+    private fun initializeTabTitles(context: Context) {
+        firstTabText = context.getString(R.string.first_tab_text)
+        secondTabText = context.getString(R.string.second_tab_text)
+    }
+
+    private fun getTabTitle(position: Int): String {
+        return when (position) {
+            Constants.FIRST_TAB_NUMBER -> firstTabText
+            Constants.SECOND_TAB_NUMBER -> secondTabText
+            else -> throw IllegalStateException("Invalid tab position $position")
+        }
     }
 
     override fun setObservers() {
@@ -48,10 +57,5 @@ class ViewPagerFragment : BaseFragment<FragmentViewPagerBinding>(FragmentViewPag
     companion object {
         private var firstTabText = ""
         private var secondTabText = ""
-
-        fun initializeStrings(context: Context) {
-            firstTabText = context.getString(R.string.first_tab_text)
-            secondTabText = context.getString(R.string.second_tab_text)
-        }
     }
 }

@@ -9,6 +9,7 @@ import com.project.myproject.data.requests.CreateRequest
 import com.project.myproject.data.requests.EditUserRequest
 import com.project.myproject.data.requests.LoginRequest
 import com.project.myproject.data.repository.MainRepository
+import com.project.myproject.data.repository.Repository
 import com.project.myproject.data.requests.AddContactRequest
 import com.project.myproject.utils.SessionManager
 import com.project.myproject.utils.SettingPreference
@@ -25,7 +26,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
-    private val mainRepository: MainRepository,
+    private val repository: Repository,
     private val sessionManager: SessionManager,
     private val settingPreference: SettingPreference
 ) : ViewModel() {
@@ -66,22 +67,13 @@ class UserViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-            val result = mainRepository.createUser(CreateRequest(email, password))
+            val result = repository.createUser(CreateRequest(email, password))
 
             withContext(Dispatchers.Main) {
                 if (result != null) {
                     val responseBodyData = result.data
 
-                    val id = responseBodyData.user.id
-                    val accessToken = responseBodyData.accessToken
-                    val refreshToken = responseBodyData.refreshToken
-
-                    currentUser = responseBodyData.user
-
-                    if (isUserRemembered) {
-                        settingPreference.setupData(id, accessToken, refreshToken)
-                    }
-                    sessionManager.setupData(id, accessToken, refreshToken, isUserRemembered)
+                    handleUserResponse(responseBodyData.user, responseBodyData.accessToken, responseBodyData.refreshToken, isUserRemembered)
 
                     _registrationState.value = RegistrationState.Success
                 } else {
@@ -97,22 +89,13 @@ class UserViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-            val result = mainRepository.loginUser(LoginRequest(email, password))
+            val result = repository.loginUser(LoginRequest(email, password))
 
             withContext(Dispatchers.Main) {
                 if (result != null) {
                     val responseBodyData = result.data
 
-                    val id = responseBodyData.user.id
-                    val accessToken = responseBodyData.accessToken
-                    val refreshToken = responseBodyData.refreshToken
-
-                    currentUser = responseBodyData.user
-
-                    if (isUserRemembered) {
-                        settingPreference.setupData(id, accessToken, refreshToken)
-                    }
-                    sessionManager.setupData(id, accessToken, refreshToken, isUserRemembered)
+                    handleUserResponse(responseBodyData.user, responseBodyData.accessToken, responseBodyData.refreshToken, isUserRemembered)
 
                     _loginState.value = LoginState.Success
                 } else {
@@ -136,7 +119,7 @@ class UserViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-            val result = mainRepository.editUser(sessionManager.getId(),
+            val result = repository.editUser(sessionManager.getId(),
                 EditUserRequest(userName, phoneNumber)
             )
 
@@ -169,7 +152,7 @@ class UserViewModel @Inject constructor(
                     true
                 )
 
-                val result = mainRepository.getUser(userId)
+                val result = repository.getUser(userId)
 
                 withContext(Dispatchers.Main) {
                     if (result != null) {
@@ -188,7 +171,7 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _loading.value = true
 
-            val result = mainRepository.getUserContacts(sessionManager.getId())
+            val result = repository.getUserContacts(sessionManager.getId())
 
             withContext(Dispatchers.Main) {
                 _loading.value = false
@@ -205,7 +188,7 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _loading.value = true
 
-            val result = mainRepository.getAllUsers()
+            val result = repository.getAllUsers()
 
             withContext(Dispatchers.Main) {
                 _loading.value = false
@@ -220,7 +203,7 @@ class UserViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-            val result = mainRepository.deleteUserContact(sessionManager.getId(), contactId)
+            val result = repository.deleteUserContact(sessionManager.getId(), contactId)
 
             withContext(Dispatchers.Main) {
                 if (result != null) {
@@ -236,7 +219,7 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _loading.value = true
 
-            val result = mainRepository.addContact(sessionManager.getId(), AddContactRequest(contactId))
+            val result = repository.addContact(sessionManager.getId(), AddContactRequest(contactId))
 
             withContext(Dispatchers.Main) {
                 _loading.value = false
@@ -259,6 +242,20 @@ class UserViewModel @Inject constructor(
     }
 
     fun getCurrentUser() = currentUser
+
+    private suspend fun handleUserResponse(
+        user: User,
+        accessToken: String,
+        refreshToken: String,
+        isUserRemembered: Boolean
+    ) {
+        currentUser = user
+
+        if (isUserRemembered) {
+            settingPreference.setupData(user.id, accessToken, refreshToken)
+        }
+        sessionManager.setupData(user.id, accessToken, refreshToken, isUserRemembered)
+    }
 }
 
 sealed class LoginState {

@@ -11,25 +11,20 @@ import com.project.myproject.databinding.FragmentContactsProfileBinding
 import com.project.myproject.ui.viewmodels.UserViewModel
 import com.project.myproject.utils.Constants
 import com.project.myproject.utils.extensions.loadImageByGlide
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
 class ContactsProfileFragment :
     BaseFragment<FragmentContactsProfileBinding>(FragmentContactsProfileBinding::inflate) {
 
     private val viewModel by activityViewModels<UserViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        super.onViewCreated(view, savedInstanceState)
         setObservers()
         setListeners()
-
-        super.onViewCreated(view, savedInstanceState)
     }
     override fun setObservers() {
         setupFields()
-
         observeAddContactState()
     }
 
@@ -63,12 +58,19 @@ class ContactsProfileFragment :
     }
 
     override fun setListeners() {
-        binding.ivToolbarBack.setOnClickListener {
-            it.findNavController().popBackStack()
-        }
+        setBackArrowListener()
+        setAddContactIconListener()
+    }
 
+    private fun setAddContactIconListener() {
         binding.btnAddToMyContacts.setOnClickListener {
             viewModel.addContact(ContactsProfileFragmentArgs.fromBundle(requireArguments()).user.id)
+        }
+    }
+
+    private fun setBackArrowListener() {
+        binding.ivToolbarBack.setOnClickListener {
+            it.findNavController().navigateUp()
         }
     }
 

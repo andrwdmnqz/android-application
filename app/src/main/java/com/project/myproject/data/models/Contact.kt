@@ -2,15 +2,16 @@ package com.project.myproject.data.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.project.myproject.utils.FilterableItem
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class Contact(
     val id: Int,
-    var name: String?,
+    override var name: String?,
     var email: String,
     var phone: String?,
-    var career: String?,
+    override var career: String?,
     var address: String?,
     var birthday: String?,
     var facebook: String?,
@@ -23,4 +24,4 @@ class Contact(
     @SerializedName("updated_at")
     var updatedAt: String,
     var isSelected: Boolean = false
-) : Parcelable
+) : Parcelable, FilterableItem

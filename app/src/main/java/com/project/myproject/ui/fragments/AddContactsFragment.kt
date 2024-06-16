@@ -2,7 +2,6 @@ package com.project.myproject.ui.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,14 +15,13 @@ import com.project.myproject.data.mappers.UserToContactMapper
 import com.project.myproject.data.models.User
 import com.project.myproject.databinding.FragmentAddContactsBinding
 import com.project.myproject.ui.adapters.UserAdapter
+import com.project.myproject.ui.fragments.utils.SearchTextQueryListener
 import com.project.myproject.ui.viewmodels.UserViewModel
 import com.project.myproject.utils.Constants
 import com.project.myproject.utils.DefaultItemDecorator
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
 class AddContactsFragment :
     BaseFragment<FragmentAddContactsBinding>(FragmentAddContactsBinding::inflate),
     UserAdapter.OnUserItemCLickListener {
@@ -33,26 +31,26 @@ class AddContactsFragment :
     private lateinit var adapter: UserAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         adapter = UserAdapter(this)
-
         setupRecyclerView()
+        setupSearchFunctionality()
         setListeners()
         setObservers()
-
-        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun setupRecyclerView() {
+        binding.rvUsers.apply {
+            adapter = this@AddContactsFragment.adapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DefaultItemDecorator(resources.getDimensionPixelSize(R.dimen.contacts_item_margin)))
+        }
         viewModel.fetchUsers()
+        collectUserData()
+    }
 
-        val usersRV = binding.rvUsers
-        val itemMarginSize = resources.getDimensionPixelSize(R.dimen.contacts_item_margin)
-
-        usersRV.adapter = adapter
-        usersRV.addItemDecoration(DefaultItemDecorator(itemMarginSize))
-        usersRV.layoutManager = LinearLayoutManager(requireContext())
-
+    private fun collectUserData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.users.combine(viewModel.contactsId) { users, contactsId ->
                 users to contactsId
@@ -63,13 +61,17 @@ class AddContactsFragment :
         }
     }
 
+    private fun setupSearchFunctionality() {
+        setupSearchButtonListeners()
+        setupSearchView()
+    }
+
     private fun setupSearchButtonListeners() {
         val searchButton = binding.ivToolbarSearch
         val searchView = binding.searchViewUsers
         val searchViewSearchIcon = binding.ivSearchViewSearchIcon
 
         searchButton.setOnClickListener {
-
             val searchIconId = R.drawable.search_icon
             val clearIconId = R.drawable.search_clear_icon
             val currentIconId = searchButton.tag as? Int ?: R.drawable.search_icon
@@ -93,20 +95,8 @@ class AddContactsFragment :
     }
 
     private fun setupSearchView() {
-        val searchView = binding.searchViewUsers
-
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null) {
-                    filter(newText)
-                }
-                return true
-            }
+        binding.searchViewUsers.setOnQueryTextListener(SearchTextQueryListener { newText ->
+            filter(newText)
         })
     }
 
@@ -148,8 +138,11 @@ class AddContactsFragment :
     }
 
     override fun setObservers() {
-        setupSearchView()
+        observeLoadingState()
+        observeAddContactState()
+    }
 
+    private fun observeLoadingState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loading.collect { isLoading ->
@@ -157,8 +150,6 @@ class AddContactsFragment :
                 }
             }
         }
-
-        observeAddContactState()
     }
 
     private fun observeAddContactState() {
@@ -173,9 +164,12 @@ class AddContactsFragment :
 
     override fun setListeners() {
         setupSearchButtonListeners()
+        setBackArrowListener()
+    }
 
+    private fun setBackArrowListener() {
         binding.ivToolbarBack.setOnClickListener {
-            it.findNavController().popBackStack()
+            it.findNavController().navigateUp()
         }
     }
 

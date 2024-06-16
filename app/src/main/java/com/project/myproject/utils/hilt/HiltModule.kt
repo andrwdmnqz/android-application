@@ -6,6 +6,7 @@ import com.project.myproject.data.network.RetrofitService
 import com.project.myproject.data.network.interceptors.AuthInterceptor
 import com.project.myproject.data.network.interceptors.ResponseFixInterceptor
 import com.project.myproject.data.repository.MainRepository
+import com.project.myproject.data.repository.Repository
 import com.project.myproject.ui.fragments.RegisterFragment
 import com.project.myproject.utils.SessionManager
 import com.project.myproject.utils.SettingPreference
@@ -61,7 +62,7 @@ object HiltModule {
 
     @Provides
     @Singleton
-    fun provideMainRepository(retrofitService: RetrofitService): MainRepository =
+    fun provideMainRepository(retrofitService: RetrofitService): Repository =
         MainRepository(retrofitService)
 
     @Provides

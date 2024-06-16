@@ -5,7 +5,6 @@ import android.transition.Transition
 import android.transition.TransitionInflater
 import android.view.View
 import androidx.activity.addCallback
-import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -22,65 +21,71 @@ import com.project.myproject.data.models.Contact
 import com.project.myproject.ui.adapters.ContactAdapter
 import com.project.myproject.utils.callbacks.SwipeToDeleteCallback
 import com.project.myproject.databinding.FragmentContactsBinding
+import com.project.myproject.ui.fragments.utils.CustomAdapterDataObserver
+import com.project.myproject.ui.fragments.utils.SearchTextQueryListener
 import com.project.myproject.utils.DefaultItemDecorator
 import com.project.myproject.ui.viewmodels.UserViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
-@AndroidEntryPoint
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate),
     ContactAdapter.OnContactItemClickListener {
 
     private val viewModel by activityViewModels<UserViewModel>()
-
     private lateinit var adapter: ContactAdapter
-
     private lateinit var animation: Transition
-
     private lateinit var viewPager: ViewPager2
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewPager = activity?.findViewById(R.id.viewPager)!!
         adapter = ContactAdapter(requireContext(), this) { show -> showMultiselectDelete(show) }
 
         setupRecyclerView()
+        setupSearchFunctionality()
         setListeners()
         setObservers()
         setupAnimation()
-
-        super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onStart() {
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            if (isFirstTab()) {
-                activity?.finish()
-                exitProcess(0)
-            } else {
-                moveToFirstTab()
-            }
-        }
+    private fun setupRecyclerView() {
+        val contactsRV = binding.rvContacts
 
-        super.onStart()
-    }
+        val itemMarginSize = resources.getDimensionPixelSize(R.dimen.contacts_item_margin)
 
-    override fun setObservers() {
-        setupSearchView()
+        setupAdapterScroll(contactsRV)
+
+        contactsRV.adapter = adapter
+        contactsRV.addItemDecoration(DefaultItemDecorator(itemMarginSize))
+        contactsRV.layoutManager = LinearLayoutManager(requireContext())
+
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback { contact ->
+            viewModel.deleteContact(contact.id)
+
+            showDeleteSnackbar(contact)
+        })
+
+        itemTouchHelper.attachToRecyclerView(contactsRV)
+
+        viewModel.fetchContacts()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.loading.collect { isLoading ->
-                binding.pbContactsList.visibility = if (isLoading) View.VISIBLE else View.GONE
+            viewModel.contacts.collect { contacts ->
+                adapter.submitList(contacts)
             }
         }
     }
 
-    override fun setListeners() {
-        setupBackArrowListeners()
-        setupAddContactListeners()
-        setupMultiselectDeleteListeners()
+    private fun setupSearchFunctionality() {
+        setupSearchView()
         setupSearchButtonListeners()
+    }
+
+    private fun setupSearchView() {
+        binding.searchViewContacts.setOnQueryTextListener(SearchTextQueryListener { newText ->
+            filter(newText)
+        })
     }
 
     private fun setupSearchButtonListeners() {
@@ -110,6 +115,38 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if (isFirstTab()) {
+                activity?.finish()
+                exitProcess(0)
+            } else {
+                moveToFirstTab()
+            }
+        }
+
+        super.onStart()
+    }
+
+    override fun setObservers() {
+        observeLoadingState()
+    }
+
+    private fun observeLoadingState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.loading.collect { isLoading ->
+                binding.pbContactsList.visibility = if (isLoading) View.VISIBLE else View.GONE
+            }
+        }
+    }
+
+    override fun setListeners() {
+        setupBackArrowListeners()
+        setupAddContactListeners()
+        setupMultiselectDeleteListeners()
+        setupSearchButtonListeners()
     }
 
     private fun setupBackArrowListeners() {
@@ -148,7 +185,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun showDeleteSnackbar(contact: Contact) {
-
         val snackbar = Snackbar.make(binding.root,
             getString(R.string.contact_removed), Snackbar.LENGTH_LONG)
 
@@ -157,52 +193,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         }
 
         snackbar.show()
-    }
-
-    private fun setupRecyclerView() {
-        val contactsRV = binding.rvContacts
-
-        val itemMarginSize = resources.getDimensionPixelSize(R.dimen.contacts_item_margin)
-
-        setupAdapterScroll(contactsRV)
-
-        contactsRV.adapter = adapter
-        contactsRV.addItemDecoration(DefaultItemDecorator(itemMarginSize))
-        contactsRV.layoutManager = LinearLayoutManager(requireContext())
-
-        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback { contact ->
-            viewModel.deleteContact(contact.id)
-
-            showDeleteSnackbar(contact)
-        })
-
-        itemTouchHelper.attachToRecyclerView(contactsRV)
-
-        viewModel.fetchContacts()
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.contacts.collect { contacts ->
-                adapter.submitList(contacts)
-            }
-        }
-    }
-
-    private fun setupSearchView() {
-        val searchView = binding.searchViewContacts
-
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null) {
-                    filter(newText)
-                }
-                return true
-            }
-        })
     }
 
     private fun filter(text: String) {
@@ -220,32 +210,10 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun setupAdapterScroll(contactsRV: RecyclerView) {
-        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
-            override fun onChanged() {
-                // No need to scroll here
-            }
-            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-                // No need to scroll here
-            }
-            override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-                // No need to scroll here
-            }
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (itemCount == 1 && positionStart == 0) {
-                    contactsRV.scrollToPosition(positionStart)
-                }
-            }
-            override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-                // No need to scroll here
-            }
-            override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-                // No need to scroll here
-            }
-        })
+        adapter.registerAdapterDataObserver(CustomAdapterDataObserver(contactsRV))
     }
 
     private fun setupAnimation() {
-
         animation = TransitionInflater.from(requireContext()).inflateTransition(
             R.transition.change_bounds
         )
@@ -255,9 +223,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun setupMultiselectDeleteListeners() {
-        val multiselectDeleteIcon = binding.ivMultiselectDeleteIcon
-        multiselectDeleteIcon.setOnClickListener {
-
+        binding.ivMultiselectDeleteIcon.setOnClickListener {
             val selectedItems = adapter.getSelectedItems().sortedDescending()
             selectedItems.forEach {
                 viewModel.deleteContact(viewModel.contacts.value[it].id)

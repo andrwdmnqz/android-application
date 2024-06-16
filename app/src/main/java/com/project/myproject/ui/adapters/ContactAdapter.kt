@@ -173,7 +173,7 @@ class ContactAdapter(
         fun onDeleteItemClicked(contact: Contact)
     }
 
-    inner class ViewHolder(private val binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val contactNameView = binding.tvContactName
         val contactCareerView = binding.tvContactCareer
         val contactImageView = binding.ivContactPhoto
