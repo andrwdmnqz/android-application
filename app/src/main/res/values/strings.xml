@@ -92,4 +92,6 @@
 
     <string name="add_to_my_contacts_button_text">Add to my contacts</string>
     <string name="search_view_search_icon_description">seach_icon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

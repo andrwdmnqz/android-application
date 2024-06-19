@@ -1,28 +1,15 @@
 package com.project.myproject.ui.fragments
 
-import android.Manifest
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.view.View
 import androidx.activity.addCallback
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -30,9 +17,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.project.myproject.utils.Constants
 import com.project.myproject.R
 import com.project.myproject.data.models.Contact
+import com.project.myproject.databinding.FragmentSearchContactsBinding
 import com.project.myproject.ui.adapters.ContactAdapter
-import com.project.myproject.utils.callbacks.SwipeToDeleteCallback
-import com.project.myproject.databinding.FragmentContactsBinding
 import com.project.myproject.ui.fragments.utils.CustomAdapterDataObserver
 import com.project.myproject.ui.fragments.utils.SearchTextQueryListener
 import com.project.myproject.utils.DefaultItemDecorator
@@ -40,21 +26,18 @@ import com.project.myproject.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
-class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate),
+class SearchContacts : BaseFragment<FragmentSearchContactsBinding>(FragmentSearchContactsBinding::inflate),
     ContactAdapter.OnContactItemClickListener {
 
     private val viewModel by activityViewModels<UserViewModel>()
     private lateinit var adapter: ContactAdapter
     private lateinit var animation: Transition
-    private lateinit var viewPager: ViewPager2
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewPager = activity?.findViewById(R.id.viewPager)!!
         adapter = ContactAdapter(requireContext(), this) { show -> showMultiselectDelete(show) }
 
-        createNotificationChannel(requireContext())
         setupRecyclerView()
         setupSearchFunctionality()
         setListeners()
@@ -62,23 +45,10 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         setupAnimation()
     }
 
-    private fun createNotificationChannel(context: Context) {
-        val name = "Your Channel Name"
-        val descriptionText = "Your Channel Description"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel("your_channel_id", name, importance).apply {
-            description = descriptionText
-        }
-
-        val notificationManager: NotificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-    }
-
     private fun setupRecyclerView() {
         binding.rvContacts.apply {
             setupAdapterScroll(this)
-            adapter = this@ContactsFragment.adapter
+            adapter = this@SearchContacts.adapter
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DefaultItemDecorator(resources.getDimensionPixelSize(R.dimen.contacts_item_margin)))
         }
@@ -95,79 +65,23 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun setupSearchFunctionality() {
-        setupSearchButtonListeners()
+        setupSearchView()
+        setupClearButtonListeners()
     }
 
-    private fun setupSearchButtonListeners() {
-        binding.ivToolbarSearch.setOnClickListener {
-            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                requestNotificationPermission()
-            } else {
-                showSearchNotification(requireContext())
-            }
-        }
+    private fun setupSearchView() {
+        binding.searchViewContacts.setOnQueryTextListener(SearchTextQueryListener { newText ->
+            filter(newText)
+        })
     }
 
-    private fun requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                Constants.NOTIFICATION_PERMISSION_REQUEST_CODE
-            )
+    private fun setupClearButtonListeners() {
+        val clearButton = binding.ivToolbarClear
+        val searchView = binding.searchViewContacts
+
+        clearButton.setOnClickListener {
+            searchView.setQuery("", false)
         }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == Constants.NOTIFICATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                showSearchNotification(requireContext())
-            }
-        }
-    }
-
-    private fun showSearchNotification(context: Context) {
-        val uri = Uri.parse("myapp://search/contacts")
-        val intent = Intent(Intent.ACTION_VIEW, uri).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-
-        val pendingIntent = PendingIntent.getActivity(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val notification = NotificationCompat.Builder(context, "your_channel_id")
-            .setSmallIcon(R.drawable.search_icon)
-            .setContentTitle("Search")
-            .setContentText("Click to search")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
-            .build()
-
-        try {
-            with(NotificationManagerCompat.from(context)) {
-                notify(1, notification)
-            }
-        } catch (e: SecurityException) {
-            e.printStackTrace()
-        }
-    }
-
-    override fun onStart() {
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            if (isFirstTab()) {
-                activity?.finish()
-                exitProcess(0)
-            } else {
-                moveToFirstTab()
-            }
-        }
-
-        super.onStart()
     }
 
     override fun setObservers() {
@@ -183,28 +97,14 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     override fun setListeners() {
-        setupBackArrowListeners()
         setupAddContactListeners()
         setupMultiselectDeleteListeners()
-        setupSearchButtonListeners()
+        setupClearButtonListeners()
     }
-
-    private fun setupBackArrowListeners() {
-        binding.ivToolbarBack.setOnClickListener {
-            moveToFirstTab()
-        }
-    }
-
-    private fun moveToFirstTab() {
-        val viewPager = activity?.findViewById<ViewPager2>(R.id.viewPager)
-        viewPager?.currentItem = Constants.FIRST_TAB_NUMBER
-    }
-
-    private fun isFirstTab() = viewPager.currentItem == Constants.FIRST_TAB_NUMBER
 
     private fun setupAddContactListeners() {
         binding.tvAddContactsLabel.setOnClickListener {
-            findNavController().navigate(R.id.action_viewPagerFragment_to_addContactsFragment)
+            findNavController().navigate(R.id.action_searchContacts_to_addContactsFragment)
         }
     }
 
@@ -212,7 +112,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         val extras = FragmentNavigatorExtras(binding.contactsBackground to "detailBackground")
 
         findNavController().navigate(
-            ViewPagerFragmentDirections.actionViewPagerFragmentToDetailViewFragment(
+            SearchContactsDirections.actionSearchContactsToDetailViewFragment(
                 contact
             ), extras
         )

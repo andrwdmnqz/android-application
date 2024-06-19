@@ -1,29 +1,18 @@
 package com.project.myproject.ui.fragments
 
-import android.Manifest
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.project.myproject.R
 import com.project.myproject.data.mappers.UserToContactMapper
 import com.project.myproject.data.models.User
-import com.project.myproject.databinding.FragmentAddContactsBinding
+import com.project.myproject.databinding.FragmentSearchUsersBinding
 import com.project.myproject.ui.adapters.UserAdapter
 import com.project.myproject.ui.fragments.utils.SearchTextQueryListener
 import com.project.myproject.ui.viewmodels.UserViewModel
@@ -32,8 +21,8 @@ import com.project.myproject.utils.DefaultItemDecorator
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-class AddContactsFragment :
-    BaseFragment<FragmentAddContactsBinding>(FragmentAddContactsBinding::inflate),
+class SearchUsers :
+    BaseFragment<FragmentSearchUsersBinding>(FragmentSearchUsersBinding::inflate),
     UserAdapter.OnUserItemCLickListener {
 
     private val viewModel by activityViewModels<UserViewModel>()
@@ -44,8 +33,6 @@ class AddContactsFragment :
         super.onViewCreated(view, savedInstanceState)
 
         adapter = UserAdapter(this)
-
-        
         setupRecyclerView()
         setupSearchFunctionality()
         setListeners()
@@ -54,7 +41,7 @@ class AddContactsFragment :
 
     private fun setupRecyclerView() {
         binding.rvUsers.apply {
-            adapter = this@AddContactsFragment.adapter
+            adapter = this@SearchUsers.adapter
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DefaultItemDecorator(resources.getDimensionPixelSize(R.dimen.contacts_item_margin)))
         }
@@ -74,66 +61,23 @@ class AddContactsFragment :
     }
 
     private fun setupSearchFunctionality() {
-        setupSearchButtonListeners()
+        setupClearButtonListeners()
+        setupSearchView()
     }
 
-    private fun setupSearchButtonListeners() {
-        binding.ivToolbarSearch.setOnClickListener {
-            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                requestNotificationPermission()
-            } else {
-                showSearchNotification(requireContext())
-            }
-        }
-    }
+    private fun setupClearButtonListeners() {
+        val clearButton = binding.ivToolbarClear
+        val searchView = binding.searchViewUsers
 
-    private fun requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), Constants.NOTIFICATION_PERMISSION_REQUEST_CODE)
+        clearButton.setOnClickListener {
+            searchView.setQuery("", false)
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == Constants.NOTIFICATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                showSearchNotification(requireContext())
-            } else {
-                // No access
-            }
-        }
-    }
-
-    private fun showSearchNotification(context: Context) {
-        val uri = Uri.parse("myapp://search/users")
-        val intent = Intent(Intent.ACTION_VIEW, uri).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-
-        val pendingIntent = PendingIntent.getActivity(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val notification = NotificationCompat.Builder(context, "your_channel_id")
-            .setSmallIcon(R.drawable.search_icon)
-            .setContentTitle("Search")
-            .setContentText("Click to search")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
-            .build()
-
-        try {
-            with(NotificationManagerCompat.from(context)) {
-                notify(1, notification)
-            }
-        } catch (e: SecurityException) {
-            e.printStackTrace()
-        }
+    private fun setupSearchView() {
+        binding.searchViewUsers.setOnQueryTextListener(SearchTextQueryListener { newText ->
+            filter(newText)
+        })
     }
 
     private fun filter(text: String) {
@@ -154,7 +98,7 @@ class AddContactsFragment :
 
         if (user.id !in viewModel.contactsId.value) {
             findNavController().navigate(
-                AddContactsFragmentDirections.actionAddContactsFragmentToContactsProfileFragment(
+                SearchUsersDirections.actionSearchUsersToContactsProfileFragment(
                     user
                 )
             )
@@ -199,14 +143,7 @@ class AddContactsFragment :
     }
 
     override fun setListeners() {
-        setupSearchButtonListeners()
-        setBackArrowListener()
-    }
-
-    private fun setBackArrowListener() {
-        binding.ivToolbarBack.setOnClickListener {
-            it.findNavController().navigateUp()
-        }
+        setupClearButtonListeners()
     }
 
     private fun onContactAdded() {
