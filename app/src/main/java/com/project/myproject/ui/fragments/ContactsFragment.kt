@@ -33,6 +33,7 @@ import com.project.myproject.data.models.Contact
 import com.project.myproject.ui.adapters.ContactAdapter
 import com.project.myproject.utils.callbacks.SwipeToDeleteCallback
 import com.project.myproject.databinding.FragmentContactsBinding
+import com.project.myproject.ui.activities.MainActivity
 import com.project.myproject.ui.fragments.utils.CustomAdapterDataObserver
 import com.project.myproject.ui.fragments.utils.SearchTextQueryListener
 import com.project.myproject.utils.DefaultItemDecorator
@@ -63,10 +64,10 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun createNotificationChannel(context: Context) {
-        val name = "Your Channel Name"
-        val descriptionText = "Your Channel Description"
+        val name = NOTIFICATION_CHANNEL_NAME
+        val descriptionText = NOTIFICATION_CHANNEL_DESC
         val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel("your_channel_id", name, importance).apply {
+        val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance).apply {
             description = descriptionText
         }
 
@@ -139,7 +140,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val notification = NotificationCompat.Builder(context, "your_channel_id")
+        val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.search_icon)
             .setContentTitle("Search")
             .setContentText("Click to search")
@@ -235,20 +236,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         snackbar.show()
     }
 
-    private fun filter(text: String) {
-        if (text == "") {
-            adapter.submitList(viewModel.contacts.value)
-        } else {
-            val filteredList = viewModel.contacts.value.filter {
-                (it.name?.contains(text, true) == true ||
-                        it.career?.contains(text, true) == true) ||
-                        (it.name == null && Constants.DEFAULT_NAME_VALUE.contains(text, true) ||
-                                it.career == null && Constants.DEFAULT_CAREER_VALUE.contains(text, true))
-            }
-            adapter.submitList(filteredList)
-        }
-    }
-
     private fun setupAdapterScroll(contactsRV: RecyclerView) {
         adapter.registerAdapterDataObserver(CustomAdapterDataObserver(contactsRV))
     }
@@ -275,5 +262,11 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     private fun showMultiselectDelete(show: Boolean) {
         binding.ivMultiselectDeleteIcon.isVisible = show
+    }
+
+    companion object {
+        private const val NOTIFICATION_CHANNEL_NAME = "Notification channel"
+        private const val NOTIFICATION_CHANNEL_DESC = "Notification channel description"
+        private const val NOTIFICATION_CHANNEL_ID= "notification_channel_id"
     }
 }

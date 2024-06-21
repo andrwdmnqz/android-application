@@ -1,13 +1,16 @@
 package com.project.myproject.data.models
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.project.myproject.utils.FilterableItem
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Entity(tableName = "users")
 class User(
-    val id: Int,
+    @PrimaryKey val id: Int,
     override var name: String?,
     var email: String,
     var phone: String?,

@@ -5,6 +5,7 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -62,23 +63,30 @@ val dataStoreVersion = "1.1.1"
 val constraintLayoutVersion = "2.1.4"
 val coreKtxVersion = "1.13.1"
 val glideVersion = "4.14.2"
-val viewModelVersion = "2.8.1"
+val viewModelVersion = "2.8.2"
 val activityVersion = "1.9.0"
 val navVersion = "2.7.7"
-val fragmentVersion = "1.7.1"
+val fragmentVersion = "1.8.0"
 val retrofitVersion = "2.11.0"
 val okHttpVersion = "4.12.0"
 val hiltVersion = "2.49"
 val appCompatVersion = "1.7.0"
 val gsonVersion = "2.11.0"
+val composeVersion = "2024.06.00"
+val roomVersion = "2.6.1"
+val coroutinesVersion = "1.7.3"
 
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2024.05.00"))
+    implementation(platform("androidx.compose:compose-bom:$composeVersion"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.foundation:foundation-layout")
     implementation("androidx.compose.material3:material3")
 
+    implementation("androidx.room:room-runtime:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     implementation("com.google.code.gson:gson:$gsonVersion")
     implementation("androidx.appcompat:appcompat:$appCompatVersion")
     implementation("com.google.dagger:hilt-android:$hiltVersion")

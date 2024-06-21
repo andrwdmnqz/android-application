@@ -1,7 +1,11 @@
 package com.project.myproject.utils.hilt
 
 import android.content.Context
+import androidx.room.Room
 import com.project.myproject.BuildConfig
+import com.project.myproject.data.dao.ContactDao
+import com.project.myproject.data.dao.UserDao
+import com.project.myproject.data.database.AppDatabase
 import com.project.myproject.data.network.RetrofitService
 import com.project.myproject.data.network.interceptors.AuthInterceptor
 import com.project.myproject.data.network.interceptors.ResponseFixInterceptor
@@ -69,6 +73,26 @@ object HiltModule {
     @Singleton
     fun provideSettingPreferences(@ApplicationContext context: Context): SettingPreference =
         SettingPreference(context)
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "app_database"
+        ).build()
+    }
+
+    @Provides
+    fun provideUserDao(appDatabase: AppDatabase): UserDao {
+        return appDatabase.userDao()
+    }
+
+    @Provides
+    fun provideContactDao(appDatabase: AppDatabase): ContactDao {
+        return appDatabase.contactDao()
+    }
 
     @Provides
     @Singleton

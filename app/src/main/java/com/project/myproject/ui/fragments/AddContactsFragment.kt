@@ -1,6 +1,8 @@
 package com.project.myproject.ui.fragments
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -45,11 +47,24 @@ class AddContactsFragment :
 
         adapter = UserAdapter(this)
 
-        
+        createNotificationChannel(requireContext())
         setupRecyclerView()
         setupSearchFunctionality()
         setListeners()
         setObservers()
+    }
+
+    private fun createNotificationChannel(context: Context) {
+        val name = NOTIFICATION_CHANNEL_NAME
+        val descriptionText = NOTIFICATION_CHANNEL_DESC
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance).apply {
+            description = descriptionText
+        }
+
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
     }
 
     private fun setupRecyclerView() {
@@ -99,8 +114,6 @@ class AddContactsFragment :
         if (requestCode == Constants.NOTIFICATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showSearchNotification(requireContext())
-            } else {
-                // No access
             }
         }
     }
@@ -133,20 +146,6 @@ class AddContactsFragment :
             }
         } catch (e: SecurityException) {
             e.printStackTrace()
-        }
-    }
-
-    private fun filter(text: String) {
-        if (text == "") {
-            adapter.submitList(viewModel.users.value)
-        } else {
-            val filteredList = viewModel.users.value.filter {
-                (it.name?.contains(text, true) == true ||
-                        it.career?.contains(text, true) == true) ||
-                        (it.name == null && Constants.DEFAULT_NAME_VALUE.contains(text, true) ||
-                                it.career == null && Constants.DEFAULT_CAREER_VALUE.contains(text, true))
-            }
-            adapter.submitList(filteredList)
         }
     }
 
@@ -215,5 +214,11 @@ class AddContactsFragment :
             getString(R.string.contact_added), Snackbar.LENGTH_LONG
         ).show()
         viewModel.resetContactAdded()
+    }
+
+    companion object {
+        private const val NOTIFICATION_CHANNEL_NAME = "Notification channel"
+        private const val NOTIFICATION_CHANNEL_DESC = "Notification channel description"
+        private const val NOTIFICATION_CHANNEL_ID= "notification_channel_id"
     }
 }

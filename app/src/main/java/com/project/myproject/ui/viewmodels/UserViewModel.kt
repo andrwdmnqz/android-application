@@ -5,11 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.project.myproject.data.mappers.UserToContactMapper
 import com.project.myproject.data.models.Contact
 import com.project.myproject.data.models.User
+import com.project.myproject.data.repository.ContactRepository
 import com.project.myproject.data.requests.CreateRequest
 import com.project.myproject.data.requests.EditUserRequest
 import com.project.myproject.data.requests.LoginRequest
-import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.data.repository.Repository
+import com.project.myproject.data.repository.UserRepository
 import com.project.myproject.data.requests.AddContactRequest
 import com.project.myproject.utils.SessionManager
 import com.project.myproject.utils.SettingPreference
@@ -27,6 +28,8 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val repository: Repository,
+    private val contactRepository: ContactRepository,
+    private val userRepository: UserRepository,
     private val sessionManager: SessionManager,
     private val settingPreference: SettingPreference
 ) : ViewModel() {
@@ -178,6 +181,7 @@ class UserViewModel @Inject constructor(
                 if (result != null) {
                     _contacts.value = UserToContactMapper.map(result.data.contacts)
                     _contactsId.value = result.data.contacts.map { it.id }
+                    contactRepository.replaceContacts(_contacts.value)
                 }
             }
         }
@@ -193,7 +197,8 @@ class UserViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 _loading.value = false
                 if (result != null) {
-                    _users.value = result.data.users
+                    _users.value = result.data.users.filter { it.id != sessionManager.getId() }
+                    userRepository.replaceUsers(_users.value)
                 }
             }
         }
