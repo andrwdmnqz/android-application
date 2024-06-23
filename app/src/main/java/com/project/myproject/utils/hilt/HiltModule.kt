@@ -12,6 +12,7 @@ import com.project.myproject.data.network.interceptors.ResponseFixInterceptor
 import com.project.myproject.data.repository.MainRepository
 import com.project.myproject.data.repository.Repository
 import com.project.myproject.ui.fragments.RegisterFragment
+import com.project.myproject.utils.NetworkUtil
 import com.project.myproject.utils.SessionManager
 import com.project.myproject.utils.SettingPreference
 import com.project.myproject.utils.callbacks.TokenCallbacks
@@ -73,6 +74,11 @@ object HiltModule {
     @Singleton
     fun provideSettingPreferences(@ApplicationContext context: Context): SettingPreference =
         SettingPreference(context)
+
+    @Provides
+    @Singleton
+    fun provideNetworkUtil(@ApplicationContext context: Context): NetworkUtil =
+        NetworkUtil(context)
 
     @Provides
     @Singleton
