@@ -33,9 +33,7 @@ import com.project.myproject.data.models.Contact
 import com.project.myproject.ui.adapters.ContactAdapter
 import com.project.myproject.utils.callbacks.SwipeToDeleteCallback
 import com.project.myproject.databinding.FragmentContactsBinding
-import com.project.myproject.ui.activities.MainActivity
 import com.project.myproject.ui.fragments.utils.CustomAdapterDataObserver
-import com.project.myproject.ui.fragments.utils.SearchTextQueryListener
 import com.project.myproject.utils.DefaultItemDecorator
 import com.project.myproject.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
@@ -82,6 +80,13 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             adapter = this@ContactsFragment.adapter
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DefaultItemDecorator(resources.getDimensionPixelSize(R.dimen.contacts_item_margin)))
+
+            val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback { contact ->
+                viewModel.deleteContact(contact.id)
+                showDeleteSnackbar(contact)
+            })
+
+            itemTouchHelper.attachToRecyclerView(this)
         }
         viewModel.fetchContacts()
         collectContactsData()
@@ -128,7 +133,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun showSearchNotification(context: Context) {
-        val uri = Uri.parse("myapp://search/contacts")
+        val uri = Uri.parse(NOTIFICATION_CONTENT_URI)
         val intent = Intent(Intent.ACTION_VIEW, uri).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -142,8 +147,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
         val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.search_icon)
-            .setContentTitle("Search")
-            .setContentText("Click to search")
+            .setContentTitle(NOTIFICATION_CONTENT_TITLE)
+            .setContentText(NOTIFICATION_CONTENT_TEXT)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
@@ -268,5 +273,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         private const val NOTIFICATION_CHANNEL_NAME = "Notification channel"
         private const val NOTIFICATION_CHANNEL_DESC = "Notification channel description"
         private const val NOTIFICATION_CHANNEL_ID= "notification_channel_id"
+        private const val NOTIFICATION_CONTENT_TITLE = "Search"
+        private const val NOTIFICATION_CONTENT_TEXT = "Click to search"
+        private const val NOTIFICATION_CONTENT_URI = "myapp://search/contacts"
     }
 }

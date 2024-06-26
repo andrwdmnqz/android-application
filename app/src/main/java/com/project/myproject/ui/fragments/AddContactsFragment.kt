@@ -27,7 +27,6 @@ import com.project.myproject.data.mappers.UserToContactMapper
 import com.project.myproject.data.models.User
 import com.project.myproject.databinding.FragmentAddContactsBinding
 import com.project.myproject.ui.adapters.UserAdapter
-import com.project.myproject.ui.fragments.utils.SearchTextQueryListener
 import com.project.myproject.ui.viewmodels.UserViewModel
 import com.project.myproject.utils.Constants
 import com.project.myproject.utils.DefaultItemDecorator
@@ -119,7 +118,7 @@ class AddContactsFragment :
     }
 
     private fun showSearchNotification(context: Context) {
-        val uri = Uri.parse("myapp://search/users")
+        val uri = Uri.parse(NOTIFICATION_CONTENT_URI)
         val intent = Intent(Intent.ACTION_VIEW, uri).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -131,10 +130,10 @@ class AddContactsFragment :
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val notification = NotificationCompat.Builder(context, "your_channel_id")
+        val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.search_icon)
-            .setContentTitle("Search")
-            .setContentText("Click to search")
+            .setContentTitle(NOTIFICATION_CONTENT_TITLE)
+            .setContentText(NOTIFICATION_CONTENT_TEXT)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
@@ -220,5 +219,8 @@ class AddContactsFragment :
         private const val NOTIFICATION_CHANNEL_NAME = "Notification channel"
         private const val NOTIFICATION_CHANNEL_DESC = "Notification channel description"
         private const val NOTIFICATION_CHANNEL_ID= "notification_channel_id"
+        private const val NOTIFICATION_CONTENT_TITLE = "Search"
+        private const val NOTIFICATION_CONTENT_TEXT = "Click to search"
+        private const val NOTIFICATION_CONTENT_URI = "myapp://search/users"
     }
 }

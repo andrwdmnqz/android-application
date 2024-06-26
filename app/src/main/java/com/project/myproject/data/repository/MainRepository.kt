@@ -1,6 +1,5 @@
 package com.project.myproject.data.repository
 
-import com.project.myproject.R
 import com.project.myproject.data.network.RetrofitService
 import com.project.myproject.data.requests.AddContactRequest
 import com.project.myproject.data.requests.CreateRequest

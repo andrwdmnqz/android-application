@@ -12,6 +12,4 @@ class ContactRepository @Inject constructor(private val contactDao: ContactDao) 
         contactDao.deleteAllContacts()
         contactDao.saveContacts(contacts)
     }
-
-    suspend fun deleteAllContacts() = contactDao.deleteAllContacts()
 }

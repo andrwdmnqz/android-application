@@ -1,7 +1,6 @@
 package com.project.myproject.data.responses
 
 import com.project.myproject.data.models.ContactsData
-import com.project.myproject.data.models.UserListData
 
 class UserContactsResponse(
     val status: String,

@@ -2,7 +2,6 @@ package com.project.myproject.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -33,10 +32,10 @@ class MainActivity : AppCompatActivity() {
     private fun handleDeepLink(intent: Intent?) {
         if (intent?.action == Intent.ACTION_VIEW) {
             val uri = intent.data
-            if (uri != null && uri.path == "/contacts") {
+            if (uri != null && uri.path == URI_PATH_CONTACTS) {
                 navController.navigate(R.id.searchContacts)
             }
-            if (uri != null && uri.path == "/users") {
+            if (uri != null && uri.path == URI_PATH_USERS) {
                 navController.navigate(R.id.searchUsers)
             }
         }
@@ -49,5 +48,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    companion object {
+        private const val URI_PATH_CONTACTS = "/contacts"
+        private const val URI_PATH_USERS = "/users"
     }
 }

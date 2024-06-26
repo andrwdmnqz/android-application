@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.view.View
-import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,19 +11,17 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
-import com.project.myproject.utils.Constants
 import com.project.myproject.R
 import com.project.myproject.data.models.Contact
 import com.project.myproject.databinding.FragmentSearchContactsBinding
 import com.project.myproject.ui.adapters.ContactAdapter
 import com.project.myproject.ui.fragments.utils.CustomAdapterDataObserver
 import com.project.myproject.ui.fragments.utils.SearchTextQueryListener
-import com.project.myproject.utils.DefaultItemDecorator
 import com.project.myproject.ui.viewmodels.UserViewModel
+import com.project.myproject.utils.Constants
+import com.project.myproject.utils.DefaultItemDecorator
 import kotlinx.coroutines.launch
-import kotlin.system.exitProcess
 
 class SearchContacts : BaseFragment<FragmentSearchContactsBinding>(FragmentSearchContactsBinding::inflate),
     ContactAdapter.OnContactItemClickListener {
