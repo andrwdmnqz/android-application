@@ -19,14 +19,6 @@ class UserAdapter(
 
     private var contactsId: List<Int> = emptyList()
 
-    inner class ViewHolder(private val binding: UserItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val userNameView = binding.tvUserName
-        val userCareerView = binding.tvUserCareer
-        val userImageView = binding.ivUserPhoto
-        val addContactIcon = binding.ivAddContactIcon
-        val addContactLabel = binding.tvAddLabel
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = UserItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
@@ -93,5 +85,13 @@ class UserAdapter(
         fun onUserItemClicked(user: User)
 
         fun onAddItemClicked(user: User, position: Int)
+    }
+
+    class ViewHolder(private val binding: UserItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val userNameView = binding.tvUserName
+        val userCareerView = binding.tvUserCareer
+        val userImageView = binding.ivUserPhoto
+        val addContactIcon = binding.ivAddContactIcon
+        val addContactLabel = binding.tvAddLabel
     }
 }

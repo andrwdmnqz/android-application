@@ -1,8 +1,19 @@
 package com.project.myproject.ui.fragments
 
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,11 +30,9 @@ import com.project.myproject.ui.adapters.UserAdapter
 import com.project.myproject.ui.viewmodels.UserViewModel
 import com.project.myproject.utils.Constants
 import com.project.myproject.utils.DefaultItemDecorator
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
 class AddContactsFragment :
     BaseFragment<FragmentAddContactsBinding>(FragmentAddContactsBinding::inflate),
     UserAdapter.OnUserItemCLickListener {
@@ -33,26 +42,41 @@ class AddContactsFragment :
     private lateinit var adapter: UserAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         adapter = UserAdapter(this)
 
+        createNotificationChannel(requireContext())
         setupRecyclerView()
+        setupSearchFunctionality()
         setListeners()
         setObservers()
+    }
 
-        super.onViewCreated(view, savedInstanceState)
+    private fun createNotificationChannel(context: Context) {
+        val name = NOTIFICATION_CHANNEL_NAME
+        val descriptionText = NOTIFICATION_CHANNEL_DESC
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance).apply {
+            description = descriptionText
+        }
+
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
     }
 
     private fun setupRecyclerView() {
+        binding.rvUsers.apply {
+            adapter = this@AddContactsFragment.adapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DefaultItemDecorator(resources.getDimensionPixelSize(R.dimen.contacts_item_margin)))
+        }
         viewModel.fetchUsers()
+        collectUserData()
+    }
 
-        val usersRV = binding.rvUsers
-        val itemMarginSize = resources.getDimensionPixelSize(R.dimen.contacts_item_margin)
-
-        usersRV.adapter = adapter
-        usersRV.addItemDecoration(DefaultItemDecorator(itemMarginSize))
-        usersRV.layoutManager = LinearLayoutManager(requireContext())
-
+    private fun collectUserData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.users.combine(viewModel.contactsId) { users, contactsId ->
                 users to contactsId
@@ -63,64 +87,64 @@ class AddContactsFragment :
         }
     }
 
+    private fun setupSearchFunctionality() {
+        setupSearchButtonListeners()
+    }
+
     private fun setupSearchButtonListeners() {
-        val searchButton = binding.ivToolbarSearch
-        val searchView = binding.searchViewUsers
-        val searchViewSearchIcon = binding.ivSearchViewSearchIcon
-
-        searchButton.setOnClickListener {
-
-            val searchIconId = R.drawable.search_icon
-            val clearIconId = R.drawable.search_clear_icon
-            val currentIconId = searchButton.tag as? Int ?: R.drawable.search_icon
-
-            when (currentIconId) {
-                searchIconId -> {
-                    searchView.visibility = View.VISIBLE
-                    searchViewSearchIcon.visibility = View.VISIBLE
-                    searchButton.setImageResource(R.drawable.search_clear_icon)
-                    searchButton.tag = clearIconId
-                }
-                else -> {
-                    searchView.visibility = View.GONE
-                    searchViewSearchIcon.visibility = View.GONE
-                    searchButton.setImageResource(R.drawable.search_icon)
-                    searchButton.tag = searchIconId
-                    searchView.setQuery("", false)
-                }
+        binding.ivToolbarSearch.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestNotificationPermission()
+            } else {
+                showSearchNotification(requireContext())
             }
         }
     }
 
-    private fun setupSearchView() {
-        val searchView = binding.searchViewUsers
-
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null) {
-                    filter(newText)
-                }
-                return true
-            }
-        })
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), Constants.NOTIFICATION_PERMISSION_REQUEST_CODE)
+        }
     }
 
-    private fun filter(text: String) {
-        if (text == "") {
-            adapter.submitList(viewModel.users.value)
-        } else {
-            val filteredList = viewModel.users.value.filter {
-                (it.name?.contains(text, true) == true ||
-                        it.career?.contains(text, true) == true) ||
-                        (it.name == null && Constants.DEFAULT_NAME_VALUE.contains(text, true) ||
-                                it.career == null && Constants.DEFAULT_CAREER_VALUE.contains(text, true))
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Constants.NOTIFICATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showSearchNotification(requireContext())
             }
-            adapter.submitList(filteredList)
+        }
+    }
+
+    private fun showSearchNotification(context: Context) {
+        val uri = Uri.parse(NOTIFICATION_CONTENT_URI)
+        val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+            .setSmallIcon(R.drawable.search_icon)
+            .setContentTitle(NOTIFICATION_CONTENT_TITLE)
+            .setContentText(NOTIFICATION_CONTENT_TEXT)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .build()
+
+        try {
+            with(NotificationManagerCompat.from(context)) {
+                notify(1, notification)
+            }
+        } catch (e: SecurityException) {
+            e.printStackTrace()
         }
     }
 
@@ -148,8 +172,11 @@ class AddContactsFragment :
     }
 
     override fun setObservers() {
-        setupSearchView()
+        observeLoadingState()
+        observeAddContactState()
+    }
 
+    private fun observeLoadingState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loading.collect { isLoading ->
@@ -157,8 +184,6 @@ class AddContactsFragment :
                 }
             }
         }
-
-        observeAddContactState()
     }
 
     private fun observeAddContactState() {
@@ -173,9 +198,12 @@ class AddContactsFragment :
 
     override fun setListeners() {
         setupSearchButtonListeners()
+        setBackArrowListener()
+    }
 
+    private fun setBackArrowListener() {
         binding.ivToolbarBack.setOnClickListener {
-            it.findNavController().popBackStack()
+            it.findNavController().navigateUp()
         }
     }
 
@@ -185,5 +213,14 @@ class AddContactsFragment :
             getString(R.string.contact_added), Snackbar.LENGTH_LONG
         ).show()
         viewModel.resetContactAdded()
+    }
+
+    companion object {
+        private const val NOTIFICATION_CHANNEL_NAME = "Notification channel"
+        private const val NOTIFICATION_CHANNEL_DESC = "Notification channel description"
+        private const val NOTIFICATION_CHANNEL_ID= "notification_channel_id"
+        private const val NOTIFICATION_CONTENT_TITLE = "Search"
+        private const val NOTIFICATION_CONTENT_TEXT = "Click to search"
+        private const val NOTIFICATION_CONTENT_URI = "myapp://search/users"
     }
 }

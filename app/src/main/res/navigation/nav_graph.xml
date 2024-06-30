@@ -8,7 +8,7 @@
         android:id="@+id/viewPagerFragment"
         android:name="com.project.myproject.ui.fragments.ViewPagerFragment"
         android:label="ViewPagerFragment"
-        tools:layout="@layout/fragment_my_profile" >
+        tools:layout="@layout/fragment_my_profile">
         <action
             android:id="@+id/action_viewPagerFragment_to_detailViewFragment"
             app:destination="@id/detailViewFragment" />
@@ -22,12 +22,15 @@
             app:destination="@id/addContactsFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_searchContacts"
+            app:destination="@id/searchContacts" />
     </fragment>
     <fragment
         android:id="@+id/detailViewFragment"
         android:name="com.project.myproject.ui.fragments.DetailViewFragment"
         android:label="DetailViewFragment"
-        tools:layout="@layout/fragment_detail_view" >
+        tools:layout="@layout/fragment_detail_view">
         <argument
             android:name="contact"
             app:argType="com.project.myproject.data.models.Contact" />
@@ -36,7 +39,7 @@
         android:id="@+id/registerFragment"
         android:name="com.project.myproject.ui.fragments.RegisterFragment"
         android:label="RegisterFragment"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_profileDataFragment"
             app:destination="@id/profileDataFragment"
@@ -55,7 +58,7 @@
         android:id="@+id/loginFragment"
         android:name="com.project.myproject.ui.fragments.LoginFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_viewPagerFragment"
             app:destination="@id/viewPagerFragment"
@@ -71,7 +74,7 @@
         android:id="@+id/profileDataFragment"
         android:name="com.project.myproject.ui.fragments.ProfileDataFragment"
         android:label="ProfileDataFragment"
-        tools:layout="@layout/fragment_profile_data" >
+        tools:layout="@layout/fragment_profile_data">
         <action
             android:id="@+id/action_profileDataFragment_to_viewPagerFragment"
             app:destination="@id/viewPagerFragment"
@@ -87,7 +90,7 @@
         android:id="@+id/addContactsFragment"
         android:name="com.project.myproject.ui.fragments.AddContactsFragment"
         android:label="AddContactsFragment"
-        tools:layout="@layout/fragment_add_contacts" >
+        tools:layout="@layout/fragment_add_contacts">
         <action
             android:id="@+id/action_addContactsFragment_to_contactsProfileFragment"
             app:destination="@id/contactsProfileFragment"
@@ -98,14 +101,38 @@
             app:destination="@id/detailViewFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_addContactsFragment_to_searchUsers"
+            app:destination="@id/searchUsers" />
     </fragment>
     <fragment
         android:id="@+id/contactsProfileFragment"
         android:name="com.project.myproject.ui.fragments.ContactsProfileFragment"
         android:label="ContactsProfileFragment"
-        tools:layout="@layout/fragment_contacts_profile" >
+        tools:layout="@layout/fragment_contacts_profile">
         <argument
             android:name="user"
             app:argType="com.project.myproject.data.models.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchUsers"
+        android:name="com.project.myproject.ui.fragments.SearchUsers"
+        android:label="SearchUsers"
+        tools:layout="@layout/fragment_search_users" >
+        <action
+            android:id="@+id/action_searchUsers_to_contactsProfileFragment"
+            app:destination="@id/contactsProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchContacts"
+        android:name="com.project.myproject.ui.fragments.SearchContacts"
+        android:label="SearchContacts"
+        tools:layout="@layout/fragment_search_contacts" >
+        <action
+            android:id="@+id/action_searchContacts_to_addContactsFragment"
+            app:destination="@id/addContactsFragment" />
+        <action
+            android:id="@+id/action_searchContacts_to_detailViewFragment"
+            app:destination="@id/detailViewFragment" />
     </fragment>
 </navigation>

@@ -5,11 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.project.myproject.data.mappers.UserToContactMapper
 import com.project.myproject.data.models.Contact
 import com.project.myproject.data.models.User
+import com.project.myproject.data.repository.ContactRepository
 import com.project.myproject.data.requests.CreateRequest
 import com.project.myproject.data.requests.EditUserRequest
 import com.project.myproject.data.requests.LoginRequest
-import com.project.myproject.data.repository.MainRepository
+import com.project.myproject.data.repository.Repository
+import com.project.myproject.data.repository.UserRepository
 import com.project.myproject.data.requests.AddContactRequest
+import com.project.myproject.utils.NetworkUtil
 import com.project.myproject.utils.SessionManager
 import com.project.myproject.utils.SettingPreference
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,9 +28,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
-    private val mainRepository: MainRepository,
+    private val repository: Repository,
+    private val contactRepository: ContactRepository,
+    private val userRepository: UserRepository,
     private val sessionManager: SessionManager,
-    private val settingPreference: SettingPreference
+    private val settingPreference: SettingPreference,
+    private val networkUtil: NetworkUtil
 ) : ViewModel() {
 
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
@@ -63,60 +69,44 @@ class UserViewModel @Inject constructor(
     }
 
     fun registerUser(email: String, password: String, isUserRemembered: Boolean) {
+        if (networkUtil.isInternetAvailable()) {
+            viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+                val result = repository.createUser(CreateRequest(email, password))
 
-            val result = mainRepository.createUser(CreateRequest(email, password))
+                withContext(Dispatchers.Main) {
+                    if (result != null) {
+                        val responseBodyData = result.data
 
-            withContext(Dispatchers.Main) {
-                if (result != null) {
-                    val responseBodyData = result.data
+                        handleUserResponse(responseBodyData.user, responseBodyData.accessToken, responseBodyData.refreshToken, isUserRemembered)
 
-                    val id = responseBodyData.user.id
-                    val accessToken = responseBodyData.accessToken
-                    val refreshToken = responseBodyData.refreshToken
-
-                    currentUser = responseBodyData.user
-
-                    if (isUserRemembered) {
-                        settingPreference.setupData(id, accessToken, refreshToken)
+                        _registrationState.value = RegistrationState.Success
+                    } else {
+                        _registrationState.value = RegistrationState.InvalidRegisterData
                     }
-                    sessionManager.setupData(id, accessToken, refreshToken, isUserRemembered)
 
-                    _registrationState.value = RegistrationState.Success
-                } else {
-                    _registrationState.value = RegistrationState.InvalidRegisterData
+                    _registrationState.value = RegistrationState.Idle
                 }
-
-                _registrationState.value = RegistrationState.Idle
             }
         }
     }
 
     fun loginUser(email: String, password: String, isUserRemembered: Boolean) {
+        if (networkUtil.isInternetAvailable()) {
+            viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+                val result = repository.loginUser(LoginRequest(email, password))
 
-            val result = mainRepository.loginUser(LoginRequest(email, password))
+                withContext(Dispatchers.Main) {
+                    if (result != null) {
+                        val responseBodyData = result.data
 
-            withContext(Dispatchers.Main) {
-                if (result != null) {
-                    val responseBodyData = result.data
+                        handleUserResponse(responseBodyData.user, responseBodyData.accessToken, responseBodyData.refreshToken, isUserRemembered)
 
-                    val id = responseBodyData.user.id
-                    val accessToken = responseBodyData.accessToken
-                    val refreshToken = responseBodyData.refreshToken
-
-                    currentUser = responseBodyData.user
-
-                    if (isUserRemembered) {
-                        settingPreference.setupData(id, accessToken, refreshToken)
+                        _loginState.value = LoginState.Success
+                    } else {
+                        _loginState.value = LoginState.InvalidLoginData
                     }
-                    sessionManager.setupData(id, accessToken, refreshToken, isUserRemembered)
-
-                    _loginState.value = LoginState.Success
-                } else {
-                    _loginState.value = LoginState.InvalidLoginData
                 }
             }
         }
@@ -133,17 +123,18 @@ class UserViewModel @Inject constructor(
     }
 
     fun editUserNameAndPhone(userName: String, phoneNumber: String) {
+        if (networkUtil.isInternetAvailable()) {
+            viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+                val result = repository.editUser(sessionManager.getId(),
+                    EditUserRequest(userName, phoneNumber)
+                )
 
-            val result = mainRepository.editUser(sessionManager.getId(),
-                EditUserRequest(userName, phoneNumber)
-            )
-
-            withContext(Dispatchers.Main) {
-                if (result != null) {
-                    currentUser = result.data.user
-                    _userEdited.value = true
+                withContext(Dispatchers.Main) {
+                    if (result != null) {
+                        currentUser = result.data.user
+                        _userEdited.value = true
+                    }
                 }
             }
         }
@@ -169,32 +160,48 @@ class UserViewModel @Inject constructor(
                     true
                 )
 
-                val result = mainRepository.getUser(userId)
+                if (networkUtil.isInternetAvailable()) {
+                    val result = repository.getUser(userId)
 
-                withContext(Dispatchers.Main) {
-                    if (result != null) {
-                        currentUser = result.data.user
+                    withContext(Dispatchers.Main) {
+                        if (result != null) {
+                            currentUser = result.data.user
 
-                        _registrationState.value = RegistrationState.RememberedUser
-                        _loginState.value = LoginState.Success
+                            _registrationState.value = RegistrationState.RememberedUser
+                            _loginState.value = LoginState.Success
+                        }
                     }
+                } else {
+                    currentUser = userRepository.getUser(userId)
+
+                    _registrationState.value = RegistrationState.RememberedUser
+                    _loginState.value = LoginState.Success
                 }
             }
         }
     }
 
     fun fetchContacts() {
-
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            _loading.value = true
+            if (networkUtil.isInternetAvailable()) {
 
-            val result = mainRepository.getUserContacts(sessionManager.getId())
+                _loading.value = true
 
-            withContext(Dispatchers.Main) {
-                _loading.value = false
-                if (result != null) {
-                    _contacts.value = UserToContactMapper.map(result.data.contacts)
-                    _contactsId.value = result.data.contacts.map { it.id }
+                val result = repository.getUserContacts(sessionManager.getId())
+
+                withContext(Dispatchers.Main) {
+                    _loading.value = false
+                    if (result != null) {
+                        _contacts.value = UserToContactMapper.map(result.data.contacts)
+                        _contactsId.value = result.data.contacts.map { it.id }
+                        contactRepository.replaceContacts(_contacts.value)
+                    }
+                }
+            } else {
+                _loading.value = true
+                withContext(Dispatchers.Main) {
+                    _contacts.value = contactRepository.getAllContacts()
+                    _loading.value = false
                 }
             }
         }
@@ -203,14 +210,24 @@ class UserViewModel @Inject constructor(
     fun fetchUsers() {
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            _loading.value = true
+            if (networkUtil.isInternetAvailable()) {
+                _loading.value = true
 
-            val result = mainRepository.getAllUsers()
+                val result = repository.getAllUsers()
 
-            withContext(Dispatchers.Main) {
-                _loading.value = false
-                if (result != null) {
-                    _users.value = result.data.users
+                withContext(Dispatchers.Main) {
+                    _loading.value = false
+                    if (result != null) {
+                        val fetchedUsers = result.data.users
+                        _users.value = fetchedUsers.filter { it.id != sessionManager.getId() }
+                        userRepository.replaceUsers(fetchedUsers)
+                    }
+                }
+            } else {
+                _loading.value = true
+                withContext(Dispatchers.Main) {
+                    _users.value = userRepository.getAllUsers().filter { it.id != sessionManager.getId() }
+                    _loading.value = false
                 }
             }
         }
@@ -219,13 +236,14 @@ class UserViewModel @Inject constructor(
     fun deleteContact(contactId: Int) {
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+            if (networkUtil.isInternetAvailable()) {
+                val result = repository.deleteUserContact(sessionManager.getId(), contactId)
 
-            val result = mainRepository.deleteUserContact(sessionManager.getId(), contactId)
-
-            withContext(Dispatchers.Main) {
-                if (result != null) {
-                    _contacts.value = UserToContactMapper.map(result.data.contacts)
-                    _contactsId.value = result.data.contacts.map { it.id }
+                withContext(Dispatchers.Main) {
+                    if (result != null) {
+                        _contacts.value = UserToContactMapper.map(result.data.contacts)
+                        _contactsId.value = result.data.contacts.map { it.id }
+                    }
                 }
             }
         }
@@ -234,16 +252,18 @@ class UserViewModel @Inject constructor(
     fun addContact(contactId: Int) {
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            _loading.value = true
+            if (networkUtil.isInternetAvailable()) {
+                _loading.value = true
 
-            val result = mainRepository.addContact(sessionManager.getId(), AddContactRequest(contactId))
+                val result = repository.addContact(sessionManager.getId(), AddContactRequest(contactId))
 
-            withContext(Dispatchers.Main) {
-                _loading.value = false
-                if (result != null) {
-                    _contacts.value = UserToContactMapper.map(result.data.contacts)
-                    _contactsId.value = result.data.contacts.map { it.id }
-                    _contactAdded.value = true
+                withContext(Dispatchers.Main) {
+                    _loading.value = false
+                    if (result != null) {
+                        _contacts.value = UserToContactMapper.map(result.data.contacts)
+                        _contactsId.value = result.data.contacts.map { it.id }
+                        _contactAdded.value = true
+                    }
                 }
             }
         }
@@ -259,6 +279,20 @@ class UserViewModel @Inject constructor(
     }
 
     fun getCurrentUser() = currentUser
+
+    private suspend fun handleUserResponse(
+        user: User,
+        accessToken: String,
+        refreshToken: String,
+        isUserRemembered: Boolean
+    ) {
+        currentUser = user
+
+        if (isUserRemembered) {
+            settingPreference.setupData(user.id, accessToken, refreshToken)
+        }
+        sessionManager.setupData(user.id, accessToken, refreshToken, isUserRemembered)
+    }
 }
 
 sealed class LoginState {

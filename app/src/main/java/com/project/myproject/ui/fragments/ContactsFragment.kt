@@ -1,11 +1,22 @@
 package com.project.myproject.ui.fragments
 
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.view.View
 import androidx.activity.addCallback
-import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -22,35 +33,134 @@ import com.project.myproject.data.models.Contact
 import com.project.myproject.ui.adapters.ContactAdapter
 import com.project.myproject.utils.callbacks.SwipeToDeleteCallback
 import com.project.myproject.databinding.FragmentContactsBinding
+import com.project.myproject.ui.fragments.utils.CustomAdapterDataObserver
 import com.project.myproject.utils.DefaultItemDecorator
 import com.project.myproject.ui.viewmodels.UserViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
-@AndroidEntryPoint
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate),
     ContactAdapter.OnContactItemClickListener {
 
     private val viewModel by activityViewModels<UserViewModel>()
-
     private lateinit var adapter: ContactAdapter
-
     private lateinit var animation: Transition
-
     private lateinit var viewPager: ViewPager2
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewPager = activity?.findViewById(R.id.viewPager)!!
         adapter = ContactAdapter(requireContext(), this) { show -> showMultiselectDelete(show) }
 
+        createNotificationChannel(requireContext())
         setupRecyclerView()
+        setupSearchFunctionality()
         setListeners()
         setObservers()
         setupAnimation()
+    }
 
-        super.onViewCreated(view, savedInstanceState)
+    private fun createNotificationChannel(context: Context) {
+        val name = NOTIFICATION_CHANNEL_NAME
+        val descriptionText = NOTIFICATION_CHANNEL_DESC
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance).apply {
+            description = descriptionText
+        }
+
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun setupRecyclerView() {
+        binding.rvContacts.apply {
+            setupAdapterScroll(this)
+            adapter = this@ContactsFragment.adapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DefaultItemDecorator(resources.getDimensionPixelSize(R.dimen.contacts_item_margin)))
+
+            val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback { contact ->
+                viewModel.deleteContact(contact.id)
+                showDeleteSnackbar(contact)
+            })
+
+            itemTouchHelper.attachToRecyclerView(this)
+        }
+        viewModel.fetchContacts()
+        collectContactsData()
+    }
+
+    private fun collectContactsData() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.contacts.collect { contacts ->
+                adapter.submitList(contacts)
+            }
+        }
+    }
+
+    private fun setupSearchFunctionality() {
+        setupSearchButtonListeners()
+    }
+
+    private fun setupSearchButtonListeners() {
+        binding.ivToolbarSearch.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestNotificationPermission()
+            } else {
+                showSearchNotification(requireContext())
+            }
+        }
+    }
+
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                Constants.NOTIFICATION_PERMISSION_REQUEST_CODE
+            )
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Constants.NOTIFICATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showSearchNotification(requireContext())
+            }
+        }
+    }
+
+    private fun showSearchNotification(context: Context) {
+        val uri = Uri.parse(NOTIFICATION_CONTENT_URI)
+        val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+            .setSmallIcon(R.drawable.search_icon)
+            .setContentTitle(NOTIFICATION_CONTENT_TITLE)
+            .setContentText(NOTIFICATION_CONTENT_TEXT)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .build()
+
+        try {
+            with(NotificationManagerCompat.from(context)) {
+                notify(1, notification)
+            }
+        } catch (e: SecurityException) {
+            e.printStackTrace()
+        }
     }
 
     override fun onStart() {
@@ -67,8 +177,10 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     override fun setObservers() {
-        setupSearchView()
+        observeLoadingState()
+    }
 
+    private fun observeLoadingState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.loading.collect { isLoading ->
                 binding.pbContactsList.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -81,35 +193,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         setupAddContactListeners()
         setupMultiselectDeleteListeners()
         setupSearchButtonListeners()
-    }
-
-    private fun setupSearchButtonListeners() {
-        val searchButton = binding.ivToolbarSearch
-        val searchView = binding.searchViewContacts
-        val searchViewSearchIcon = binding.ivSearchViewSearchIcon
-
-        searchButton.setOnClickListener {
-
-            val searchIconId = R.drawable.search_icon
-            val clearIconId = R.drawable.search_clear_icon
-            val currentIconId = searchButton.tag as? Int ?: R.drawable.search_icon
-
-            when (currentIconId) {
-                searchIconId -> {
-                    searchView.visibility = View.VISIBLE
-                    searchViewSearchIcon.visibility = View.VISIBLE
-                    searchButton.setImageResource(R.drawable.search_clear_icon)
-                    searchButton.tag = clearIconId
-                }
-                else -> {
-                    searchView.visibility = View.GONE
-                    searchViewSearchIcon.visibility = View.GONE
-                    searchButton.setImageResource(R.drawable.search_icon)
-                    searchButton.tag = searchIconId
-                    searchView.setQuery("", false)
-                }
-            }
-        }
     }
 
     private fun setupBackArrowListeners() {
@@ -148,7 +231,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun showDeleteSnackbar(contact: Contact) {
-
         val snackbar = Snackbar.make(binding.root,
             getString(R.string.contact_removed), Snackbar.LENGTH_LONG)
 
@@ -159,93 +241,11 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         snackbar.show()
     }
 
-    private fun setupRecyclerView() {
-        val contactsRV = binding.rvContacts
-
-        val itemMarginSize = resources.getDimensionPixelSize(R.dimen.contacts_item_margin)
-
-        setupAdapterScroll(contactsRV)
-
-        contactsRV.adapter = adapter
-        contactsRV.addItemDecoration(DefaultItemDecorator(itemMarginSize))
-        contactsRV.layoutManager = LinearLayoutManager(requireContext())
-
-        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback { contact ->
-            viewModel.deleteContact(contact.id)
-
-            showDeleteSnackbar(contact)
-        })
-
-        itemTouchHelper.attachToRecyclerView(contactsRV)
-
-        viewModel.fetchContacts()
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.contacts.collect { contacts ->
-                adapter.submitList(contacts)
-            }
-        }
-    }
-
-    private fun setupSearchView() {
-        val searchView = binding.searchViewContacts
-
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null) {
-                    filter(newText)
-                }
-                return true
-            }
-        })
-    }
-
-    private fun filter(text: String) {
-        if (text == "") {
-            adapter.submitList(viewModel.contacts.value)
-        } else {
-            val filteredList = viewModel.contacts.value.filter {
-                (it.name?.contains(text, true) == true ||
-                        it.career?.contains(text, true) == true) ||
-                        (it.name == null && Constants.DEFAULT_NAME_VALUE.contains(text, true) ||
-                                it.career == null && Constants.DEFAULT_CAREER_VALUE.contains(text, true))
-            }
-            adapter.submitList(filteredList)
-        }
-    }
-
     private fun setupAdapterScroll(contactsRV: RecyclerView) {
-        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
-            override fun onChanged() {
-                // No need to scroll here
-            }
-            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-                // No need to scroll here
-            }
-            override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-                // No need to scroll here
-            }
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (itemCount == 1 && positionStart == 0) {
-                    contactsRV.scrollToPosition(positionStart)
-                }
-            }
-            override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-                // No need to scroll here
-            }
-            override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-                // No need to scroll here
-            }
-        })
+        adapter.registerAdapterDataObserver(CustomAdapterDataObserver(contactsRV))
     }
 
     private fun setupAnimation() {
-
         animation = TransitionInflater.from(requireContext()).inflateTransition(
             R.transition.change_bounds
         )
@@ -255,9 +255,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun setupMultiselectDeleteListeners() {
-        val multiselectDeleteIcon = binding.ivMultiselectDeleteIcon
-        multiselectDeleteIcon.setOnClickListener {
-
+        binding.ivMultiselectDeleteIcon.setOnClickListener {
             val selectedItems = adapter.getSelectedItems().sortedDescending()
             selectedItems.forEach {
                 viewModel.deleteContact(viewModel.contacts.value[it].id)
@@ -269,5 +267,14 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     private fun showMultiselectDelete(show: Boolean) {
         binding.ivMultiselectDeleteIcon.isVisible = show
+    }
+
+    companion object {
+        private const val NOTIFICATION_CHANNEL_NAME = "Notification channel"
+        private const val NOTIFICATION_CHANNEL_DESC = "Notification channel description"
+        private const val NOTIFICATION_CHANNEL_ID= "notification_channel_id"
+        private const val NOTIFICATION_CONTENT_TITLE = "Search"
+        private const val NOTIFICATION_CONTENT_TEXT = "Click to search"
+        private const val NOTIFICATION_CONTENT_URI = "myapp://search/contacts"
     }
 }

@@ -1,16 +1,20 @@
 package com.project.myproject.data.models
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.project.myproject.utils.FilterableItem
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Entity(tableName = "users")
 class User(
-    val id: Int,
-    var name: String?,
+    @PrimaryKey val id: Int,
+    override var name: String?,
     var email: String,
     var phone: String?,
-    var career: String?,
+    override var career: String?,
     var address: String?,
     var birthday: String?,
     var facebook: String?,
@@ -22,4 +26,4 @@ class User(
     val createdAt: String,
     @SerializedName("updated_at")
     var updatedAt: String
-) : Parcelable
+) : Parcelable, FilterableItem

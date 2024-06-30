@@ -1,4 +1,4 @@
-package com.project.myproject.ui.fragments.watchers
+package com.project.myproject.ui.fragments.utils
 
 import android.content.Context
 import android.text.Editable

@@ -22,31 +22,17 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.project.myproject.R
 import com.project.myproject.databinding.FragmentRegisterBinding
-import com.project.myproject.ui.fragments.watchers.EmailTextWatcher
-import com.project.myproject.ui.fragments.watchers.PasswordTextWatcher
+import com.project.myproject.ui.fragments.utils.EmailTextWatcher
+import com.project.myproject.ui.fragments.utils.PasswordTextWatcher
 import com.project.myproject.ui.viewmodels.RegistrationState
 import com.project.myproject.ui.viewmodels.UserViewModel
-import com.project.myproject.utils.SettingPreference
 import com.project.myproject.utils.callbacks.TokenCallbacks
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@AndroidEntryPoint
 class RegisterFragment :
     BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate), TokenCallbacks {
-
-    @Inject
-    lateinit var settingPreference: SettingPreference
-
-    private lateinit var regEmailLayout: TextInputLayout
-    private lateinit var regEmailEditText: TextInputEditText
-    private lateinit var regPasswordLayout: TextInputLayout
-    private lateinit var regPasswordEditText: TextInputEditText
 
     private val viewModel by activityViewModels<UserViewModel>()
 
@@ -56,82 +42,133 @@ class RegisterFragment :
         savedInstanceState: Bundle?
     ): View? {
         return super.onCreateView(inflater, container, savedInstanceState).also {
-            binding.btnGoogleRegister.setContent {
-                Button(
-                    onClick = { /*TODO*/ },
-                    shape = RoundedCornerShape(6.dp),
-                    colors = ButtonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.White,
-                        disabledContainerColor = Color.White,
-                        disabledContentColor = Color.White,
-                    )
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.google_logo),
-                        contentDescription = "google logo"
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Text(
-                        text = stringResource(id = R.string.google_text),
-                        color = Color.Black
-                    )
-                }
+            setupGoogleRegisterButton()
+        }
+    }
+
+    private fun setupGoogleRegisterButton() {
+        binding.btnGoogleRegister.setContent {
+            Button(
+                onClick = { /*TODO*/ },
+                shape = RoundedCornerShape(6.dp),
+                colors = ButtonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.White,
+                    disabledContainerColor = Color.White,
+                    disabledContentColor = Color.White,
+                )
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.google_logo),
+                    contentDescription = "google logo"
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(
+                    text = stringResource(id = R.string.google_text),
+                    color = Color.Black
+                )
             }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        regEmailLayout = binding.tilRegisterEmail
-        regEmailEditText = binding.etRegisterEmail
-
-        regPasswordLayout = binding.tilRegisterPassword
-        regPasswordEditText = binding.etRegisterPassword
-
+        initializeUI()
         setListeners()
         setObservers()
 
         hideAllViewsExceptBackground()
-
-        super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun initializeSignInViewListener() {
-
-        binding.tvSignInLabel.setOnClickListener {
-            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+    private fun initializeUI() {
+        with(binding) {
+            tilRegisterEmail.editText?.addTextChangedListener(EmailTextWatcher(tilRegisterEmail, requireContext()))
+            tilRegisterPassword.editText?.addTextChangedListener(PasswordTextWatcher(tilRegisterPassword, requireContext()))
         }
     }
 
-    private fun setupPasswordValidation() {
-        regPasswordEditText.addTextChangedListener(PasswordTextWatcher(regPasswordLayout, requireContext()))
+    override fun setListeners() {
+        binding.tvSignInLabel.setOnClickListener {
+            navigateToSignIn()
+        }
+
+        binding.btnRegisterButton.setOnClickListener {
+            attemptUserRegistration()
+        }
     }
 
-    private fun setupEmailValidation() {
-        regEmailEditText.addTextChangedListener(EmailTextWatcher(regEmailLayout, requireContext()))
+    private fun navigateToSignIn() {
+        findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
     }
 
-    private fun initializeRegisterButtonListeners() {
-        val registerButton = binding.btnRegisterButton
+    private fun attemptUserRegistration() {
+        val email = binding.etRegisterEmail.text.toString()
+        val password = binding.etRegisterPassword.text.toString()
+        val rememberMe = binding.chbRememberMeRegister.isChecked
 
-        registerButton.setOnClickListener {
-            val email = regEmailEditText.text
-            val password = regPasswordEditText.text
+        if (isValidInput(email, password)) {
+            viewModel.registerUser(email, password, rememberMe)
+        } else {
+            showInputErrors(email, password)
+        }
+    }
 
-            if (regEmailLayout.error == null && regPasswordLayout.error == null
-                && !email.isNullOrBlank() && !password.isNullOrBlank()) {
+    private fun isValidInput(email: String, password: String): Boolean {
+        return binding.tilRegisterEmail.error == null && binding.tilRegisterPassword.error == null &&
+                email.isNotBlank() && password.isNotBlank()
+    }
 
-                viewModel.registerUser(email.toString(), password.toString(), binding.chbRememberMeRegister.isChecked)
+    private fun showInputErrors(email: String, password: String) {
+        if (email.isBlank()) {
+            binding.tilRegisterEmail.error = getString(R.string.error_email_required)
+        }
+
+        if (password.isBlank()) {
+            binding.tilRegisterPassword.error = getString(R.string.error_password_required)
+        }
+    }
+
+    override fun setObservers() {
+        observeRegisterState()
+    }
+
+    private fun observeRegisterState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.registrationState.collect { state ->
+                when (state) {
+                    is RegistrationState.Success -> onSuccessRegister()
+                    is RegistrationState.InvalidRegisterData -> onEmailTakenError()
+                    is RegistrationState.RememberedUser -> onUserIsRemembered()
+                    is RegistrationState.Idle -> Unit
+                }
             }
+        }
+    }
 
-            if (email.isNullOrBlank()) {
-                regEmailLayout.error = getString(R.string.error_email_required)
-            }
+    private fun onSuccessRegister() {
+        findNavController().navigate(R.id.action_registerFragment_to_profileDataFragment)
+    }
 
-            if (password.isNullOrBlank()) {
-                regPasswordLayout.error = getString(R.string.error_password_required)
+    private fun onUserIsRemembered() {
+        findNavController().navigate(R.id.viewPagerFragment)
+    }
+
+    private fun onEmailTakenError() {
+        binding.tilRegisterEmail.error = getString(R.string.error_email_exists)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        Handler().postDelayed({
+            if (view != null) {
+                fadeAllViewsExceptBackground()
             }
+        }, FADE_DELAY)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getUser()
         }
     }
 
@@ -164,56 +201,6 @@ class RegisterFragment :
                 view.startAnimation(fadeInAnimation)
             }
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        Handler().postDelayed({
-            if (view != null) {
-                fadeAllViewsExceptBackground()
-            }
-        }, FADE_DELAY)
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getUser()
-        }
-    }
-
-    override fun setObservers() {
-        setupEmailValidation()
-        setupPasswordValidation()
-        observeRegisterState()
-    }
-
-    private fun observeRegisterState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.registrationState.collect { state ->
-                when (state) {
-                    is RegistrationState.Success -> onSuccessRegister()
-                    is RegistrationState.InvalidRegisterData -> onEmailTakenError()
-                    is RegistrationState.RememberedUser -> onUserIsRemembered()
-                    is RegistrationState.Idle -> Unit
-                }
-            }
-        }
-    }
-
-    override fun setListeners() {
-        initializeRegisterButtonListeners()
-        initializeSignInViewListener()
-    }
-
-    private fun onEmailTakenError() {
-        regEmailLayout.error = getString(R.string.error_email_exists)
-    }
-
-    private fun onSuccessRegister() {
-        findNavController().navigate(R.id.action_registerFragment_to_profileDataFragment)
-    }
-
-    private fun onUserIsRemembered() {
-        findNavController().navigate(R.id.viewPagerFragment)
     }
 
     override fun onTokensRefreshFailure() {

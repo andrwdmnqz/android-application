@@ -17,20 +17,21 @@ import com.project.myproject.utils.extensions.loadImageByGlide
 class DetailViewFragment : BaseFragment<FragmentDetailViewBinding>(FragmentDetailViewBinding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        super.onViewCreated(view, savedInstanceState)
         setListeners()
         setObservers()
         setupAnimation()
-
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onStart() {
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            findNavController().popBackStack()
-        }
-
         super.onStart()
+        handleOnBackPressed()
+    }
+
+    private fun handleOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigateUp()
+        }
     }
 
     override fun setObservers() {
@@ -42,9 +43,8 @@ class DetailViewFragment : BaseFragment<FragmentDetailViewBinding>(FragmentDetai
     }
 
     private fun setupBackActionListeners() {
-
         binding.ivToolbarBack.setOnClickListener {
-            it.findNavController().popBackStack()
+            it.findNavController().navigateUp()
         }
     }
 

@@ -5,44 +5,75 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.project.myproject.R
 import com.project.myproject.databinding.FragmentLoginBinding
-import com.project.myproject.ui.fragments.watchers.EmailTextWatcher
-import com.project.myproject.ui.fragments.watchers.PasswordTextWatcher
+import com.project.myproject.ui.fragments.utils.EmailTextWatcher
+import com.project.myproject.ui.fragments.utils.PasswordTextWatcher
 import com.project.myproject.ui.viewmodels.LoginState
 import com.project.myproject.ui.viewmodels.UserViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
-
-    private lateinit var loginEmailLayout: TextInputLayout
-    private lateinit var loginEmailEditText: TextInputEditText
-    private lateinit var loginPasswordLayout: TextInputLayout
-    private lateinit var loginPasswordEditText: TextInputEditText
 
     private val viewModel by activityViewModels<UserViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        loginEmailLayout = binding.tilLoginEmail
-        loginPasswordLayout = binding.tilLoginPassword
-
-        loginEmailEditText = binding.etLoginEmail
-        loginPasswordEditText = binding.etLoginPassword
-
+        initializeUI()
         setListeners()
         setObservers()
+    }
 
-        super.onViewCreated(view, savedInstanceState)
+    private fun initializeUI() {
+        with(binding) {
+            tilLoginEmail.editText?.addTextChangedListener(EmailTextWatcher(tilLoginEmail, requireContext()))
+            tilLoginPassword.editText?.addTextChangedListener(PasswordTextWatcher(tilLoginPassword, requireContext()))
+        }
+    }
+
+    override fun setListeners() {
+        binding.btnLogin.setOnClickListener {
+            attemptLogin()
+        }
+
+        binding.tvSignUpLabel.setOnClickListener {
+            navigateToSignUp()
+        }
+    }
+
+    private fun attemptLogin() {
+        val email = binding.etLoginEmail.text.toString()
+        val password = binding.etLoginPassword.text.toString()
+        val rememberMe = binding.chbRememberMeLogin.isChecked
+
+        if (isValidInput(email, password)) {
+            viewModel.loginUser(email, password, rememberMe)
+        } else {
+            showInputErrors(email, password)
+        }
+    }
+
+    private fun isValidInput(email: String, password: String): Boolean {
+        return binding.tilLoginEmail.error == null && binding.tilLoginPassword.error == null &&
+                email.isNotBlank() && password.isNotBlank()
+    }
+
+    private fun showInputErrors(email: String, password: String) {
+        if (email.isBlank()) {
+            binding.tilLoginEmail.error = getString(R.string.error_email_required)
+        }
+
+        if (password.isBlank()) {
+            binding.tilLoginPassword.error = getString(R.string.error_password_required)
+        }
+    }
+
+    private fun navigateToSignUp() {
+        findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
     }
 
     override fun setObservers() {
-        setupEmailValidation()
-        setupPasswordValidation()
         observeLoginState()
     }
 
@@ -50,7 +81,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.loginState.collect { state ->
                 when (state) {
-                    is LoginState.Success -> onSuccessLogin()
+                    is LoginState.Success -> navigateToViewPager()
                     is LoginState.InvalidLoginData -> onInvalidLoginData()
                     else -> Unit
                 }
@@ -58,56 +89,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         }
     }
 
-    override fun setListeners() {
-        initializeLoginButtonListeners()
-        initializeSignUpViewListener()
-    }
-
-    private fun initializeSignUpViewListener() {
-        val signUpView = binding.tvSignUpLabel
-
-        signUpView.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
-        }
-    }
-
-    private fun initializeLoginButtonListeners() {
-        val registerButton = binding.btnLogin
-
-        registerButton.setOnClickListener {
-            val email = loginEmailEditText.text
-            val password = loginPasswordEditText.text
-
-            if (loginEmailLayout.error == null && loginPasswordLayout.error == null
-                && !email.isNullOrBlank() && !password.isNullOrBlank()) {
-
-                viewModel.loginUser(email.toString(), password.toString(), binding.chbRememberMeLogin.isChecked)
-            }
-
-            if (email.isNullOrBlank()) {
-                loginEmailLayout.error = getString(R.string.error_email_required)
-            }
-
-            if (password.isNullOrBlank()) {
-                loginPasswordLayout.error = getString(R.string.error_password_required)
-            }
-        }
-    }
-
-    private fun setupPasswordValidation() {
-        loginPasswordEditText.addTextChangedListener(PasswordTextWatcher(loginPasswordLayout, requireContext()))
-    }
-
-    private fun setupEmailValidation() {
-        loginEmailEditText.addTextChangedListener(EmailTextWatcher(loginEmailLayout, requireContext()))
-    }
-
-    private fun onSuccessLogin() {
+    private fun navigateToViewPager() {
         findNavController().navigate(R.id.action_loginFragment_to_viewPagerFragment)
     }
 
     private fun onInvalidLoginData() {
-        loginEmailLayout.error = getString(R.string.invalid_login_data)
-        loginPasswordLayout.error = " "
+        binding.tilLoginEmail.error = getString(R.string.invalid_login_data)
+        binding.tilLoginPassword.error = " "
     }
 }
