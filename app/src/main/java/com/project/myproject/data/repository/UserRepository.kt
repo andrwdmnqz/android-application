@@ -1,7 +1,7 @@
 package com.project.myproject.data.repository
 
-import com.project.myproject.data.dao.UserDao
-import com.project.myproject.data.models.User
+import com.project.myproject.data.room.dao.UserDao
+import com.project.myproject.data.room.entities.User
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(private val userDao: UserDao) {

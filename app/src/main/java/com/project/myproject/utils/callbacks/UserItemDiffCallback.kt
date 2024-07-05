@@ -1,7 +1,7 @@
 package com.project.myproject.utils.callbacks
 
 import androidx.recyclerview.widget.DiffUtil
-import com.project.myproject.data.models.User
+import com.project.myproject.data.room.entities.User
 
 class UserItemDiffCallback : DiffUtil.ItemCallback<User>() {
     override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {

@@ -1,7 +1,7 @@
 package com.project.myproject.data.repository
 
-import com.project.myproject.data.dao.ContactDao
-import com.project.myproject.data.models.Contact
+import com.project.myproject.data.room.dao.ContactDao
+import com.project.myproject.data.room.entities.Contact
 import javax.inject.Inject
 
 class ContactRepository @Inject constructor(private val contactDao: ContactDao) {

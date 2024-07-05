@@ -10,6 +10,7 @@ import com.project.myproject.data.responses.AuthorizationResponse
 import com.project.myproject.data.responses.UserContactsResponse
 import com.project.myproject.data.responses.GetUserResponse
 import com.project.myproject.data.responses.TokenResponse
+import com.project.myproject.domain.Repository
 import javax.inject.Inject
 import javax.inject.Singleton
 

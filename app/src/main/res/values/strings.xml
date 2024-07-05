@@ -92,4 +92,6 @@
 
     <string name="add_to_my_contacts_button_text">Add to my contacts</string>
     <string name="search_view_search_icon_description">search_icon</string>
+
+    <string name="notification_permission_required">Notification permission is required to show notifications</string>
 </resources>
