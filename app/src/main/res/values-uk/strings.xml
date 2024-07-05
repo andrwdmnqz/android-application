@@ -92,4 +92,6 @@
 
     <string name="add_to_my_contacts_button_text">Додати до контактів</string>
     <string name="search_view_search_icon_description">seach_icon</string>
+
+    <string name="notification_permission_required">Для показу сповіщень потрібен дозвіл на сповіщення</string>
 </resources>

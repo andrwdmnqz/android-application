@@ -5,14 +5,17 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        val navVersion = "2.7.7"
-        val hiltVersion = "2.49"
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:$hiltVersion")
+        classpath(libs.androidx.navigation.safe.args.gradle.plugin)
+        classpath(libs.hilt.android.gradle.plugin)
     }
 }
 
 plugins {
-    id("com.android.application") version "8.3.1" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.22" apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.jetbrains.kotlin.android) apply false
+    alias(libs.plugins.google.ksp) apply false
+    alias(libs.plugins.navigation.safe.args) apply false
+    alias(libs.plugins.kotlin.kapt) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
 }

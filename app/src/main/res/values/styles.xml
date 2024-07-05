@@ -97,13 +97,13 @@
     </style>
 
     <style name="search_view_style">
-        <item name="android:visibility">gone</item>
         <item name="android:background">@drawable/search_view_background</item>
         <item name="colorAccent">@color/default_text_color</item>
         <item name="colorControlActivated">@color/default_text_color</item>
         <item name="closeIcon">@null</item>
         <item name="iconifiedByDefault">true</item>
     </style>
+
     <style name="SearchAutoCompleteTextView" parent="Widget.AppCompat.Light.AutoCompleteTextView">
         <item name="android:textColor">@color/default_text_color</item>
         <item name="android:textColorHint">@color/default_text_color</item>

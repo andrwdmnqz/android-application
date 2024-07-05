@@ -2,8 +2,8 @@ package com.project.myproject.utils.callbacks
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.project.myproject.data.models.Contact
-import com.project.myproject.ui.adapters.ContactAdapter
+import com.project.myproject.data.room.entities.Contact
+import com.project.myproject.ui.fragments.contacts.adapter.ContactAdapter
 
 class SwipeToDeleteCallback(private val swipe: (contact: Contact) -> Unit) :
     ItemTouchHelper.SimpleCallback(0,

@@ -1,6 +1,5 @@
 package com.project.myproject.data.network.interceptors
 
-import android.util.Log
 import com.project.myproject.utils.SessionManager
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -29,7 +28,6 @@ class AuthInterceptor @Inject constructor(
 
             if (newToken != null) {
                 val retryRequest = newRequestBuilder(originalRequest, isTokenRefreshRequest, newToken)
-
                 return chain.proceed(retryRequest.build())
             }
         }
